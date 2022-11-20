@@ -3,7 +3,6 @@ import browserHistory from "../browser-history";
 import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 
 import Main from "../components/Main/index";
-import SignIn from "../components/SignIn/index";
 import NotFound from "../components/NotFound/index";
 
 const App = () => {
@@ -12,9 +11,6 @@ const App = () => {
       <Switch>
         <Route exact path='/'>
           <Main/>
-        </Route>
-        <Route exact path='/signin'>
-          <SignIn/>
         </Route>
         <Route>
           <NotFound />
