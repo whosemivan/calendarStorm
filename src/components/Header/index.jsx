@@ -1,13 +1,25 @@
 import React from "react";
 import "./style.css";
+import {parse} from "../../utils.js";
 
-const Header = ({setIsVisible}) => {
+const Header = ({ setIsVisible, isAuth, setIsAuth }) => {
+
+    const logOut = (evt) => {
+        evt.preventDefault();
+        localStorage.setItem("isAuth", false);
+        setIsAuth(localStorage.getItem("isAuth"));
+    }
+
+
     return (
         <header className="header">
             <div className="header__wrapper">
                 <input type="text" className="header__title" placeholder="Calendar name" />
                 <div className="header__btn-block">
-                    <button className="header__link" onClick={() => setIsVisible(true)}>Sign In</button>
+                    {parse(isAuth) ?
+                        <button className="header__link" onClick={logOut}>Log Out</button>
+                        : <button className="header__link" onClick={() => setIsVisible(true)}>Sign In</button>
+                    }
                     <button className="header__btn" type="button">
                         <span className="visually-hidden">
                             Share

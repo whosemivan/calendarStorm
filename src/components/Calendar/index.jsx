@@ -35,12 +35,12 @@ const Calendar = () => {
             </div>
             {
                 times.map((index) => {
-                    return <div className="calendar__dates" style={{
+                    return <div key={index} className="calendar__dates" style={{
                         top: 60 * (+index + 1)
                     }}>
                         {
-                            currentMonthDates.map(() => {
-                                return <div className="calendar__date-pick"></div>
+                            currentMonthDates.map((index) => {
+                                return <div key={index} className="calendar__date-pick"></div>
                             })
                         }
                     </div>

@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
+import Api from "../../api.js";
 
-const SignInPopup = ({isVisible, setIsVisible}) => {
+const SignInPopup = ({ isVisible, setIsVisible, setIsAuth }) => {
+    const api = new Api();
+    const [login, setLogin] = useState("");
+    const [pwd, setPwd] = useState("");
+
+    const handler = e => {
+        e.preventDefault();
+        api.logIn({ login: login, password: pwd }).then(res => res.json()).then(data => {
+            console.log(login);
+            console.log(data.message);
+            console.log(data);
+            if (data.message === "Пользователь найден.") {
+                console.log("Success");
+                setIsVisible(false);
+                localStorage.setItem("isAuth", true);
+                setIsAuth(localStorage.getItem("isAuth"));
+            } else {
+                console.log("Erorr");
+            }
+            setLogin("");
+            setPwd("");
+        })
+    };
+
     return (
         <div className={isVisible ? "popup-signin" : "popup-signin popup-signin--hidden"}>
             <button onClick={() => setIsVisible(false)} className="popup-signin__btn-close">
@@ -10,9 +34,9 @@ const SignInPopup = ({isVisible, setIsVisible}) => {
                 </svg>
             </button>
             <h2 className="popup-signin__title">Sign In</h2>
-            <form className="popup-signin__form">
-                <input className="popup-signin__input" id="email" name="email" type="email" placeholder="Email" />
-                <input className="popup-signin__input" id="password" name="password" type="password" placeholder="Your password" />
+            <form onSubmit={handler} className="popup-signin__form">
+                <input className="popup-signin__input" id="login" name="login" type="text" placeholder="Login" onChange={(e) => { setLogin(e.target.value) }} value={login} />
+                <input className="popup-signin__input" id="password" name="password" type="password" placeholder="Your password" onChange={(e) => { setPwd(e.target.value) }} value={pwd} />
                 <button className="popup-signin__btn" type="submit">Submit</button>
             </form>
         </div>
