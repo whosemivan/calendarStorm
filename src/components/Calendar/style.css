@@ -68,10 +68,28 @@
     flex-shrink: 0;
 }
 
+.calendar__date {
+    position: relative;
+}
+
+.calendar__date--current::after {
+    content: "";
+    background: #A1D9F1;
+    border-radius: 6px;
+    position: absolute;
+    z-index: -1;
+    width: 50px;
+    height: 30px;
+}
+
+.calendar__date-pick--weekend {
+    background-color: #EAE4E4;
+}
+
 .calendar__time {
     height: 59px;
     width: 59px;
-    background-color: #DAD0D0;
+    background-color: #EAE4E4;
     border-top: 1px solid #1E1E1E;
     border-right: 1px solid #1E1E1E;
 }  

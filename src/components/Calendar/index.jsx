@@ -9,6 +9,9 @@ const Calendar = () => {
 
     const times = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
 
+    const currentDate = moment()._d.toString()[0] + moment()._d.toString().slice(8, 10);
+    console.log(currentDate);
+
     return (
         <section className="calendar">
             <h2 className="visually-hidden">Calendar</h2>
@@ -21,7 +24,7 @@ const Calendar = () => {
                 {
                     currentMonthDates.map((day, index) => {
                         return (
-                            <div className="calendar__date" key={index}>{day._d.toString()[0] + day._d.toString().slice(8, 10)}</div>
+                            <div className={currentDate === day._d.toString()[0] + day._d.toString().slice(8, 10) ? "calendar__date calendar__date--current" : "calendar__date"} key={index}>{day._d.toString()[0] + day._d.toString().slice(8, 10)}</div>
                         )
                     })
                 }
@@ -39,8 +42,8 @@ const Calendar = () => {
                         top: 60 * (+index + 1)
                     }}>
                         {
-                            currentMonthDates.map((index) => {
-                                return <div key={index} className="calendar__date-pick"></div>
+                            currentMonthDates.map((day, index) => {
+                                return <div key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}></div>
                             })
                         }
                     </div>
