@@ -13,7 +13,7 @@
     padding-top: 50px;
     padding-bottom: 50px;
     transition: top 0.7s ease;
-    z-index: 2;
+    z-index: 12;
 }
 
 .popup-signin__form {
@@ -68,4 +68,9 @@
 
 .popup-signin--hidden {
     top: -100%;
+}
+
+.popup-signin__info-err {
+    color:rgba(241, 82, 82);
+    text-align: center;
 }

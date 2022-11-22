@@ -6,6 +6,7 @@ const SignInPopup = ({ isVisible, setIsVisible, setIsAuth }) => {
     const api = new Api();
     const [login, setLogin] = useState("");
     const [pwd, setPwd] = useState("");
+    const [err, setErr] = useState(false);
 
     const handler = e => {
         e.preventDefault();
@@ -18,8 +19,10 @@ const SignInPopup = ({ isVisible, setIsVisible, setIsAuth }) => {
                 setIsVisible(false);
                 localStorage.setItem("isAuth", true);
                 setIsAuth(localStorage.getItem("isAuth"));
+                setErr(false);
             } else {
-                console.log("Erorr");
+                setErr(true);
+                console.log("Err");
             }
             setLogin("");
             setPwd("");
@@ -35,9 +38,16 @@ const SignInPopup = ({ isVisible, setIsVisible, setIsAuth }) => {
             </button>
             <h2 className="popup-signin__title">Sign In</h2>
             <form onSubmit={handler} className="popup-signin__form">
-                <input className="popup-signin__input" id="login" name="login" type="text" placeholder="Login" onChange={(e) => { setLogin(e.target.value) }} value={login} />
-                <input className="popup-signin__input" id="password" name="password" type="password" placeholder="Your password" onChange={(e) => { setPwd(e.target.value) }} value={pwd} />
+                <input className="popup-signin__input" id="login" name="login" type="text" placeholder="Login" onChange={(e) => {
+                    setLogin(e.target.value);
+                    setErr(false);
+                }} value={login} />
+                <input className="popup-signin__input" id="password" name="password" type="password" placeholder="Your password" onChange={(e) => {
+                    setPwd(e.target.value);
+                    setErr(false);
+                }} value={pwd} />
                 <button className="popup-signin__btn" type="submit">Submit</button>
+                {err && <p className="popup-signin__info-err">Wrong login details, please try again</p>}
             </form>
         </div>
     );

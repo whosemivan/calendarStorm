@@ -37,6 +37,7 @@
     border-right: 0;
     border-bottom: 0;
     cursor: pointer;
+    position: relative;
 }
 
 .calendar__date-pick:last-child {

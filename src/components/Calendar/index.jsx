@@ -2,6 +2,8 @@ import React from "react";
 import "./style.css";
 import moment from 'moment';
 
+import Card from "../Card";
+
 const Calendar = () => {
 
     const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
@@ -37,19 +39,29 @@ const Calendar = () => {
                 }
             </div>
             {
-                times.map((index) => {
+                times.map((time, index) => {
                     return <div key={index} className="calendar__dates" style={{
                         top: 60 * (+index + 1)
                     }}>
                         {
                             currentMonthDates.map((day, index) => {
-                                return <div key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}></div>
+                                return <div key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
+                                    {
+                                        // временно 
+                                        index === 24 && time === '05' ? <Card title="React" color="#A1D9F1" /> : ""
+                                    }
+                                    {
+                                        index === 25 && time === '10' ? <Card title="Angular" color="#C6FAC5" /> : ""
+                                    }
+                                    {
+                                        index === 9 && time === '07' ? <Card title="Vue" color="#C6FAC5" /> : ""
+                                    }
+                                </div>
                             })
                         }
                     </div>
                 })
             }
-
         </section>
     );
 };
