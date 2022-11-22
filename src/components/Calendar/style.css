@@ -1,5 +1,5 @@
 .calendar {
-    overflow: scroll;
+    overflow: auto;
     position: relative;
 }
 
@@ -9,20 +9,29 @@
     padding-left: 60px;
 }
 
+.calendar__left-panel {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    width: 60px;
+}
+
 .calendar__dates {
     display: flex;
     position: absolute;
     padding-left: 60px;
     top: 60px;
+    left: -1px;
 }
 
 .calendar__dates:last-child .calendar__date-pick {
     border-bottom: 1px solid #DAD0D0;
+    height: 58px;
 }
 
 .calendar__date-pick {
     width: 59px;
-    height: 58px;
+    height: 59px;
     border: 1px solid #DAD0D0;
     flex-shrink: 0;
     border-right: 0;
@@ -61,10 +70,13 @@
 
 .calendar__time {
     height: 59px;
-    border-top: 1px solid #DAD0D0;
+    width: 59px;
+    background-color: #DAD0D0;
+    border-top: 1px solid #1E1E1E;
+    border-right: 1px solid #1E1E1E;
 }  
 
 .calendar__time:last-child {
-    border-bottom: 1px solid #DAD0D0;
+    border-bottom: 1px solid #1E1E1E;
     height: 58px;
 }
