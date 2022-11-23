@@ -3,6 +3,7 @@ body {
     margin: 0;
     font-family: 'Helvetica';
     color: #312E2E;
+    min-width: 800px;
 }
 
 .visually-hidden {
