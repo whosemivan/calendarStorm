@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import Api from "../../api.js";
 import browserHistory from "../../browser-history.js";
+import { parse } from "../../utils";
 
-const SignIn = ({setIsAuth}) => {
+const SignIn = ({setIsAuth, isAuth}) => {
     const api = new Api();
     const [login, setLogin] = useState("");
     const [pwd, setPwd] = useState("");
     const [err, setErr] = useState(false);
+
+    useEffect(() => {
+        if (parse(isAuth)) {
+            browserHistory.push('/calendar/1');
+        }
+    }, [])
 
     const handler = e => {
         e.preventDefault();
