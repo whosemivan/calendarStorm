@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import browserHistory from "../browser-history";
 import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 
 import Main from "../components/Main/index";
+import SignIn from './SignIn';
 import NotFound from "../components/NotFound/index";
 
 const App = () => {
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") || false);
+
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path='/'>
-          <Main/>
+          <SignIn setIsAuth={setIsAuth} />
+        </Route>
+        <Route exact path='/calendar/1'>
+          <Main isAuth={isAuth} setIsAuth={setIsAuth} />
         </Route>
         <Route>
           <NotFound />

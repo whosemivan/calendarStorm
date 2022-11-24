@@ -1,13 +1,16 @@
 import React from "react";
 import "./style.css";
 import {parse} from "../../utils.js";
+import { Link } from "react-router-dom";
+import browserHistory from "../../browser-history.js";
 
-const Header = ({ setIsVisible, isAuth, setIsAuth }) => {
+const Header = ({ isAuth, setIsAuth }) => {
 
     const logOut = (evt) => {
         evt.preventDefault();
         localStorage.setItem("isAuth", false);
         setIsAuth(localStorage.getItem("isAuth"));
+        browserHistory.push('/');
     }
 
 
@@ -18,7 +21,7 @@ const Header = ({ setIsVisible, isAuth, setIsAuth }) => {
                 <div className="header__btn-block">
                     {parse(isAuth) ?
                         <button className="header__link" onClick={logOut}>Log Out</button>
-                        : <button className="header__link" onClick={() => setIsVisible(true)}>Sign In</button>
+                        : <Link className="header__link" to="/" >Sign In</Link>
                     }
                     <button className="header__btn" type="button">
                         <span className="visually-hidden">

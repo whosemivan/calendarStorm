@@ -1,35 +1,27 @@
-.popup-signin {
-    width: 40%;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: #FDF8F8;
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.25);
+.signin {
+    width: 60%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    transition: top 0.7s ease;
-    z-index: 12;
+    margin: 0 auto;
 }
 
-.popup-signin__form {
+.signin__form {
     display: flex;
     flex-direction: column;
     width: 60%;
 }
 
-.popup-signin__title {
-    font-size: 20px;
+.signin__title {
+    font-size: 40px;
     line-height: 23px;
     margin: 0;
     margin-bottom: 50px;
 }
 
-.popup-signin__input {
+.signin__input {
     border: 1px solid #312E2E;
     border-radius: 10px;
     background: transparent;
@@ -40,11 +32,11 @@
     margin-bottom: 20px;
 }
 
-.popup-signin__input::placeholder {
+.signin__input::placeholder {
     color: rgba(49, 46, 46, 0.6);
 }
 
-.popup-signin__btn {
+.signin__btn {
     background: #A1D9F1;
     border: none;
     padding: 15px;
@@ -57,7 +49,7 @@
     margin: 0 auto;
 }
 
-.popup-signin__btn-close {
+.signin__btn-close {
     border: none;
     background: transparent;
     cursor: pointer;
@@ -66,11 +58,11 @@
     top: 20px;
 }
 
-.popup-signin--hidden {
+.signin--hidden {
     top: -100%;
 }
 
-.popup-signin__info-err {
+.signin__info-err {
     color:rgba(241, 82, 82);
     text-align: center;
 }
