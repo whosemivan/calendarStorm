@@ -29,12 +29,14 @@ const Calendar = () => {
     useEffect(() => {
         const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
             transports: ["websocket"],
+            reconnectionDelayMax: 10000,
             auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
         });
 
         adminSocket.on("events:get", (data) => {
             setIsLoad(true);
             setData(data);
+            console.log(data);
         });
 
         adminSocket.on("connect_error", (err) => console.log(err.message, err.data));
@@ -78,7 +80,8 @@ const Calendar = () => {
                                     setClickedDate([moment(day._d).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'), time]);
                                     console.log(moment(day._d).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
                                 }} key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
-                                    {isLoad && data.map((card) => index === +card.beginning.slice(8, 10) && time === card.beginning.slice(11, 13) ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
+                                    {isLoad && data.map((card) => {
+                                        return index === +card.beginning.slice(8, 10) && time === card.beginning.slice(11, 13) ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
                                     )}
                                 </div>
                             })

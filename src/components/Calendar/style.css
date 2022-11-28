@@ -12,7 +12,7 @@
 .calendar__left-panel {
     position: sticky;
     left: 0;
-    z-index: 10;
+    z-index: 16;
     width: 60px;
 }
 

@@ -3,6 +3,7 @@ import "./style.css";
 
 const Card = ({ setClickedId, setIsVisibleDel, title, color, beginning, ending, id }) => {
 
+    console.log(beginning, ending);
     const setCardWidth = () => {
         if (beginning.slice(8, 10) !== ending.slice(8, 10)) {
             return (ending.slice(8, 10) - beginning.slice(8, 10)) * 60 + 'px'

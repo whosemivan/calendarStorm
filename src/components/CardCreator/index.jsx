@@ -15,22 +15,25 @@ const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
     const [color, setColor] = useState('C8F9C5');
     const [isVisible, setIsVisible] = useState(false);
 
-    const [valueBegin, setValueBegin] = useState(moment(clickedDate[0].replace('00', clickedDate[1])));
-    const [valueEnd, setValueEnd] = useState(moment(clickedDate[0].replace('00', clickedDate[1])).toDate());
+    const [valueBegin, setValueBegin] = useState(clickedDate[0].replace('00', clickedDate[1]));
+    console.log(valueBegin);
+    const [valueEnd, setValueEnd] = useState(clickedDate[0].replace('00', clickedDate[1]));
     const [title, setTitle] = useState("");
 
     const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
         transports: ["websocket"],
+        reconnectionDelayMax: 10000,
         auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
     });
 
-    
+    console.log(valueBegin, valueEnd);
+
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
         adminSocket.emit("events:post", {
             text: title,
-            color: color,
+            color: color,   
             beginning: valueBegin,
             ending: valueEnd
         }, (data) => {
@@ -62,7 +65,9 @@ const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
                             label="From"
                             value={valueBegin}
                             onChange={(newValue) => {
-                                setValueBegin(moment(newValue.toDate()).toISOString());
+                                console.log(newValue);
+                                console.log(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
+                                setValueBegin(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
                                 setValueEnd(moment(newValue.toDate()));
                             }}
                             renderInput={(params) => <TextField {...params} />}
@@ -74,7 +79,7 @@ const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
                             label="To"
                             value={valueEnd}
                             onChange={(newValue) => {
-                                setValueEnd(moment(newValue.toDate()).toISOString());
+                                setValueEnd(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
                             }}
                             renderInput={(params) => <TextField {...params} />}
                             ampm={false}
