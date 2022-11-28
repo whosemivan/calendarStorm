@@ -1,18 +1,20 @@
 import React from "react";
+import moment from "moment/moment";
 import "./style.css";
 
 const Card = ({ setClickedId, setIsVisibleDel, title, color, beginning, ending, id }) => {
+    beginning = moment(beginning);
+    ending = moment(ending);
 
-    console.log(beginning, ending);
     const setCardWidth = () => {
-        if (beginning.slice(8, 10) !== ending.slice(8, 10)) {
-            return (ending.slice(8, 10) - beginning.slice(8, 10)) * 60 + 'px'
+        if (beginning.format("DD-MM-YYYY") !== ending.format("DD-MM-YYYY")) {
+            return (ending.diff(beginning, "days") + 1) * 60 + "px";
         }
     };
 
     const setCardHeight = () => {
-        if (beginning.slice(11, 13) !== ending.slice(11, 13)) {
-            return (ending.slice(11, 13) - beginning.slice(11, 13)) * 60 + 'px'
+        if (beginning.format("HH-MM-SS") !== ending.format("HH-MM-SS")) {
+            return (ending.diff(beginning, "hour") + 1) * 60 + "px";
         }
     };
 

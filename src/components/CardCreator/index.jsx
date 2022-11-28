@@ -16,7 +16,7 @@ const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     const [valueBegin, setValueBegin] = useState(clickedDate[0].replace('00', clickedDate[1]));
-    console.log(valueBegin);
+    // console.log(valueBegin);
     const [valueEnd, setValueEnd] = useState(clickedDate[0].replace('00', clickedDate[1]));
     const [title, setTitle] = useState("");
 
