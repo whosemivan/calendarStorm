@@ -4,44 +4,41 @@ import moment from 'moment';
 import io from 'socket.io-client';
 
 import Card from "../Card";
+import CardCreator from "../CardCreator";
+import CardDeletor from "../CardDeletor";
 
 const Calendar = () => {
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
 
+    const [isVisiblePopup, setIsVisiblePopup] = useState(false);
+
+    const [isVisibleDel, setIsVisibleDel] = useState(false);
+
+    const [clickedDate, setClickedDate] = useState();
+    const [clickedId, setClickedId] = useState();
+
     const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
     const currentMonthName = moment().format('MMMM');
-
-    console.log(currentMonthDates);
 
     const times = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
 
     const currentDate = moment()._d.toString()[0] + moment()._d.toString().slice(8, 10);
-    console.log(currentDate);
 
-    const socket = io("https://calender-storm.herokuapp.com/", { transports: ["websocket"] });
 
-    // Это штука получает ответ от сервера. После загрузки страницы мы получим ответ от сервера с карточками событий на этот месяц.
+    const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
+        transports: ["websocket"],
+        auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
+    });
 
-    useEffect(() => {
-        socket.on("events:get", (data) => {
+    // useEffect(() => {
+        adminSocket.on("events:get", (data) => {
             setIsLoad(true);
             setData(data);
-            console.log(data);
-        });
-    }, []);
+        })
+    // }, [adminSocket]);
 
-    // Запрос для получения карточек событий на следующий месяц.
-
-    function getEvents() {
-        socket.emit("events:get", 1);
-        console.log('slkjfnd');
-    }
-
-    // socket.emit("events:post", {});
-    // socket.emit("events:delete", 'id');
-    // socket.emit("events:put", {id, ...});
-
+    adminSocket.on("connect_error", (err) => console.log(err.message, err.data));
 
     return (
         <section className="calendar">
@@ -74,9 +71,12 @@ const Calendar = () => {
                     }}>
                         {
                             currentMonthDates.map((day, index) => {
-                                return <div key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
-                                    {isLoad && data.map((card) =>
-                                        index === +card.beginning.slice(8, 10) && time === card.beginning.slice(11, 13) ? <Card key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} /> : ""
+                                return <div onClick={() => {
+                                    setIsVisiblePopup(true);
+                                    // дата переадется на один меньше - ERORR
+                                    setClickedDate([day._d.toISOString(), time]);
+                                }} key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
+                                    {isLoad && data.map((card) => index === +card.beginning.slice(8, 10) && time === card.beginning.slice(11, 13) ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
                                     )}
                                 </div>
                             })
@@ -84,6 +84,8 @@ const Calendar = () => {
                     </div>
                 })
             }
+            {isVisiblePopup && <CardCreator setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} setData={setData} />}
+            {isVisibleDel && <CardDeletor setIsVisibleDel={setIsVisibleDel} clickedId={clickedId} setData={setData} />}
         </section>
     );
 };

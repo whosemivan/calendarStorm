@@ -1,24 +1,26 @@
-import React, {useState} from "react";
+import React from "react";
 import "./style.css";
 
-const Card = ({title, color, beginning, ending}) => {
-    console.log(beginning.slice(8, 10), ending.slice(8, 10));
-    console.log(color);
+const Card = ({ setClickedId, setIsVisibleDel, title, color, beginning, ending, id }) => {
 
     const setCardWidth = () => {
         if (beginning.slice(8, 10) !== ending.slice(8, 10)) {
-            return (ending.slice(8, 10) - beginning.slice(8, 10)) * 100 + '%'
+            return (ending.slice(8, 10) - beginning.slice(8, 10)) * 60 + 'px'
         }
     };
 
     const setCardHeight = () => {
         if (beginning.slice(11, 13) !== ending.slice(11, 13)) {
-            return (ending.slice(11, 13) - beginning.slice(11, 13)) * 100 + '%'
+            return (ending.slice(11, 13) - beginning.slice(11, 13)) * 60 + 'px'
         }
     };
 
     return (
-        <div className="card" style={{
+        <div onClick={(evt) => {
+            evt.stopPropagation();
+            setIsVisibleDel(true);
+            setClickedId(id);
+        }} className="card" style={{
             backgroundColor: '#' + color,
             width: setCardWidth(),
             height: setCardHeight()

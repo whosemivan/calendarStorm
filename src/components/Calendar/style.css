@@ -99,3 +99,8 @@
     border-bottom: 1px solid #1E1E1E;
     height: 58px;
 }
+
+.card-creatotr__close-btn {
+    position: absolute;
+    right: 0;
+}
