@@ -26,19 +26,21 @@ const Calendar = () => {
     const currentDate = moment()._d.toString()[0] + moment()._d.toString().slice(8, 10);
 
 
-    const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
-        transports: ["websocket"],
-        auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
-    });
+    useEffect(() => {
+        const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
+            transports: ["websocket"],
+            auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
+        });
 
-    // useEffect(() => {
         adminSocket.on("events:get", (data) => {
             setIsLoad(true);
             setData(data);
-        })
-    // }, [adminSocket]);
+        });
 
-    adminSocket.on("connect_error", (err) => console.log(err.message, err.data));
+        adminSocket.on("connect_error", (err) => console.log(err.message, err.data));
+
+    }, []);
+
 
     return (
         <section className="calendar">

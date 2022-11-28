@@ -14,7 +14,7 @@ const SignIn = ({setIsAuth, isAuth}) => {
         if (parse(isAuth)) {
             browserHistory.push('/calendar/1');
         }
-    }, [])
+    }, [isAuth])
 
     const handler = e => {
         e.preventDefault();

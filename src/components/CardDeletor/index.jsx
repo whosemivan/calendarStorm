@@ -12,7 +12,7 @@ const CardDeletor = ({ setIsVisibleDel, clickedId }) => {
     function handleDelete(id) {
         adminSocket.emit("events:delete", id, (data) => {
             console.log(data);
-            if (data.statusCode = 200) {
+            if (data.statusCode === 200) {
                 setIsVisibleDel(false);
             }
         });
