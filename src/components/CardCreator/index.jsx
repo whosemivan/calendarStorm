@@ -24,8 +24,6 @@ const CardCreator = ({ setIsVisiblePopup, clickedDate, setData }) => {
         auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
     });
 
-    console.log(valueBegin);
-
     const handleSubmit = (evt) => {
         evt.preventDefault();
         adminSocket.emit("events:post", {
