@@ -14,7 +14,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginning, ending, 
 
     const setCardHeight = () => {
         if (beginning.format("HH-MM-SS") !== ending.format("HH-MM-SS")) {
-            return (ending.diff(beginning, "hour") + 1) * 60 + "px";
+            return ((ending.hour() - beginning.hour()) + 1) * 60 + 'px';
         }
     };
 

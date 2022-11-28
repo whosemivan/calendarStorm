@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./style.css";
 
 import ColorPicker from "../ColorPicker";
+import { Ctx } from "../App";
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -9,24 +10,15 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import TextField from '@mui/material/TextField';
 
 import moment from 'moment';
-import io from 'socket.io-client';
 
 const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
     const [color, setColor] = useState('C8F9C5');
     const [isVisible, setIsVisible] = useState(false);
 
     const [valueBegin, setValueBegin] = useState(clickedDate[0].replace('00', clickedDate[1]));
-    // console.log(valueBegin);
     const [valueEnd, setValueEnd] = useState(clickedDate[0].replace('00', clickedDate[1]));
     const [title, setTitle] = useState("");
-
-    const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
-        transports: ["websocket"],
-        reconnectionDelayMax: 10000,
-        auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
-    });
-
-    console.log(valueBegin, valueEnd);
+    const {adminSocket} = useContext(Ctx);
 
 
     const handleSubmit = (evt) => {

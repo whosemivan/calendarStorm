@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./style.css";
 import moment from 'moment';
-import io from 'socket.io-client';
+import { Ctx } from "../App";
 
 import Card from "../Card";
 import CardCreator from "../CardCreator";
@@ -18,6 +18,8 @@ const Calendar = () => {
     const [clickedDate, setClickedDate] = useState();
     const [clickedId, setClickedId] = useState();
 
+    const {adminSocket} = useContext(Ctx);
+
     const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
     const currentMonthName = moment().format('MMMM');
 
@@ -27,12 +29,6 @@ const Calendar = () => {
 
 
     useEffect(() => {
-        const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
-            transports: ["websocket"],
-            reconnectionDelayMax: 10000,
-            auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
-        });
-
         adminSocket.on("events:get", (data) => {
             setIsLoad(true);
             setData(data);

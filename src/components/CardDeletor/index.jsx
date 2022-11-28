@@ -1,13 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./style.css";
-import io from 'socket.io-client';
+import { Ctx } from "../App";
 
 const CardDeletor = ({ setIsVisibleDel, clickedId }) => {
-
-    const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
-        transports: ["websocket"],
-        auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
-    });
+    const {adminSocket} = useContext(Ctx);
 
     function handleDelete(id) {
         adminSocket.emit("events:delete", id, (data) => {
