@@ -75,8 +75,8 @@ const Calendar = () => {
                             currentMonthDates.map((day, index) => {
                                 return <div onClick={() => {
                                     setIsVisiblePopup(true);
-                                    // дата переадется на один меньше - ERORR
-                                    setClickedDate([day._d.toISOString(), time]);
+                                    setClickedDate([moment(day._d).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'), time]);
+                                    console.log(moment(day._d).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
                                 }} key={index} className={day._d.toString()[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
                                     {isLoad && data.map((card) => index === +card.beginning.slice(8, 10) && time === card.beginning.slice(11, 13) ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
                                     )}
@@ -86,8 +86,8 @@ const Calendar = () => {
                     </div>
                 })
             }
-            {isVisiblePopup && <CardCreator setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} setData={setData} />}
-            {isVisibleDel && <CardDeletor setIsVisibleDel={setIsVisibleDel} clickedId={clickedId} setData={setData} />}
+            {isVisiblePopup && <CardCreator setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />}
+            {isVisibleDel && <CardDeletor setIsVisibleDel={setIsVisibleDel} clickedId={clickedId} />}
         </section>
     );
 };

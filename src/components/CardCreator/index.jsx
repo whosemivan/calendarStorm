@@ -11,18 +11,20 @@ import TextField from '@mui/material/TextField';
 import moment from 'moment';
 import io from 'socket.io-client';
 
-const CardCreator = ({ setIsVisiblePopup, clickedDate, setData }) => {
+const CardCreator = ({ setIsVisiblePopup, clickedDate }) => {
     const [color, setColor] = useState('C8F9C5');
     const [isVisible, setIsVisible] = useState(false);
 
-    const [valueBegin, setValueBegin] = useState(moment(clickedDate[0].replace('21', clickedDate[1])));
-    const [valueEnd, setValueEnd] = useState(moment(clickedDate[0].replace('21', clickedDate[1])).toDate());
+    const [valueBegin, setValueBegin] = useState(moment(clickedDate[0].replace('00', clickedDate[1])));
+    const [valueEnd, setValueEnd] = useState(moment(clickedDate[0].replace('00', clickedDate[1])).toDate());
     const [title, setTitle] = useState("");
 
     const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
         transports: ["websocket"],
         auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
     });
+
+    
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
