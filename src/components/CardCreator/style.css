@@ -1,14 +1,19 @@
 .card-creator {
     position: fixed;
     z-index: 15;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 160px;
+    right: -530px;
     background: #FDF8F8;
     box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.25);
     display: flex;
     padding: 30px;
+    height: 100%;
     border-radius: 10px;
+    transition: right 0.5s ease;
+}
+
+.card-creator--visible {
+    right: 0;
 }
 
 .card-creator__input {
@@ -31,14 +36,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     width: 100%;
 }
 
 .card-creator__form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .card-creator__button {
@@ -46,6 +51,10 @@
     border-radius: 10px;
     background: transparent;
     padding: 15px 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 300;
     font-size: 18px;
     line-height: 21px;
