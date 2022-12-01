@@ -29,8 +29,7 @@ const SignIn = ({setIsAuth, isAuth}) => {
                 localStorage.setItem("isAuth", true);
                 setIsAuth(localStorage.getItem("isAuth"));
                 setErr(false);
-
-                setToken(data.data);
+                setToken(data.data.refreshToken);
                 browserHistory.push('/calendar/1');
             } else {
                 setErr(true);

@@ -15,8 +15,9 @@ const Calendar = () => {
     const [isVisiblePopup, setIsVisiblePopup] = useState(false);
     const [isVisibleDel, setIsVisibleDel] = useState(false);
 
-    const [clickedDate, setClickedDate] = useState();
+    const [clickedDate, setClickedDate] = useState([]);
     const [clickedId, setClickedId] = useState();
+    const [color, setColor] = useState('C8F9C5');
 
 
     // const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
@@ -40,12 +41,17 @@ const Calendar = () => {
             console.log(err.message);
             if (err.message === "Токен недействителен.") {
                 // console.log(token.refreshToken);
-                api.refresh(token).then(res => res.json()).then(data => {
+                api.refresh({ refreshToken: token }).then(res => res.json()).then(data => {
                     console.log(data);
                 })
             }
         });
     }, []);
+
+    useEffect(() => {
+        console.log(`state is `, clickedDate);
+    }, [clickedDate]);
+
 
 
     return (
@@ -73,7 +79,7 @@ const Calendar = () => {
                 }
             </div>
             {
-                y.map((item, index) => {
+                y.map((date, index) => {
                     return <div key={index} className="calendar__dates" style={{
                         top: 60 * (+index + 1) + 100
                     }}>
@@ -81,20 +87,28 @@ const Calendar = () => {
                             x.map((day, index) => {
                                 return <div onClick={() => {
                                     setIsVisiblePopup(true); // open popup for creating cards
-                                    setClickedDate([day, item]); // [x, y]
+                                    setClickedDate([day, date]); // [x, y]
                                 }} key={index} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
                                     {/* render cards! wait for a new backend */}
 
                                     {/* {isLoad && data.map((card) => {
                                         return index+1 == moment(card.beginning).date() && item == moment(card.beginning).hour() ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
                                     )} */}
+                                    {clickedDate[0] === day && clickedDate[1] === date ? (
+                                        <div className="card" style={{
+                                            backgroundColor: '#' + color,
+                                            opacity: "0.5"
+                                        }}>
+                                            <h3 className="card__title">Title...</h3>
+                                        </div>
+                                    ) : ""}
                                 </div>
                             })
                         }
                     </div>
                 })
             }
-            <CardCreator isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
+            <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
             {isVisibleDel && <CardDeletor setIsVisibleDel={setIsVisibleDel} clickedId={clickedId} />}
         </section>
     );
