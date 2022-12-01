@@ -9,7 +9,7 @@ const SignIn = ({setIsAuth, isAuth}) => {
     const [pwd, setPwd] = useState("");
     const [err, setErr] = useState(false);
 
-    const { api, setToken } = useContext(Ctx);
+    const { api, setRefToken, setAccToken } = useContext(Ctx);
 
     useEffect(() => {
         if (parse(isAuth)) {
@@ -29,7 +29,13 @@ const SignIn = ({setIsAuth, isAuth}) => {
                 localStorage.setItem("isAuth", true);
                 setIsAuth(localStorage.getItem("isAuth"));
                 setErr(false);
-                setToken(data.data.refreshToken);
+                
+                setAccToken(data.data.accessToken);
+                localStorage.setItem("accessToken", data.data.accessToken);
+
+                setRefToken(data.data.refreshToken);
+                localStorage.setItem("refreshToken", data.data.refreshToken);
+
                 browserHistory.push('/calendar/1');
             } else {
                 setErr(true);

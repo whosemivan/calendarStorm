@@ -12,21 +12,24 @@ export const Ctx = createContext({});
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") || false);
-  const [token, setToken] = useState();
+  const [refToken, setRefToken] = useState(localStorage.getItem("refreshToken"));
+  const [accToken, setAccToken] = useState(localStorage.getItem("accessToken"));
   const api = new Api();
 
   const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
     transports: ["websocket"],
     reconnectionDelayMax: 10000,
-    auth: { accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzdhMDUxMmUwOWU5NzA2ZjQ5ZmVlOTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjY5NDc0NzMwLCJleHAiOjE2Njk3MzM5MzB9.5a9iZKjeXXmnqSKUWo394a9MQYtOtBcNBqLErlXwEUM" }
+    auth: { accessToken: accToken }
   });
 
   return (
     <Ctx.Provider value={{
       adminSocket: adminSocket, 
       setIsAuth: setIsAuth, 
-      setToken: setToken,
-      token: token, 
+      setRefToken: setRefToken,
+      refToken: refToken, 
+      accToken: accToken,
+      setAccToken: setAccToken,
       api: api
     }}>
       <BrowserRouter history={browserHistory}>

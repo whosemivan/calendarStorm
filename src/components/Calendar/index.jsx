@@ -8,7 +8,7 @@ import CardDeletor from "../CardDeletor";
 import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
-    const { api, adminSocket, setIsAuth, token } = useContext(Ctx);
+    const { api, adminSocket, setIsAuth, refToken, setAccToken } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
 
@@ -38,11 +38,14 @@ const Calendar = () => {
         });
 
         adminSocket.on("connect_error", (err) => {
-            console.log(err.message);
             if (err.message === "Токен недействителен.") {
-                // console.log(token.refreshToken);
-                api.refresh({ refreshToken: token }).then(res => res.json()).then(data => {
-                    console.log(data);
+                setAccToken("");
+                localStorage.removeItem("accessToken");
+                api.refresh({ refreshToken: refToken }).then(res => res.json()).then(data => {
+                    console.log(data.data);
+                    localStorage.setItem("accessToken", data.data.accessToken);
+                    setAccToken(data.data.accessToken);
+                    localStorage.setItem("refreshToken", data.data.refreshToken);
                 })
             }
         });
