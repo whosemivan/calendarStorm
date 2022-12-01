@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./style.css";
-import Api from "../../api.js";
 import browserHistory from "../../browser-history.js";
 import { parse } from "../../utils";
+import { Ctx } from "../App";
 
 const SignIn = ({setIsAuth, isAuth}) => {
-    const api = new Api();
     const [login, setLogin] = useState("");
     const [pwd, setPwd] = useState("");
     const [err, setErr] = useState(false);
+
+    const { api, setToken } = useContext(Ctx);
 
     useEffect(() => {
         if (parse(isAuth)) {
@@ -22,11 +23,14 @@ const SignIn = ({setIsAuth, isAuth}) => {
             console.log(login);
             console.log(data.message);
             console.log(data);
+
             if (data.message === "Пользователь найден.") {
-                console.log("Success");
+                console.log(data);
                 localStorage.setItem("isAuth", true);
                 setIsAuth(localStorage.getItem("isAuth"));
                 setErr(false);
+
+                setToken(data.data);
                 browserHistory.push('/calendar/1');
             } else {
                 setErr(true);

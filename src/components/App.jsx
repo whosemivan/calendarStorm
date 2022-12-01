@@ -6,11 +6,14 @@ import io from 'socket.io-client';
 import Main from "../components/Main/index";
 import SignIn from './SignIn';
 import NotFound from "../components/NotFound/index";
+import Api from "../api.js";
 
 export const Ctx = createContext({});
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") || false);
+  const [token, setToken] = useState();
+  const api = new Api();
 
   const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
     transports: ["websocket"],
@@ -20,7 +23,11 @@ const App = () => {
 
   return (
     <Ctx.Provider value={{
-      adminSocket: adminSocket
+      adminSocket: adminSocket, 
+      setIsAuth: setIsAuth, 
+      setToken: setToken,
+      token: token, 
+      api: api
     }}>
       <BrowserRouter history={browserHistory}>
         <Switch>

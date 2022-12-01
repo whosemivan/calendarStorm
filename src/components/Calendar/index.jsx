@@ -5,9 +5,10 @@ import { Ctx } from "../App";
 import Card from "../Card";
 import CardCreator from "../CardCreator";
 import CardDeletor from "../CardDeletor";
+import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
-    const {adminSocket} = useContext(Ctx);
+    const { api, adminSocket, setIsAuth, token } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
 
@@ -24,18 +25,26 @@ const Calendar = () => {
 
     // mocks data
     const y = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
-    const x = ['T01', 'W02', 'T03', 'F04', 'S05', 'S06','M07','T08','W09','T10','F11','S12','S13','M14','T15','W16','T17','F18','S19','S20','M21','T22','W23', 'T24','F25','S26','S27','M28','T29','W30'];
+    const x = ['T01', 'W02', 'T03', 'F04', 'S05', 'S06', 'M07', 'T08', 'W09', 'T10', 'F11', 'S12', 'S13', 'M14', 'T15', 'W16', 'T17', 'F18', 'S19', 'S20', 'M21', 'T22', 'W23', 'T24', 'F25', 'S26', 'S27', 'M28', 'T29', 'W30'];
 
 
     // get cards 
     useEffect(() => {
-        adminSocket.on("events:get", (data) => {
+        adminSocket.on("calendars:get", (data) => {
             setIsLoad(true);
             setData(data);
             console.log(data);
         });
 
-        adminSocket.on("connect_error", (err) => console.log(err.message, err.data));
+        adminSocket.on("connect_error", (err) => {
+            console.log(err.message);
+            if (err.message === "Токен недействителен.") {
+                // console.log(token.refreshToken);
+                api.refresh(token).then(res => res.json()).then(data => {
+                    console.log(data);
+                })
+            }
+        });
     }, []);
 
 
@@ -75,7 +84,7 @@ const Calendar = () => {
                                     setClickedDate([day, item]); // [x, y]
                                 }} key={index} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
                                     {/* render cards! wait for a new backend */}
-                                    
+
                                     {/* {isLoad && data.map((card) => {
                                         return index+1 == moment(card.beginning).date() && item == moment(card.beginning).hour() ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
                                     )} */}
