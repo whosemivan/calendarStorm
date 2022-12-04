@@ -16,7 +16,7 @@ const App = () => {
   const [accToken, setAccToken] = useState(localStorage.getItem("accessToken"));
   const api = new Api();
 
-  const adminSocket = io("https://calender-storm.herokuapp.com/api/admin", {
+  const adminSocket = io("https://calendar-storm.onrender.com/api/admin", {
     transports: ["websocket"],
     reconnectionDelayMax: 10000,
     auth: { accessToken: accToken }

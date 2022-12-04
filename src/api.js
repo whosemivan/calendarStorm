@@ -1,6 +1,6 @@
 class Api {
     constructor() {
-        this.url = "https://calender-storm.herokuapp.com/api/"
+        this.url = "https://calendar-storm.onrender.com/api/"
 
     }
 
