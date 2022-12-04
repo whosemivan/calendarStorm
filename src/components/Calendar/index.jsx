@@ -8,9 +8,10 @@ import CardDeletor from "../CardDeletor";
 // import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
-    const { api, adminSocket, setIsAuth, refToken, setAccToken } = useContext(Ctx);
+    const { api, adminSocket, refToken, setAccToken } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
+    const [isCalendarLoad, setIsCalendarLoad] = useState(false);
 
     const [isVisiblePopup, setIsVisiblePopup] = useState(false);
     const [isVisibleDel, setIsVisibleDel] = useState(false);
@@ -22,7 +23,7 @@ const Calendar = () => {
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
 
-
+    // dates in this month
     // const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
     const currentMonthName = moment().format('MMMM');
     const currentDate = moment()._d.toString()[0] + moment()._d.toString().slice(8, 10);
@@ -37,20 +38,13 @@ const Calendar = () => {
         adminSocket.on("calendars:get", (data) => {
             setX(data.data[0].X);
             setY(data.data[0].Y);
-            // console.log(data.data[0].X);
-            // console.log(data.data[0].Y);
+            setIsCalendarLoad(true);
         });
 
         adminSocket.on("events:get", (data) => {
             setIsLoad(true);
             console.log(data.data);
             setData(data.data);
-            // setIsLoad(true);
-            // setData(data);
-            // setX(data.data[0].X);
-            // setY(data.data[0].Y);
-            // console.log(data.data[0].X);
-            // console.log(data.data[0].Y);
         });
 
         adminSocket.on("connect_error", (err) => {
@@ -65,12 +59,11 @@ const Calendar = () => {
                 })
             }
         });
-    }, []);
+    }, [adminSocket, api, refToken, setAccToken]);
 
     useEffect(() => {
         console.log(`state is `, clickedDate);
     }, [clickedDate]);
-
 
 
     return (
@@ -83,7 +76,7 @@ const Calendar = () => {
                     </span>
                 }
                 {
-                    x.map((item, index) => {
+                    isCalendarLoad && x.map((item, index) => {
                         return (
                             <div className={currentDate === item ? "calendar__date calendar__date--current" : "calendar__date"} key={index}>{item}</div>
                         )
@@ -92,7 +85,7 @@ const Calendar = () => {
             </div>
             <div className="calendar__left-panel">
                 {
-                    y.map((item, index) => {
+                    isCalendarLoad && y.map((item, index) => {
                         return <div className="calendar__time" key={index}>{item}</div>
                     })
                 }
@@ -110,7 +103,6 @@ const Calendar = () => {
                                 }} key={index} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
 
                                     {isLoad && data.map((card) => {
-                                        // return index == card.beginning && item == card.beginning ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
                                         return index == card.beginning.X && date == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
                                     })}
                                     {clickedDate[0] === day && clickedDate[1] === date ? (

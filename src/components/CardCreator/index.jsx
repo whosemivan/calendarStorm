@@ -4,6 +4,9 @@ import "./style.css";
 import ColorPicker from "../ColorPicker";
 import { Ctx } from "../App";
 
+
+// packages for work with dates
+
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 // import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -34,12 +37,6 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
             console.log(data);
         });
     };
-
-    console.log(title);
-    console.log(color);
-    console.log(typeof clickedDate[0]);
-    console.log(typeof clickedDate[1]);
-
 
     return (
         <div className={isVisiblePopup ? "card-creator card-creator--visible" : "card-creator"}>

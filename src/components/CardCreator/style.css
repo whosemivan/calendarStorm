@@ -22,7 +22,7 @@
     font-size: 20px;
     padding: 10px 20px;
     background: #FDF8F8;
-    width: 90%;
+    outline: none;
 }
 
 .card-creator__color {
