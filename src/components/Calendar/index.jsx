@@ -5,7 +5,7 @@ import { Ctx } from "../App";
 import Card from "../Card";
 import CardCreator from "../CardCreator";
 import CardDeletor from "../CardDeletor";
-import browserHistory from "../../browser-history.js";
+// import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
     const { api, adminSocket, setIsAuth, refToken, setAccToken } = useContext(Ctx);
@@ -18,7 +18,7 @@ const Calendar = () => {
     const [clickedDate, setClickedDate] = useState([]);
     const [clickedId, setClickedId] = useState();
     const [color, setColor] = useState('C8F9C5');
-    
+
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
 
@@ -35,12 +35,22 @@ const Calendar = () => {
     // get cards 
     useEffect(() => {
         adminSocket.on("calendars:get", (data) => {
-            setIsLoad(true);
-            setData(data);
             setX(data.data[0].X);
             setY(data.data[0].Y);
-            console.log(data.data[0].X);
-            console.log(data.data[0].Y);
+            // console.log(data.data[0].X);
+            // console.log(data.data[0].Y);
+        });
+
+        adminSocket.on("events:get", (data) => {
+            setIsLoad(true);
+            console.log(data.data);
+            setData(data.data);
+            // setIsLoad(true);
+            // setData(data);
+            // setX(data.data[0].X);
+            // setY(data.data[0].Y);
+            // console.log(data.data[0].X);
+            // console.log(data.data[0].Y);
         });
 
         adminSocket.on("connect_error", (err) => {
@@ -98,11 +108,11 @@ const Calendar = () => {
                                     setIsVisiblePopup(true); // open popup for creating cards
                                     setClickedDate([day, date]); // [x, y]
                                 }} key={index} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
-                                    {/* render cards! wait for a new backend */}
 
-                                    {/* {isLoad && data.map((card) => {
-                                        return index+1 == moment(card.beginning).date() && item == moment(card.beginning).hour() ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
-                                    )} */}
+                                    {isLoad && data.map((card) => {
+                                        // return index == card.beginning && item == card.beginning ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""}
+                                        return index == card.beginning.X && date == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
+                                    })}
                                     {clickedDate[0] === day && clickedDate[1] === date ? (
                                         <div className="card" style={{
                                             backgroundColor: '#' + color,

@@ -4,32 +4,42 @@ import "./style.css";
 import ColorPicker from "../ColorPicker";
 import { Ctx } from "../App";
 
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import TextField from '@mui/material/TextField';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+// import TextField from '@mui/material/TextField';
 
-import moment from 'moment';
+// import moment from 'moment';
 
 const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVisiblePopup, clickedDate }) => {
     const [isVisible, setIsVisible] = useState(false);
-    console.log(clickedDate);
     const [title, setTitle] = useState("");
     const {adminSocket} = useContext(Ctx);
 
-
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        adminSocket.emit("calendar:post", {
+        adminSocket.emit("events:post", {
             text: title,
             color: color,   
-            beginning: clickedDate[0],
-            ending: clickedDate[1]
+            beginning: {
+                X: +clickedDate[0],
+                Y: +clickedDate[1]
+            },
+            ending: {
+                X: +clickedDate[0],
+                Y: +clickedDate[1]
+            }
         }, (data) => {
             setIsVisiblePopup(false);
             console.log(data);
         });
     };
+
+    console.log(title);
+    console.log(color);
+    console.log(typeof clickedDate[0]);
+    console.log(typeof clickedDate[1]);
+
 
     return (
         <div className={isVisiblePopup ? "card-creator card-creator--visible" : "card-creator"}>
@@ -50,34 +60,6 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                     <input onChange={(e) => {
                         setTitle(e.target.value);
                     }} type="text" className="card-creator__input card-creator__input--title" placeholder="Type task name..." />
-                </div>
-                <div className="card-creator__wrapper">
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DateTimePicker
-                            label="From"
-                            value={clickedDate[0]}
-                            onChange={(newValue) => {
-                                console.log(newValue);
-                                // console.log(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
-                                // setValueBegin(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
-                                // setValueEnd(moment(newValue.toDate()));
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                            ampm={false}
-                        />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DateTimePicker
-                            label="To"
-                            // value={valueEnd}
-                            onChange={(newValue) => {
-                                console.log(newValue);
-                                // setValueEnd(moment(newValue).format('YYYY-MM-DD[T]HH:mm:ss.SSSZZ'));
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                            ampm={false}
-                        />
-                    </LocalizationProvider>
                 </div>
                 <button type="submit" className="card-creator__button">Add</button>
             </form>

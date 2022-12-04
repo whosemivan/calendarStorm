@@ -5,6 +5,8 @@ import { Ctx } from "../App";
 const CardDeletor = ({ setIsVisibleDel, clickedId }) => {
     const {adminSocket} = useContext(Ctx);
 
+    console.log(clickedId);
+
     function handleDelete(id) {
         adminSocket.emit("events:delete", id, (data) => {
             console.log(data);
