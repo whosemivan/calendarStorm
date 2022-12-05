@@ -8,7 +8,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+}
+
+.card-calendar {
+    z-index: 12;
 }
 
 .card__title {

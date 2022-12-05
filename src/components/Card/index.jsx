@@ -23,7 +23,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginning, ending, 
             evt.stopPropagation();
             setIsVisibleDel(true);
             setClickedId(id);
-        }} className="card" style={{
+        }} className="card card-calendar" style={{
             backgroundColor: '#' + color,
             width: setCardWidth(),
             height: setCardHeight()

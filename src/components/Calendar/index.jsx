@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "./style.css";
 import moment from 'moment';
 import { Ctx } from "../App";
@@ -59,7 +59,7 @@ const Calendar = () => {
                 })
             }
         });
-    }, [adminSocket, api, refToken, setAccToken]);
+    }, []);
 
     useEffect(() => {
         console.log(`state is `, clickedDate);
@@ -96,17 +96,24 @@ const Calendar = () => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((day, index) => {
+                            x.map((day, i) => {
                                 return <div onClick={() => {
                                     setIsVisiblePopup(true); // open popup for creating cards
                                     setClickedDate([day, date]); // [x, y]
-                                }} key={index} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
+                                }} key={i} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
 
                                     {isLoad && data.map((card) => {
-                                        return index == card.beginning.X && date == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
+                                        const calendarDate = document.querySelector(".calendar__date-pick");
+                                        const cardCreateElement = document.querySelector(".card__create");
+                                        console.log(calendarDate);
+                                        console.log(cardCreateElement);
+                                        if (calendarDate.contains(cardCreateElement)) {
+                                            calendarDate.removeChild(cardCreateElement);
+                                        }
+                                        return i + 1 == card.beginning.X && index + 1 == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
                                     })}
                                     {clickedDate[0] === day && clickedDate[1] === date ? (
-                                        <div className="card" style={{
+                                        <div className="card card__create" style={{
                                             backgroundColor: '#' + color,
                                             opacity: "0.5"
                                         }}>
