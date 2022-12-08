@@ -7,7 +7,7 @@
 .calendar__top-panel {
     display: flex;
     position: absolute;
-    padding-left: 60px;
+    padding-left: 180px;
     top: 100px;
     z-index: 10;
     background-color: #FFFBFB;
@@ -17,14 +17,14 @@
     position: sticky;
     left: 0;
     z-index: 16;
-    width: 60px;
+    width: 180px;
     top: 160px;
 }
 
 .calendar__dates {
     display: flex;
     position: absolute;
-    padding-left: 60px;
+    padding-left: 180px;
     top: 60px;
     left: -1px;
 }
@@ -93,7 +93,7 @@
 
 .calendar__time {
     height: 59px;
-    width: 59px;
+    width: 179px;
     background-color: #EAE4E4;
     border-top: 1px solid #1E1E1E;
     border-right: 1px solid #1E1E1E;
@@ -107,4 +107,19 @@
 .card-creatotr__close-btn {
     position: absolute;
     right: 0;
+}
+
+.calendar__time-input {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    width: 90%;
+    color: #000000;
+    border: none;
+    background: transparent;
+}
+
+.calendar__time-input::placeholder {
+    color: #000000;
 }

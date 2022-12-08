@@ -1,4 +1,4 @@
-.card-creator {
+.card-editor {
     position: fixed;
     z-index: 15;
     top: 160px;
@@ -6,17 +6,18 @@
     background: #FDF8F8;
     box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.25);
     display: flex;
+    flex-direction: column;
     padding: 30px;
     height: 100%;
     border-radius: 10px;
     transition: right 0.5s ease;
 }
 
-.card-creator--visible {
+.card-editor--visible {
     right: 0;
 }
 
-.card-creator__input {
+.card-editor__input {
     padding: 0;
     border: none;
     font-size: 20px;
@@ -25,14 +26,14 @@
     outline: none;
 }
 
-.card-creator__color {
+.card-editor__color {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.card-creator__wrapper {
+.card-editor__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -40,13 +41,14 @@
     width: 100%;
 }
 
-.card-creator__form {
+.card-editor__form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.card-creator__button {
+.card-editor__button, 
+.card-editor__btn-del {
     border: 1px solid #312E2E;
     border-radius: 10px;
     background: transparent;
@@ -62,7 +64,11 @@
     cursor: pointer;
 }
 
-.card-creator__close-btn {
+.card-editor__btn-del {
+    border: 1px solid #f18080;
+}
+
+.card-editor__close-btn {
     position: absolute;
     right: 10px;
     top: 10px;

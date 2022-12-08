@@ -40,7 +40,7 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
 
     return (
         <div className={isVisiblePopup ? "card-creator card-creator--visible" : "card-creator"}>
-            <button className="card-creatotr__close-btn" onClick={() => {
+            <button className="card-creator__close-btn" onClick={() => {
                 setIsVisiblePopup(false);
                 setClickedDate([]);
                 }}>

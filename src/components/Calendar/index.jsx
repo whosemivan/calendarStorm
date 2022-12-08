@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Ctx } from "../App";
 import Card from "../Card";
 import CardCreator from "../CardCreator";
-import CardDeletor from "../CardDeletor";
+import CardEditor from "../CardEditor";
 // import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
@@ -38,6 +38,7 @@ const Calendar = () => {
         adminSocket.on("calendars:get", (data) => {
             setX(data.data[0].X);
             setY(data.data[0].Y);
+            console.log('there' + data);
             setIsCalendarLoad(true);
         });
 
@@ -70,11 +71,11 @@ const Calendar = () => {
         <section className="calendar">
             <h2 className="visually-hidden">Calendar</h2>
             <div className="calendar__top-panel">
-                {
-                    <span className="calendar__month-name">
-                        {currentMonthName}
-                    </span>
-                }
+
+                {/* <span className="calendar__month-name">
+                    {currentMonthName}
+                </span> */}
+
                 {
                     isCalendarLoad && x.map((item, index) => {
                         return (
@@ -86,7 +87,9 @@ const Calendar = () => {
             <div className="calendar__left-panel">
                 {
                     isCalendarLoad && y.map((item, index) => {
-                        return <div className="calendar__time" key={index}>{item}</div>
+                        return <div className="calendar__time" key={index}>
+                            <input type="text" className="calendar__time-input" placeholder={item} />
+                        </div>
                     })
                 }
             </div>
@@ -103,9 +106,9 @@ const Calendar = () => {
                                 }} key={i} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
 
                                     {isLoad && data.map((card) => {
-                                        return i + 1 == card.beginning.X && index + 1 == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginning={card.beginning} ending={card.ending} id={card._id} /> : ""
+                                        return i + 1 == card.beginning.X && index + 1 == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} /> : ""
                                     })}
-                                    
+
                                     {clickedDate[0] === day && clickedDate[1] === date ? (
                                         <div className="card card__create" style={{
                                             backgroundColor: '#' + color,
@@ -121,7 +124,7 @@ const Calendar = () => {
                 })
             }
             <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
-            {isVisibleDel && <CardDeletor setIsVisibleDel={setIsVisibleDel} clickedId={clickedId} />}
+            <CardEditor color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} />
         </section>
     );
 };
