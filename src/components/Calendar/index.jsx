@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./style.css";
 import moment from 'moment';
 import { Ctx } from "../App";
-import Card from "../Card";
 import CardCreator from "../CardCreator";
 import CardEditor from "../CardEditor";
+import CardHolder from "../CardHolder";
 // import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
@@ -99,26 +99,7 @@ const Calendar = () => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((day, i) => {
-                                return <div onClick={() => {
-                                    setIsVisiblePopup(true); // open popup for creating cards
-                                    setClickedDate([day, date]); // [x, y]
-                                }} key={i} className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"}>
-
-                                    {isLoad && data.map((card) => {
-                                        return i + 1 == card.beginning.X && index + 1 == card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} /> : ""
-                                    })}
-
-                                    {clickedDate[0] === day && clickedDate[1] === date ? (
-                                        <div className="card card__create" style={{
-                                            backgroundColor: '#' + color,
-                                            opacity: "0.5"
-                                        }}>
-                                            <h3 className="card__title">Title...</h3>
-                                        </div>
-                                    ) : ""}
-                                </div>
-                            })
+                            x.map((day, i) => <CardHolder key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} />)
                         }
                     </div>
                 })
