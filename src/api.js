@@ -28,7 +28,7 @@ class Api {
     }
 
     scoket(accessToken) {
-        const scoketUrl = "http://localhost:8080/api/" + (accessToken ? "admin" : "user");
+        const scoketUrl = this.url + (accessToken ? "admin" : "user");
         const options = {
             transports: ["websocket"],
             reconnectionDelay: 1000,
