@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react';
+import { parse } from "../utils";
 import browserHistory from "../browser-history";
 import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
-import io from 'socket.io-client';
 
 import Main from "../components/Main/index";
 import SignIn from './SignIn';
@@ -13,22 +13,17 @@ export const Ctx = createContext({});
 const App = () => {
   const [refToken, setRefToken] = useState(localStorage.getItem("refreshToken"));
   const [accToken, setAccToken] = useState(localStorage.getItem("accessToken"));
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") && accToken ? true : false);
+  const [isAuth, setIsAuth] = useState(parse(localStorage.getItem("isAuth")) && accToken ? true : false);
   const api = new Api();
+  const [socket, setSocket] = useState();
 
-  const adminSocket = io("https://calendar-storm.onrender.com/api/admin", {
-    transports: ["websocket"],
-    reconnectionDelay: 1000,
-    reconnectionDelayMax: 5000,
-    auth: { accessToken: accToken }
-  });
 
   return (
     <Ctx.Provider value={{
-      adminSocket: adminSocket, 
-      setIsAuth: setIsAuth, 
+      socket: socket,
+      setIsAuth: setIsAuth,
       setRefToken: setRefToken,
-      refToken: refToken, 
+      refToken: refToken,
       accToken: accToken,
       setAccToken: setAccToken,
       api: api
@@ -38,8 +33,8 @@ const App = () => {
           <Route exact path='/'>
             <SignIn setIsAuth={setIsAuth} isAuth={isAuth} />
           </Route>
-          <Route exact path='/calendar/1'>
-            <Main isAuth={isAuth} setIsAuth={setIsAuth} />
+          <Route exact path='/calendar/*'>
+            <Main isAuth={isAuth} setIsAuth={setIsAuth} setSocket={setSocket} />
           </Route>
           <Route>
             <NotFound />

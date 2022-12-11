@@ -4,14 +4,14 @@ import { Ctx } from "../App";
 import ColorPicker from "../ColorPicker";
 
 const CardEditor = ({ setIsVisibleDel, clickedId, color, setColor, isVisibleDel }) => {
-    const { adminSocket } = useContext(Ctx);
+    const { socket } = useContext(Ctx);
     const [title, setTitle] = useState("");
     const [isVisible, setIsVisible] = useState(false);
 
     console.log(clickedId);
 
     function handleDelete(id) {
-        adminSocket.emit("events:delete", id, (data) => {
+        socket.emit("events:delete", id, (data) => {
             console.log(data);
             if (data.statusCode === 200) {
                 setIsVisibleDel(false);
@@ -21,7 +21,7 @@ const CardEditor = ({ setIsVisibleDel, clickedId, color, setColor, isVisibleDel 
 
     function handleEdit(evt) {
         evt.preventDefault();
-        adminSocket.emit("events:put", {
+        socket.emit("events:put", {
             id: clickedId,
             text: title,
             color: color

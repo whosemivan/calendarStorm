@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./style.css";
 import browserHistory from "../../browser-history.js";
-import { parse } from "../../utils";
 import { Ctx } from "../App";
 
 const SignIn = ({setIsAuth, isAuth}) => {
@@ -12,8 +11,8 @@ const SignIn = ({setIsAuth, isAuth}) => {
     const { api, setRefToken, setAccToken } = useContext(Ctx);
 
     useEffect(() => {
-        if (parse(isAuth)) {
-            browserHistory.push('/calendar/1');
+        if (isAuth) {
+            browserHistory.push('/calendar/');
         }
     }, [isAuth])
 

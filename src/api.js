@@ -1,10 +1,11 @@
+import io from 'socket.io-client';
+
 class Api {
     constructor() {
         this.url = "https://calendar-storm.onrender.com/api/"
-
     }
 
-    logIn(body) { 
+    logIn(body) {
         return fetch(`${this.url}auth/login`, {
             method: "POST",
             headers: {
@@ -15,7 +16,7 @@ class Api {
         })
     }
 
-    refresh(body) { 
+    refresh(body) {
         return fetch(`${this.url}auth/refresh`, {
             method: "POST",
             headers: {
@@ -24,6 +25,24 @@ class Api {
             },
             body: JSON.stringify(body)
         })
+    }
+
+    scoket(accessToken) {
+        const scoketUrl = "http://localhost:8080/api/" + (accessToken ? "admin" : "user");
+        const options = {
+            transports: ["websocket"],
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000
+        }
+        const calendarId = window.location.pathname.split("/")[2];
+
+        if (accessToken) {
+            options.auth = { accessToken };
+        } else {
+            options.auth = { calendarId };
+        }
+
+        return io(scoketUrl, options);
     }
 }
 

@@ -5,10 +5,11 @@ import { Ctx } from "../App";
 import CardCreator from "../CardCreator";
 import CardEditor from "../CardEditor";
 import CardHolder from "../CardHolder";
+import browserHistory from "../../browser-history";
 // import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
-    const { api, adminSocket, refToken, setAccToken, setRefToken, setIsAuth } = useContext(Ctx);
+    const { api, socket, refToken, setAccToken, setRefToken, setIsAuth } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
     const [isCalendarLoad, setIsCalendarLoad] = useState(false);
@@ -35,48 +36,55 @@ const Calendar = () => {
 
     // get cards 
     useEffect(() => {
-        adminSocket.on("calendars:get", (data) => {
-            setX(data.data[0].X);
-            setY(data.data[0].Y);
-            console.log('there' + data);
-            setIsCalendarLoad(true);
-        });
+        // Извини за это тупорылое решение, но были проблемы с подключением сокетов на странице авторизации.
+        if (socket) {
+            // !!!!!!!
+            // Меняю calendars:get на calendar:get. Мне кажется будет правилей отправлять полную информацию о календаре при заходе в него, а список календарей вместе с базовой информацией о них ( название и его id ).
+            // При выборе календаря нужно будет отправлять его id по этому пути. Сейчас этот путь автоматически выдает созданный календарь админа при его решистрации. Также на этот путь будет приходить информация для обычного пользователя.
+            socket.on("calendar:get", (data) => {
+                // это временная фигня, которая нужна для ссылки на календарь. В будущем она будет получена при выборе календаря из списка.
+                browserHistory.push(data.data._id);
+                // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                setX(data.data.X);
+                setY(data.data.Y);
+                console.log('there', data);
+                setIsCalendarLoad(true);
+            });
 
-        adminSocket.on("events:get", (data) => {
-            setIsLoad(true);
-            console.log(data.data);
-            setData(data.data);
-        });
+            socket.on("events:get", (data) => {
+                setIsLoad(true);
+                console.log(data.data);
+                setData(data.data);
+            });
 
-        adminSocket.on("connect_error", (err) => {
-            console.log("awd", err);
-            if (err.data.statusCode !== 200) {
-                setAccToken("");
+            socket.on("connect_error", (err) => {
+                console.log(err);
+                if (err.data.statusCode !== 200) {
+                    setAccToken("");
 
-                if (!refToken) {
-                    localStorage.setItem("isAuth", false);
-                    localStorage.removeItem("accessToken");
-                    localStorage.removeItem("refreshToken");
-                    setIsAuth(false);
-                    setRefToken("");
-                    return;
+                    if (!refToken) {
+                        localStorage.setItem("isAuth", false);
+                        localStorage.removeItem("accessToken");
+                        localStorage.removeItem("refreshToken");
+                        setIsAuth(false);
+                        setRefToken("");
+                        return;
+                    }
+
+                    api.refresh({ refreshToken: refToken }).then(res => res.json()).then(data => {
+                        console.log(data);
+                        localStorage.setItem("accessToken", data.data.accessToken);
+                        setAccToken(data.data.accessToken);
+                        localStorage.setItem("refreshToken", data.data.refreshToken);
+                        setRefToken(data.data.refreshToken)
+
+                        socket.auth = { accessToken: data.data.accessToken };
+                        socket.connect();
+                    })
                 }
-
-                console.log("awd", refToken);
-
-                api.refresh({ refreshToken: refToken }).then(res => res.json()).then(data => {
-                    console.log(data);
-                    localStorage.setItem("accessToken", data.data.accessToken);
-                    setAccToken(data.data.accessToken);
-                    localStorage.setItem("refreshToken", data.data.refreshToken);
-                    setRefToken(data.data.refreshToken)
-
-                    adminSocket.auth = { accessToken: data.data.accessToken };
-                    adminSocket.connect();
-                })
-            }
-        });
-    }, []);
+            });
+        }
+    }, [socket]);
 
     useEffect(() => {
         console.log(`state is `, clickedDate);

@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import {parse} from "../../utils.js";
+import { parse } from "../../utils.js";
 import { Link } from "react-router-dom";
 import browserHistory from "../../browser-history.js";
 
@@ -9,7 +9,9 @@ const Header = ({ isAuth, setIsAuth }) => {
     const logOut = (evt) => {
         evt.preventDefault();
         localStorage.setItem("isAuth", false);
-        setIsAuth(localStorage.getItem("isAuth"));
+        setIsAuth(parse(localStorage.getItem("isAuth")));
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         browserHistory.push('/');
     }
 
