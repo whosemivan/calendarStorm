@@ -8,7 +8,7 @@ import CardHolder from "../CardHolder";
 // import browserHistory from "../../browser-history.js";
 
 const Calendar = () => {
-    const { api, adminSocket, refToken, setAccToken } = useContext(Ctx);
+    const { api, adminSocket, refToken, setAccToken, setRefToken, setIsAuth } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
     const [isCalendarLoad, setIsCalendarLoad] = useState(false);
@@ -25,7 +25,7 @@ const Calendar = () => {
 
     // dates in this month
     // const currentMonthDates = new Array(moment().daysInMonth()).fill(null).map((x, i) => moment().startOf('month').add(i, 'days'));
-    const currentMonthName = moment().format('MMMM');
+    // const currentMonthName = moment().format('MMMM');
     const currentDate = moment()._d.toString()[0] + moment()._d.toString().slice(8, 10);
 
     // mocks data
@@ -49,14 +49,30 @@ const Calendar = () => {
         });
 
         adminSocket.on("connect_error", (err) => {
-            if (err.message === "Токен недействителен.") {
+            console.log("awd", err);
+            if (err.data.statusCode !== 200) {
                 setAccToken("");
-                localStorage.removeItem("accessToken");
+
+                if (!refToken) {
+                    localStorage.setItem("isAuth", false);
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("refreshToken");
+                    setIsAuth(false);
+                    setRefToken("");
+                    return;
+                }
+
+                console.log("awd", refToken);
+
                 api.refresh({ refreshToken: refToken }).then(res => res.json()).then(data => {
-                    console.log(data.data);
+                    console.log(data);
                     localStorage.setItem("accessToken", data.data.accessToken);
                     setAccToken(data.data.accessToken);
                     localStorage.setItem("refreshToken", data.data.refreshToken);
+                    setRefToken(data.data.refreshToken)
+
+                    adminSocket.auth = { accessToken: data.data.accessToken };
+                    adminSocket.connect();
                 })
             }
         });

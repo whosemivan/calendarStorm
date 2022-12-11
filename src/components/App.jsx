@@ -11,14 +11,15 @@ import Api from "../api.js";
 export const Ctx = createContext({});
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") || false);
   const [refToken, setRefToken] = useState(localStorage.getItem("refreshToken"));
   const [accToken, setAccToken] = useState(localStorage.getItem("accessToken"));
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth") && accToken ? true : false);
   const api = new Api();
 
   const adminSocket = io("https://calendar-storm.onrender.com/api/admin", {
     transports: ["websocket"],
-    reconnectionDelayMax: 10000,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax: 5000,
     auth: { accessToken: accToken }
   });
 
