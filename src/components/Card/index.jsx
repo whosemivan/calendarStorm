@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useDrag } from 'react-dnd'
-import moment from "moment/moment";
 import "./style.css";
+import { Ctx } from "../App";
+
+// ресайз
+import { ResizableBox } from 'react-resizable';
 
 const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
+    const [isResize, setIsResize] = useState(false);
+    // const [resizeDiff, setResizeDiff] = useState();
+
+    const CALENDAR__CELL = 60;
+    const { socket } = useContext(Ctx);
     // isDragging - во время перетаскивания true
     // drag - отвечат за возможность таскания
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -31,18 +39,48 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
     // };
 
     return (
-        <div ref={drag} onClick={(evt) => {
-            evt.stopPropagation();
-            setIsVisibleDel(true);
-            setClickedId(id);
-        }} className="card card-calendar" style={{
-            backgroundColor: '#' + color,
-            width: '100%',
-            height: '100%',
-            opacity: isDragging ? 0.5 : 1
-        }}>
-            <h3 className="card__title">{title}</h3>
-        </div>
+        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== endX ? 60 * (endY - endX) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
+            onResizeStart={() => {
+                setIsResize(true);
+            }}
+            onResizeStop={() => {
+                const resizeWidth = document.querySelector('.card-resize');
+                const width = +resizeWidth.style.width.slice(0, -2);
+
+                const cellCount = width / CALENDAR__CELL;
+                // setResizeDiff(cellCount);
+
+                resizeWidth.classList.remove('card-resize');
+
+                socket.emit("events:put", {
+                    id: id,
+                    beginning: {
+                        X: beginX,
+                        Y: beginY
+                    },
+                    ending: {
+                        X: endX,
+                        Y: beginY + cellCount - 1
+                    },
+                }, (data) => {
+                    console.log(data);
+                });
+
+            }}
+        >
+            <div className="card" ref={drag} onClick={(evt) => {
+                evt.stopPropagation();
+                setIsVisibleDel(true);
+                setClickedId(id);
+            }} style={{
+                backgroundColor: '#' + color,
+                width: '100%',
+                height: '100%',
+                opacity: isDragging ? 0.5 : 1
+            }}>
+                <h3 className="card__title">{title}</h3>
+            </div>
+        </ResizableBox>
     );
 }
 

@@ -1,10 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
 function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color }) {
     const { socket } = useContext(Ctx);
+    const [selectItem, setSelectItem] = useState();
+
+    useEffect(() => {
+        console.log(selectItem);
+    }, [selectItem]);
 
     // isOver - во время наведения перетаскиваемого элемента true
     // drop - отвечат за возможность дропа
@@ -13,6 +18,18 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         accept: "event",
         // вызывает при дропе
         drop: (item) => {
+
+            for (let i = 0; i < data.length; i++) {
+                if (data[i]._id == item.id) {
+                    setSelectItem(data[i]);
+                    console.log(data[i]);
+                }
+            }
+
+
+            console.log(selectItem);
+
+
             socket.emit("events:put", {
                 id: item.id,
                 beginning: {
@@ -35,6 +52,8 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
             isOver: !!monitor.isOver(),
         }),
     }))
+
+
 
     return <div ref={drop} onClick={() => {
         setIsVisiblePopup(true); // open popup for creating cards
