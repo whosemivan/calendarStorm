@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useMemo } from "react";
 import { useDrag } from 'react-dnd'
 import "./style.css";
 import { Ctx } from "../App";
@@ -8,18 +8,22 @@ import { ResizableBox } from 'react-resizable';
 
 const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
     const [isResize, setIsResize] = useState(false);
-    // const [resizeDiff, setResizeDiff] = useState();
 
     const CALENDAR__CELL = 60;
     const { socket } = useContext(Ctx);
     // isDragging - во время перетаскивания true
     // drag - отвечат за возможность таскания
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag] = useDrag(useMemo(() => {
+        return({
         // тип перетаскиваемого элемента
         type: "event",
         // этот id получит ячейка в которую дропнули эту хуету. Ваня, енто полный пиздец! У меня уже мозги кипят.
         item: {
             id,
+            beginning: {
+                X: beginX,
+                Y: beginY
+            },
             ending: {
                 X: endX,
                 Y: endY
@@ -29,7 +33,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
-    }))
+    })}))
 
 
     // const setCardWidth = () => {
@@ -45,7 +49,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
     // };
 
     return (
-        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
+        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
             onResizeStart={() => {
                 setIsResize(true);
             }}
@@ -55,10 +59,8 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
                 const width = +resizeWidth.style.width.slice(0, -2);
 
                 const cellCount = width / CALENDAR__CELL;
-                // setResizeDiff(cellCount);
 
                 resizeWidth.classList.remove('card-resize');
-                setIsResize(false);
 
                 socket.emit("events:put", {
                     id: id,
@@ -68,12 +70,13 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
                     },
                     ending: {
                         X: endX,
-                        Y: beginY + cellCount
+                        Y: beginY + cellCount - 1
                     },
                 }, (data) => {
                     console.log(data);
                 });
 
+                setIsResize(false);
             }}
         >
             <div className="card" ref={drag} onClick={(evt) => {
