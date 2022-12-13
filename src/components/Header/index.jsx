@@ -4,7 +4,7 @@ import { parse } from "../../utils.js";
 import { Link } from "react-router-dom";
 import browserHistory from "../../browser-history.js";
 
-const Header = ({ isAuth, setIsAuth }) => {
+const Header = ({ isAuth, setIsAuth, isCopy, setIsCopy }) => {
 
     const logOut = (evt) => {
         evt.preventDefault();
@@ -25,7 +25,11 @@ const Header = ({ isAuth, setIsAuth }) => {
                         <button className="header__link" onClick={logOut}>Log Out</button>
                         : <Link className="header__link" to="/" >Sign In</Link>
                     }
-                    <button className="header__btn" type="button">
+                    <button className="header__btn" type="button" onClick={() => {
+                        const url = window.location.href;
+                        navigator.clipboard.writeText(url);
+                        setIsCopy(true);
+                    }}>
                         <span className="visually-hidden">
                             Share
                         </span>
