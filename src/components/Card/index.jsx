@@ -68,7 +68,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
                     },
                     ending: {
                         X: endX,
-                        Y: beginY + cellCount - 1
+                        Y: beginY + cellCount
                     },
                 }, (data) => {
                     console.log(data);
