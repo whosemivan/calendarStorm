@@ -47,10 +47,8 @@ class Api {
         }
         const calendarId = window.location.pathname.split("/")[2];
 
-        if (accessToken && !calendarId) {
-            options.auth = { accessToken };
-        } else if (calendarId) {
-            options.auth = { calendarId };
+        if (accessToken || calendarId) {
+            options.auth = { accessToken, calendarId };
         } else {
             browserHistory.push("/notFound")
         }
