@@ -22,7 +22,6 @@ const SignUp = ({setIsAuth, isAuth}) => {
         api.signUp({ login: login, password: pwd }).then(res => res.json()).then(data => {
             console.log(login);
             console.log(data.message);
-            console.log(data);
 
             if (data.message === "Пользователь создан.") {
                 console.log(data);
