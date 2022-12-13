@@ -49,7 +49,8 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
             onResizeStart={() => {
                 setIsResize(true);
             }}
-            onResizeStop={() => {
+            onResizeStop={(e) => {
+                e.stopPropagation();
                 const resizeWidth = document.querySelector('.card-resize');
                 const width = +resizeWidth.style.width.slice(0, -2);
 
@@ -57,6 +58,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
                 // setResizeDiff(cellCount);
 
                 resizeWidth.classList.remove('card-resize');
+                setIsResize(false);
 
                 socket.emit("events:put", {
                     id: id,
