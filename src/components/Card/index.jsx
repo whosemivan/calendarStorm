@@ -6,7 +6,7 @@ import { Ctx } from "../App";
 // ресайз
 import { ResizableBox } from 'react-resizable';
 
-const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
+const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
     const [isResize, setIsResize] = useState(false);
     // const [resizeDiff, setResizeDiff] = useState();
 
@@ -77,9 +77,11 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
             }}
         >
             <div className="card" ref={drag} onClick={(evt) => {
-                evt.stopPropagation();
-                setIsVisibleDel(true);
-                setClickedId(id);
+                if (isAuth) {
+                    evt.stopPropagation();
+                    setIsVisibleDel(true);
+                    setClickedId(id);
+                }
             }} style={{
                 backgroundColor: '#' + color,
                 width: '100%',

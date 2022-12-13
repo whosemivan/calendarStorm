@@ -8,7 +8,7 @@ import CardHolder from "../CardHolder";
 import browserHistory from "../../browser-history";
 // import browserHistory from "../../browser-history.js";
 
-const Calendar = () => {
+const Calendar = ({isAuth}) => {
     const { api, socket, refToken, setAccToken, setRefToken, setIsAuth } = useContext(Ctx);
     const [data, setData] = useState();
     const [isLoad, setIsLoad] = useState(false);
@@ -123,7 +123,7 @@ const Calendar = () => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((day, i) => <CardHolder key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} />)
+                            x.map((day, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} />)
                         }
                     </div>
                 })

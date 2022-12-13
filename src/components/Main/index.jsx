@@ -18,7 +18,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
         <>
             <Header isAuth={isAuth} setIsAuth={setIsAuth} isCopy={isCopy} setIsCopy={setIsCopy} />
             <DndProvider backend={HTML5Backend}>
-                <Calendar />
+                <Calendar isAuth={isAuth} />
             </DndProvider>
             {
                 isCopy ?

@@ -3,7 +3,7 @@ import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
-function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color }) {
+function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, isAuth }) {
     const { socket } = useContext(Ctx);
     // const [selectItem, setSelectItem] = useState();
 
@@ -42,12 +42,14 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
 
 
     return <div ref={drop} onClick={() => {
-        setIsVisiblePopup(true); // open popup for creating cards
-        setClickedDate([index + 1, i + 1]); // [x, y]
+        if (isAuth) {
+            setIsVisiblePopup(true); // open popup for creating cards
+            setClickedDate([index + 1, i + 1]); // [x, y]
+        }
     }} className={"calendar__date-pick"} /* className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"} */>
 
         {isLoad && data.map((card) => {
-            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} /> : ""
+            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} /> : ""
         })}
 
         {clickedDate[0] === index + 1 && clickedDate[1] === i + 1 && isVisiblePopup ? (
@@ -58,7 +60,7 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
                 <h3 className="card__title">Title...</h3>
             </div>
         ) : ""}
-        
+
         {isOver ? (
             <div className="card card__create" style={{
                 backgroundColor: '#' + color,
