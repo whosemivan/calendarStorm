@@ -45,7 +45,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
     // };
 
     return (
-        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== endX ? 60 * (endY - endX) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
+        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
             onResizeStart={() => {
                 setIsResize(true);
             }}
