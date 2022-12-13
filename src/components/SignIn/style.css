@@ -47,6 +47,7 @@
     line-height: 21px;
     width: 150px;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .signin__btn-close {
@@ -65,4 +66,8 @@
 .signin__info-err {
     color:rgba(241, 82, 82);
     text-align: center;
+}
+
+.signin__link {
+    color: #312E2E;
 }

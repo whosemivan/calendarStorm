@@ -15,6 +15,16 @@ class Api {
             body: JSON.stringify(body)
         })
     }
+    signUp(body) {
+        return fetch(`${this.url}auth/register`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+    }
 
     refresh(body) {
         return fetch(`${this.url}auth/refresh`, {

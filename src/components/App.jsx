@@ -5,6 +5,7 @@ import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 
 import Main from "../components/Main/index";
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import NotFound from "../components/NotFound/index";
 import Api from "../api.js";
 
@@ -32,6 +33,9 @@ const App = () => {
         <Switch>
           <Route exact path='/'>
             <SignIn setIsAuth={setIsAuth} isAuth={isAuth} />
+          </Route>
+          <Route exact path='/signup'>
+            <SignUp setIsAuth={setIsAuth} isAuth={isAuth} />
           </Route>
           <Route exact path='/calendar/*'>
             <Main isAuth={isAuth} setIsAuth={setIsAuth} setSocket={setSocket} />
