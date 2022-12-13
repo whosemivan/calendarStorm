@@ -18,7 +18,17 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
         // тип перетаскиваемого элемента
         type: "event",
         // этот id получит ячейка в которую дропнули эту хуету. Ваня, енто полный пиздец! У меня уже мозги кипят.
-        item: { id },
+        item: {
+            id, 
+            beginning: {
+                X: beginX,
+                Y: beginY
+            },
+            ending: {
+                X: endX,
+                Y: endY
+            }
+        },
         // ну тут думаю понятно
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()

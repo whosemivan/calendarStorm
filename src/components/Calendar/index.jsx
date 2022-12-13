@@ -53,8 +53,8 @@ const Calendar = () => {
 
             socket.on("events:get", (data) => {
                 setIsLoad(true);
-                console.log(data.data);
-                setData(data.data);
+                console.log(data);
+                setData(data.data || []);
             });
 
             socket.on("connect_error", (err) => {

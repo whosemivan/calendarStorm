@@ -5,11 +5,13 @@ import Card from "../Card";
 
 function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color }) {
     const { socket } = useContext(Ctx);
-    const [selectItem, setSelectItem] = useState();
+    // const [selectItem, setSelectItem] = useState();
 
-    useEffect(() => {
-        console.log(selectItem);
-    }, [selectItem]);
+    // useEffect(() => {
+    //     console.log(selectItem);
+    // }, [selectItem]);
+
+    console.log(data);
 
     // isOver - во время наведения перетаскиваемого элемента true
     // drop - отвечат за возможность дропа
@@ -18,28 +20,11 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         accept: "event",
         // вызывает при дропе
         drop: (item) => {
-
-            for (let i = 0; i < data.length; i++) {
-                if (data[i]._id == item.id) {
-                    setSelectItem(data[i]);
-                    console.log(data[i]);
-                }
-            }
-
-
-            console.log(selectItem);
-
-
+            console.log(item);
             socket.emit("events:put", {
                 id: item.id,
-                beginning: {
-                    X: index+1,
-                    Y: i+1
-                },
-                ending: {
-                    X: index+1,
-                    Y: i+1
-                },
+                beginning: item.beginning,
+                ending: item.ending,
             }, (data) => {
                 console.log(data);
                 if (data.statusCode === 200) {
