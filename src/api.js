@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import browserHistory from './browser-history';
 
 class Api {
     constructor() {
@@ -37,8 +38,8 @@ class Api {
         })
     }
 
-    scoket(accessToken) {
-        const scoketUrl = this.url + (accessToken ? "admin" : "user");
+    socket(accessToken) {
+        const socketUrl = this.url + (accessToken ? "admin" : "user");
         const options = {
             transports: ["websocket"],
             reconnectionDelay: 1000,
@@ -46,13 +47,15 @@ class Api {
         }
         const calendarId = window.location.pathname.split("/")[2];
 
-        if (accessToken) {
+        if (accessToken && !calendarId) {
             options.auth = { accessToken };
-        } else {
+        } else if (calendarId) {
             options.auth = { calendarId };
+        } else {
+            browserHistory.push("/notFound")
         }
 
-        return io(scoketUrl, options);
+        return io(socketUrl, options);
     }
 }
 

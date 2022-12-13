@@ -18,9 +18,6 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         accept: "event",
         // вызывает при дропе
         drop: (item) => {
-            console.log(Math.abs(item.beginning.X - item.ending.X));
-            // console.log(item);
-            console.log(Math.abs(item.beginning.Y - item.ending.Y));
             socket.emit("events:put", {
                 id: item.id,
                 beginning: {

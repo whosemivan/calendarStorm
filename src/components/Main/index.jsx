@@ -11,7 +11,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
     const [isCopy, setIsCopy] = useState(false);
 
     useEffect(() => {
-        setSocket(api.scoket(accToken));
+        setSocket(api.socket(accToken));
     }, [])
 
     return (
