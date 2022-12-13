@@ -11,8 +11,6 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
     //     console.log(selectItem);
     // }, [selectItem]);
 
-    console.log(data);
-
     // isOver - во время наведения перетаскиваемого элемента true
     // drop - отвечат за возможность дропа
     const [{ isOver }, drop] = useDrop(() => ({
@@ -23,7 +21,10 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
             console.log(item);
             socket.emit("events:put", {
                 id: item.id,
-                beginning: item.beginning,
+                beginning: {
+                    X: index + 1,
+                    Y: i + 1
+                },
                 ending: item.ending,
             }, (data) => {
                 console.log(data);

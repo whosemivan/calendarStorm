@@ -19,11 +19,7 @@ const Card = ({ setClickedId, setIsVisibleDel, title, color, beginX, beginY, end
         type: "event",
         // этот id получит ячейка в которую дропнули эту хуету. Ваня, енто полный пиздец! У меня уже мозги кипят.
         item: {
-            id, 
-            beginning: {
-                X: beginX,
-                Y: beginY
-            },
+            id,
             ending: {
                 X: endX,
                 Y: endY
