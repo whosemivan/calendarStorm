@@ -119,7 +119,7 @@ const Calendar = ({isAuth}) => {
             </div>
             {
                 y.map((date, index) => {
-                    return <div key={index} className="calendar__dates" style={{
+                    return <div key={index} className={y.length - 1 === index ? "calendar__dates calendar__dates--last" : "calendar__dates"} style={{
                         top: 60 * (+index + 1) + 100
                     }}>
                         {

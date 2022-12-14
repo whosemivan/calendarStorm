@@ -30,9 +30,10 @@
 .card__handle {
     width: 10px;
     height: 70%;
-    background-color: #1E1E1E;
+    background-color: #deb1f3;
     display: block;
     position: absolute;
     right: 0;
     cursor: move;
+    border-radius: 10px;
 }

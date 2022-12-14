@@ -123,3 +123,7 @@
 .calendar__time-input::placeholder {
     color: #000000;
 }
+
+.calendar__dates--last .calendar__date-pick {
+    border-top: none;
+}

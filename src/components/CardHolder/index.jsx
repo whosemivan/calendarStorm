@@ -51,7 +51,7 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
     }} className={"calendar__date-pick"} /* className={day[0] === "S" ? "calendar__date-pick calendar__date-pick--weekend" : "calendar__date-pick"} */>
 
         {isLoad && data.map((card) => {
-            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} /> : ""
+            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} /> : ""
         })}
 
         {clickedDate[0] === index + 1 && clickedDate[1] === i + 1 && isVisiblePopup ? (

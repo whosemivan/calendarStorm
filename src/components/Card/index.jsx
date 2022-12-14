@@ -57,7 +57,6 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
                 e.stopPropagation();
                 const resizeWidth = document.querySelector('.card-resize');
                 const width = +resizeWidth.style.width.slice(0, -2);
-
                 const cellCount = width / CALENDAR__CELL;
 
                 resizeWidth.classList.remove('card-resize');
