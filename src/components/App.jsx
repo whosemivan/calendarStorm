@@ -15,8 +15,11 @@ const App = () => {
   const [refToken, setRefToken] = useState(localStorage.getItem("refreshToken"));
   const [accToken, setAccToken] = useState(localStorage.getItem("accessToken"));
   const [isAuth, setIsAuth] = useState(parse(localStorage.getItem("isAuth")) && accToken ? true : false);
-  const api = new Api();
   const [socket, setSocket] = useState();
+  const [access, setAccess] = useState(false);
+  const [calendarName, setCalendarName] = useState();
+  const [calendarId, setCalendarId] = useState();
+  const api = new Api();
 
 
   return (
@@ -27,6 +30,12 @@ const App = () => {
       refToken: refToken,
       accToken: accToken,
       setAccToken: setAccToken,
+      access: access,
+      setAccess: setAccess,
+      calendarName: calendarName,
+      setCalendarName: setCalendarName,
+      calendarId: calendarId,
+      setCalendarId: setCalendarId,
       api: api
     }}>
       <BrowserRouter history={browserHistory}>

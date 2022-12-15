@@ -30,7 +30,7 @@ const SignUp = ({setIsAuth, isAuth}) => {
             if (data.message === "Пользователь создан.") {
                 console.log(data);
                 localStorage.setItem("isAuth", true);
-                setIsAuth(localStorage.getItem("isAuth"));
+                setIsAuth(true);
                 setErr(false);
                 
                 setAccToken(data.data.accessToken);
@@ -39,7 +39,7 @@ const SignUp = ({setIsAuth, isAuth}) => {
                 setRefToken(data.data.refreshToken);
                 localStorage.setItem("refreshToken", data.data.refreshToken);
 
-                browserHistory.push('/calendar/1');
+                // browserHistory.push('/calendar/');
             } else {
                 setErr(true);
                 console.log("Err");

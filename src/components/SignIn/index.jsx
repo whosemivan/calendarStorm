@@ -29,7 +29,7 @@ const SignIn = ({setIsAuth, isAuth}) => {
             if (data.message === "Пользователь найден.") {
                 console.log(data);
                 localStorage.setItem("isAuth", true);
-                setIsAuth(localStorage.getItem("isAuth"));
+                setIsAuth(true);
                 setErr(false);
                 
                 setAccToken(data.data.accessToken);

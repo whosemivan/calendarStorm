@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./style.css";
 import { parse } from "../../utils.js";
 import { Link } from "react-router-dom";
 import browserHistory from "../../browser-history.js";
+import { Ctx } from "../App";
 
 const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
+    const { socket, access, calendarName, calendarId } = useContext(Ctx);
 
     // функция выхода 
     const logOut = (evt) => {
@@ -19,7 +21,19 @@ const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
     return (
         <header className="header">
             <div className="header__wrapper">
-                <input type="text" className="header__title" placeholder="Calendar name" />
+                {
+                    access ?
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        const input = e.target.querySelector('[name="calendarName"]');
+                        socket.emit("calendars:put", {
+                            id: calendarId, title: input.value
+                        }, (data) => console.log(data));
+                    }}>
+                        <input type="text" name="calendarName" className="header__title" defaultValue={calendarName} placeholder="Calendar name" />
+                    </form> 
+                    : <p className="header__title">{calendarName}</p>
+                }
                 <div className="header__btn-block">
                     {/* parse чтобы когда беру данные из localstorage (isAuth: boolean), переводить их в нужный тип данных. localstorage строки возвращает. в зависимости авторизован пользователь или нет, отображаются разные кнопки */}
                     {parse(isAuth) ?

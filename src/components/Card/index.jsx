@@ -5,13 +5,13 @@ import { Ctx } from "../App";
 // ресайз
 import { ResizableBox } from 'react-resizable';
 
-const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
+const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id, cardMaxWidth }) => {
     const [isResize, setIsResize] = useState(false);
 
     // размер одной ячейки
     const CALENDAR__CELL = 60;
 
-    const { socket } = useContext(Ctx);
+    const { socket, access } = useContext(Ctx);
 
     // isDragging - во время перетаскивания true
     // drag - отвечат за возможность таскания
@@ -37,55 +37,77 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
     })}, [beginX, beginY, endX, endY, id]))
 
 
-    return (
-        // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
-        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
-            onResizeStart={() => {
-                setIsResize(true);
-            }}
-            onResizeStop={(e) => {
-                e.stopPropagation();
-                const resizeWidth = document.querySelector('.card-resize');
-                const width = +resizeWidth.style.width.slice(0, -2);
-                const cellCount = width / CALENDAR__CELL;
+    if (access) {
+        return (
+            // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
+            <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} onClick={(e) => e.stopPropagation()} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]} maxConstraints={[Math.abs(beginY - cardMaxWidth - 1) * 60, Math.abs(beginY - cardMaxWidth - 1) * 60]}
+                onResizeStart={() => {
+                    setIsResize(true);
+                }}
+                onResizeStop={(e) => {
+                    e.stopPropagation();
+                    const resizeWidth = document.querySelector('.card-resize');
+                    const width = +resizeWidth.style.width.slice(0, -2);
+                    const cellCount = width / CALENDAR__CELL;
 
-                resizeWidth.classList.remove('card-resize');
+                    resizeWidth.classList.remove('card-resize');
 
-                // запрос на изменение ending.Y, срабатывает сразу после ресайза
-                socket.emit("events:put", {
-                    id: id,
-                    beginning: {
-                        X: beginX,
-                        Y: beginY
-                    },
-                    ending: {
-                        X: endX,
-                        Y: beginY + cellCount - 1
-                    },
-                }, (data) => {
-                    console.log(data);
-                });
+                    // запрос на изменение ending.Y, срабатывает сразу после ресайза
+                    socket.emit("events:put", {
+                        id: id,
+                        beginning: {
+                            X: beginX,
+                            Y: beginY
+                        },
+                        ending: {
+                            X: endX,
+                            Y: beginY + cellCount - 1
+                        },
+                    }, (data) => {
+                        console.log(data);
+                    });
 
-                setIsResize(false);
-            }}
-        >
-            <div className="card" ref={drag} onClick={(evt) => {
-                // не даём неавторизованному юзеру создавать, редактировать ивенты
-                if (isAuth) {
-                    evt.stopPropagation();
-                    setIsVisibleDel(true);
-                    setClickedId(id);
-                }
-            }} style={{
-                backgroundColor: '#' + color,
-                width: '100%',
-                height: '100%',
-                opacity: isDragging ? 0.5 : 1
-            }}>
-                <h3 className="card__title">{title}</h3>
-            </div>
-        </ResizableBox>
-    );
+                    setIsResize(false);
+                }}
+            >
+                <div className="card" ref={drag} onClick={(evt) => {
+                    // не даём неавторизованному юзеру создавать, редактировать ивенты
+                    if (isAuth && access) {
+                        evt.stopPropagation();
+                        setIsVisibleDel(true);
+                        setClickedId(id);
+                    }
+                }} style={{
+                    backgroundColor: '#' + color,
+                    width: '100%',
+                    height: '100%',
+                    opacity: isDragging ? 0.5 : 1
+                }}>
+                    <h3 className="card__title">{title}</h3>
+                </div>
+            </ResizableBox>
+        );
+    } else {
+        return (
+            <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60}>
+                <div className="card" onClick={(evt) => {
+                    // не даём неавторизованному юзеру создавать, редактировать ивенты
+                    if (isAuth && access) {
+                        evt.stopPropagation();
+                        setIsVisibleDel(true);
+                        setClickedId(id);
+                    }
+                }} style={{
+                    backgroundColor: '#' + color,
+                    width: '100%',
+                    height: '100%',
+                    opacity: isDragging ? 0.5 : 1
+                }}>
+                    <h3 className="card__title">{title}</h3>
+                </div>
+            </ResizableBox>
+        )
+    }
 }
 
 export default Card;

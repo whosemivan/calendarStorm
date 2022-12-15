@@ -7,7 +7,7 @@ import CardHolder from "../CardHolder";
 import browserHistory from "../../browser-history";
 
 const Calendar = ({isAuth}) => {
-    const { api, socket, refToken, setAccToken, setRefToken, setIsAuth } = useContext(Ctx);
+    const { api, socket, refToken, setAccToken, setRefToken, setIsAuth, setCalendarName, calendarId, setCalendarId, access, setAccess } = useContext(Ctx);
     const [data, setData] = useState();
 
     const [isLoad, setIsLoad] = useState(false);
@@ -30,6 +30,9 @@ const Calendar = ({isAuth}) => {
             socket.on("calendar:get", (data) => {
                 // это временная фигня, которая нужна для ссылки на календарь. В будущем она будет получена при выборе календаря из списка.
                 browserHistory.push(data.data._id);
+                setAccess(data.access);
+                setCalendarName(data.data.title);
+                setCalendarId(data.data._id);
                 setX(data.data.X);
                 setY(data.data.Y);
                 setIsCalendarLoad(true);
@@ -105,7 +108,20 @@ const Calendar = ({isAuth}) => {
                     // рендерит строки
                     isCalendarLoad && y.map((item, index) => {
                         return <div className="calendar__time" key={index}>
-                            <input type="text" className="calendar__time-input" placeholder={item} />
+                            {
+                                access ? 
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const input = e.target.querySelector('[name="name"]');
+                                    y[index] = input.value;
+                                    socket.emit("calendars:put", {
+                                        id: calendarId, Y: y
+                                    }, (data) => console.log(data));
+                                }}>
+                                    <input type="text" name="name" className="calendar__time-input" required defaultValue={item} />
+                                </form> 
+                                : <p className="calendar__time-input">{item}</p>
+                            }
                         </div>
                     })
                 }
@@ -117,7 +133,7 @@ const Calendar = ({isAuth}) => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((date, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} />)
+                            x.map((date, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} cardMaxWidth={x.length} />)
                         }
                     </div>
                 })

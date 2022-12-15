@@ -3,8 +3,8 @@ import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
-function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, isAuth }) {
-    const { socket } = useContext(Ctx);
+function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, isAuth, cardMaxWidth }) {
+    const { socket, access } = useContext(Ctx);
 
     // isOver - во время наведения перетаскиваемого элемента true
     // drop - отвечат за возможность дропа
@@ -36,8 +36,8 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
     }))
 
 
-    return <div ref={drop} onClick={() => {
-        if (isAuth) {
+    return <div {...(access ? { ref: drop } : {})} onClick={() => {
+        if (isAuth && access) {
             setIsVisiblePopup(true); // open popup for creating cards
             setClickedDate([index + 1, i + 1]); // [x, y]
         }
@@ -45,7 +45,7 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
 
         {/* рендерит ивенты в нужных ячейках */}
         {isLoad && data.map((card) => {
-            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} /> : ""
+            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={cardMaxWidth} /> : ""
         })}
 
 
