@@ -5,7 +5,7 @@ import { Ctx } from "../App";
 // ресайз
 import { ResizableBox } from 'react-resizable';
 
-const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id, cardMaxWidth }) => {
+const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id, cardMaxWidth, setTitle }) => {
     const [isResize, setIsResize] = useState(false);
 
     // размер одной ячейки
@@ -76,6 +76,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
                         evt.stopPropagation();
                         setIsVisibleDel(true);
                         setClickedId(id);
+                        setTitle(title);
                     }
                 }} style={{
                     backgroundColor: '#' + color,

@@ -3,10 +3,13 @@ import "./style.css";
 import { Ctx } from "../App";
 import ColorPicker from "../ColorPicker";
 
-const CardEditor = ({ setIsVisibleDel, clickedId, color, setColor, isVisibleDel }) => {
+const CardEditor = ({ title, setTitle, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
     const { socket } = useContext(Ctx);
-    const [title, setTitle] = useState("");
     const [isVisible, setIsVisible] = useState(false);
+
+    // isLoad && data.map((card) => {
+    //     return card._id === clickedId ? setTitle(card.text) : "";
+    // });
 
     // удаление ивента
     function handleDelete(id) {

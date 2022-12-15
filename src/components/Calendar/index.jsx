@@ -18,6 +18,7 @@ const Calendar = ({isAuth}) => {
     const [clickedDate, setClickedDate] = useState([]);
     const [clickedId, setClickedId] = useState();
     const [color, setColor] = useState('C8F9C5');
+    const [title, setTitle] = useState("");
 
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
@@ -133,14 +134,14 @@ const Calendar = ({isAuth}) => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((date, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} cardMaxWidth={x.length} />)
+                            x.map((date, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} cardMaxWidth={x.length} />)
                         }
                     </div>
                 })
             }
             {/* попапы для создания и изменения ивентов */}
             <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
-            <CardEditor color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} />
+            <CardEditor title={title} setTitle={setTitle} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
         </section>
     );
 };
