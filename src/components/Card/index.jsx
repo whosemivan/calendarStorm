@@ -40,7 +40,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
     if (access) {
         return (
             // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
-            <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} onClick={(e) => e.stopPropagation()} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]} maxConstraints={[Math.abs(beginY - cardMaxWidth - 1) * 60, Math.abs(beginY - cardMaxWidth - 1) * 60]}
+            <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} onDrop={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]} maxConstraints={[Math.abs(beginY - cardMaxWidth - 1) * 60, Math.abs(beginY - cardMaxWidth - 1) * 60]}
                 onResizeStart={() => {
                     setIsResize(true);
                 }}
