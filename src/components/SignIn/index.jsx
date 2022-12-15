@@ -11,12 +11,14 @@ const SignIn = ({setIsAuth, isAuth}) => {
 
     const { api, setRefToken, setAccToken } = useContext(Ctx);
 
+    // если юзер уже авторизован, не получится попасть на страницу авторизации
     useEffect(() => {
         if (isAuth) {
             browserHistory.push('/calendar/');
         }
     }, [isAuth])
 
+    // функция делает запрос на авторизацию
     const handler = e => {
         e.preventDefault();
         api.logIn({ login: login, password: pwd }).then(res => res.json()).then(data => {
@@ -35,8 +37,6 @@ const SignIn = ({setIsAuth, isAuth}) => {
 
                 setRefToken(data.data.refreshToken);
                 localStorage.setItem("refreshToken", data.data.refreshToken);
-
-                // browserHistory.push('/calendar/');
             } else {
                 setErr(true);
                 console.log("Err");
@@ -59,6 +59,7 @@ const SignIn = ({setIsAuth, isAuth}) => {
                     setErr(false);
                 }} value={pwd} />
                 <button className="signin__btn" type="submit">Submit</button>
+                {/* ошибки */}
                 {err && <p className="signin__info-err">Something go wrong, please try again</p>}
             </form>
             <Link className="signin__link" to='/signup'>Sign Up</Link>

@@ -1,6 +1,8 @@
 import React from "react";
 import "./style.css";
 
+// Компонент для выбора цвета ивента в попапе создания и изменения
+
 const ColorPicker = ({ setColor, setIsVisible }) => {
     return (
         <div className="color-picker">

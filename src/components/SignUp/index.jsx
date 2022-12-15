@@ -11,11 +11,15 @@ const SignUp = ({setIsAuth, isAuth}) => {
 
     const { api, setRefToken, setAccToken } = useContext(Ctx);
 
+    // если юзер уже авторизован, не получится попасть на страницу авторизации
+
     useEffect(() => {
         if (isAuth) {
             browserHistory.push('/calendar/');
         }
     }, [isAuth])
+
+    // функция регистрирует пользователя 
 
     const handler = e => {
         e.preventDefault();
@@ -53,11 +57,12 @@ const SignUp = ({setIsAuth, isAuth}) => {
                     setLogin(e.target.value);
                     setErr(false);
                 }} value={login} />
-                <input className="signin__input" id="password" name="password" type="password" placeholder="Your password" onChange={(e) => {
+                <input minLength="8" className="signin__input" id="password" name="password" type="password" placeholder="Your password" onChange={(e) => {
                     setPwd(e.target.value);
                     setErr(false);
                 }} value={pwd} />
                 <button className="signin__btn" type="submit">Submit</button>
+                {/* ошибки */}
                 {err && <p className="signin__info-err">Wrong login details, please try again</p>}
             </form>
             <Link className="signin__link" to='/'>Sign In</Link>

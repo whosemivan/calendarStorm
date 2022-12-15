@@ -12,15 +12,17 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
 
     useEffect(() => {
         setSocket(api.socket(accToken));
-    }, [])
+    }, []);
 
     return (
         <>
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} isCopy={isCopy} setIsCopy={setIsCopy} />
+            <Header isAuth={isAuth} setIsAuth={setIsAuth} setIsCopy={setIsCopy} />
+            {/* DndProvider - для драгндропа */}
             <DndProvider backend={HTML5Backend}>
                 <Calendar isAuth={isAuth} />
             </DndProvider>
             {
+                // при клике на кнопку share  в хэдере, ссылка на календарь копируется в буфер обмена и вылезает соответствующий попап
                 isCopy ?
                     <div className="share-popup">
                         <button className="share-popup__btn-close" onClick={() => setIsCopy(false)}>

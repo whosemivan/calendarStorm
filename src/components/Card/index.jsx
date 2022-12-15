@@ -1,23 +1,25 @@
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import { useDrag } from 'react-dnd'
 import "./style.css";
 import { Ctx } from "../App";
-
 // ресайз
 import { ResizableBox } from 'react-resizable';
 
 const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beginY, endX, endY, id }) => {
     const [isResize, setIsResize] = useState(false);
 
+    // размер одной ячейки
     const CALENDAR__CELL = 60;
+
     const { socket } = useContext(Ctx);
+
     // isDragging - во время перетаскивания true
     // drag - отвечат за возможность таскания
     const [{ isDragging }, drag] = useDrag(useMemo(() => {
         return({
         // тип перетаскиваемого элемента
         type: "event",
-        // этот id получит ячейка в которую дропнули эту хуету. Ваня, енто полный пиздец! У меня уже мозги кипят.
+        // этот id получит ячейка в которую дропнули этот ивент
         item: {
             id,
             beginning: {
@@ -29,27 +31,15 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
                 Y: endY
             }
         },
-        // ну тут думаю понятно
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
-    })}))
+    })}, [beginX, beginY, endX, endY, id]))
 
-
-    // const setCardWidth = () => {
-    //     if (beginning.format("DD-MM-YYYY") !== ending.format("DD-MM-YYYY")) {
-    //         return (ending.diff(beginning, "days") + 1) * 60 + "px";
-    //     }
-    // };
-
-    // const setCardHeight = () => {
-    //     if (beginning.format("HH-MM-SS") !== ending.format("HH-MM-SS")) {
-    //         return ((ending.hour() - beginning.hour()) + 1) * 60 + 'px';
-    //     }
-    // };
 
     return (
-        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handleSize={[10, 10]} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
+        // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
+        <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endY !== beginY ? 60 * (endY - beginY + 1) : 60} height={60} draggableOpts={{ grid: [60, 0] }} handle={(h, ref) => <span className={`card__handle custom-handle custom-handle-${h}`} ref={ref} />} minConstraints={[60, 60]}
             onResizeStart={() => {
                 setIsResize(true);
             }}
@@ -61,6 +51,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
 
                 resizeWidth.classList.remove('card-resize');
 
+                // запрос на изменение ending.Y, срабатывает сразу после ресайза
                 socket.emit("events:put", {
                     id: id,
                     beginning: {
@@ -79,6 +70,7 @@ const Card = ({ isAuth, setClickedId, setIsVisibleDel, title, color, beginX, beg
             }}
         >
             <div className="card" ref={drag} onClick={(evt) => {
+                // не даём неавторизованному юзеру создавать, редактировать ивенты
                 if (isAuth) {
                     evt.stopPropagation();
                     setIsVisibleDel(true);

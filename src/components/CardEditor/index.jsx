@@ -8,8 +8,7 @@ const CardEditor = ({ setIsVisibleDel, clickedId, color, setColor, isVisibleDel 
     const [title, setTitle] = useState("");
     const [isVisible, setIsVisible] = useState(false);
 
-    console.log(clickedId);
-
+    // удаление ивента
     function handleDelete(id) {
         socket.emit("events:delete", id, (data) => {
             console.log(data);
@@ -19,6 +18,7 @@ const CardEditor = ({ setIsVisibleDel, clickedId, color, setColor, isVisibleDel 
         });
     }
 
+    // изменение ивента
     function handleEdit(evt) {
         evt.preventDefault();
         socket.emit("events:put", {

@@ -4,8 +4,9 @@ import { parse } from "../../utils.js";
 import { Link } from "react-router-dom";
 import browserHistory from "../../browser-history.js";
 
-const Header = ({ isAuth, setIsAuth, isCopy, setIsCopy }) => {
+const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
 
+    // функция выхода 
     const logOut = (evt) => {
         evt.preventDefault();
         localStorage.setItem("isAuth", false);
@@ -15,16 +16,17 @@ const Header = ({ isAuth, setIsAuth, isCopy, setIsCopy }) => {
         browserHistory.push('/');
     }
 
-
     return (
         <header className="header">
             <div className="header__wrapper">
                 <input type="text" className="header__title" placeholder="Calendar name" />
                 <div className="header__btn-block">
+                    {/* parse чтобы когда беру данные из localstorage (isAuth: boolean), переводить их в нужный тип данных. localstorage строки возвращает. в зависимости авторизован пользователь или нет, отображаются разные кнопки */}
                     {parse(isAuth) ?
                         <button className="header__link" onClick={logOut}>Log Out</button>
                         : <Link className="header__link" to="/" >Sign In</Link>
                     }
+
                     <button className="header__btn" type="button" onClick={() => {
                         const url = window.location.href;
                         navigator.clipboard.writeText(url);

@@ -1,24 +1,15 @@
 import React, { useState, useContext } from "react";
 import "./style.css";
-
 import ColorPicker from "../ColorPicker";
 import { Ctx } from "../App";
 
-
-// packages for work with dates
-
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-// import TextField from '@mui/material/TextField';
-
-// import moment from 'moment';
 
 const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVisiblePopup, clickedDate }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [title, setTitle] = useState("");
     const { socket } = useContext(Ctx);
 
+    // запрос на создание ивента
     const handleSubmit = (evt) => {
         evt.preventDefault();
         socket.emit("events:post", {
