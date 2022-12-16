@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
@@ -8,20 +8,33 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
 
     // isOver - во время наведения перетаскиваемого элемента true
     // drop - отвечат за возможность дропа
-    const [{ isOver }, drop] = useDrop(() => ({
+    const [{ isOver }, drop] = useDrop(useMemo(() => ({
         // тип элемента, который может принять
         accept: "event",
         // вызывает при дропе
         drop: (item) => {
+            const newBeginX = index + 1;
+            const newBeginY = i + 1;
+            const newEndX = index + 1;
+            const newEndY = i + Math.abs(item.beginning.Y - item.ending.Y) + 1;
+
+            for (let card of data) {
+                if (item.id !== card._id && card.beginning.X === newBeginX) {
+                    const arr1 = Array(newEndY-newBeginY+1).fill().map((_, i) => newBeginY + i);
+                    const arr2 = Array(card.ending.Y-card.beginning.Y+1).fill().map((_, i) => card.beginning.Y + i);
+                    if (arr1.some(item => arr2.includes(item))) return;
+                };
+            }
+
             socket.emit("events:put", {
                 id: item.id,
                 beginning: {
-                    X: index + 1,
-                    Y: i + 1
+                    X: newBeginX,
+                    Y: newBeginY
                 },
                 ending: {
-                    X: index + Math.abs(item.beginning.X - item.ending.X) + 1,
-                    Y: i + Math.abs(item.beginning.Y - item.ending.Y) + 1
+                    X: newEndX,
+                    Y: newEndY
                 },
             }, (data) => {
                 console.log(data);
@@ -33,7 +46,7 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         collect: monitor => ({
             isOver: !!monitor.isOver(),
         }),
-    }))
+    }), [data, i, index, setIsVisibleDel, socket]))
 
 
     return <div {...(access ? { ref: drop } : {})} onClick={() => {
