@@ -3,7 +3,7 @@ import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
-function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, isAuth, cardMaxWidth, setTitle }) {
+function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, setColor, isAuth, cardMaxWidth, setTitle }) {
     const { socket, access } = useContext(Ctx);
 
     // isOver - во время наведения перетаскиваемого элемента true
@@ -13,15 +13,16 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         accept: "event",
         // вызывает при дропе
         drop: (item) => {
-            const newBeginX = index + 1;
-            const newBeginY = i + 1;
-            const newEndX = index + 1;
-            const newEndY = i + Math.abs(item.beginning.Y - item.ending.Y) + 1;
+            const newBeginX = i + 1;
+            const newBeginY = index + 1;
+            const newEndX = i + Math.abs(item.beginning.X - item.ending.X) + 1;
+            const newEndY = index + 1;
+            const curLine = linesByIdWithCards[newBeginY];
 
-            for (let card of data) {
-                if (item.id !== card._id && card.beginning.X === newBeginX) {
-                    const arr1 = Array(newEndY-newBeginY+1).fill().map((_, i) => newBeginY + i);
-                    const arr2 = Array(card.ending.Y-card.beginning.Y+1).fill().map((_, i) => card.beginning.Y + i);
+            for (let key in curLine) {
+                if (item.id !== curLine[key]._id && curLine[key].beginning.Y === newBeginY) {
+                    const arr1 = Array(newEndX-newBeginX+1).fill().map((_, i) => newBeginX+i);
+                    const arr2 = Array(curLine[key].ending.X-curLine[key].beginning.X+1).fill().map((_, i) => curLine[key].beginning.X+i);
                     if (arr1.some(item => arr2.includes(item))) return;
                 };
             }
@@ -46,24 +47,23 @@ function CardHolder({ isVisiblePopup, setIsVisiblePopup, setClickedDate, setClic
         collect: monitor => ({
             isOver: !!monitor.isOver(),
         }),
-    }), [data, i, index, setIsVisibleDel, socket]))
+    }), [i, index, setIsVisibleDel, socket, linesByIdWithCards]))
 
 
-    return <div {...(access ? { ref: drop } : {})} onClick={() => {
+    return <div {...(access ? { ref: drop } : { style: { cursor: "default" } })} onClick={() => {
         if (isAuth && access) {
             setIsVisiblePopup(true); // open popup for creating cards
-            setClickedDate([index + 1, i + 1]); // [x, y]
+            setClickedDate([i + 1, index + 1]); // [x, y]
         }
     }} className={"calendar__date-pick"}>
 
         {/* рендерит ивенты в нужных ячейках */}
         {isLoad && data.map((card) => {
-            return index + 1 === card.beginning.X && i + 1 === card.beginning.Y ? <Card isAuth={isAuth} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={cardMaxWidth} setTitle={setTitle} /> : ""
+            return i + 1 === card.beginning.X && index + 1 === card.beginning.Y ? <Card linesByIdWithCards={linesByIdWithCards} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} setColor={setColor} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={cardMaxWidth} setTitle={setTitle} /> : ""
         })}
 
-
         {/* создано для более нативного создания ивентов */}
-        {clickedDate[0] === index + 1 && clickedDate[1] === i + 1 && isVisiblePopup ? (
+        {clickedDate[0] === i + 1 && clickedDate[1] === index + 1 && isVisiblePopup ? (
             <div className="card card__create" style={{
                 backgroundColor: '#' + color,
                 opacity: "0.5"

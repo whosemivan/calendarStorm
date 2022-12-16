@@ -1,5 +1,4 @@
 .card {
-    background: #A1D9F1;
     border-radius: 14px;
     cursor: pointer;
     position: absolute;
@@ -9,12 +8,18 @@
     justify-content: center;
     align-items: center;
 }
+.card:hover .card__handle-l,
+.card:hover .card__handle-r {
+    opacity: 1 !important;
+}
 
 .card-calendar {
     z-index: 12;
 }
 
 .card__title {
+    padding: 0 10px;
+    
     font-weight: 700;
     font-size: 16px;
     line-height: 18px;
@@ -27,13 +32,20 @@
     overflow: hidden;
 }
 
-.card__handle {
+.card__handle-l,
+.card__handle-r {
+    transition: opacity 0.2s;
     width: 10px;
     height: 70%;
-    background-color: #deb1f3;
+    background-color: #FFFBFB;
     display: block;
     position: absolute;
-    right: 0;
     cursor: move;
     border-radius: 10px;
+}
+.card__handle-l {
+    left: 5px;
+}
+.card__handle-r {
+    right: 5px;
 }

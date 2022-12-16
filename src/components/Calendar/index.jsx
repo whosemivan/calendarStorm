@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import moment from "moment";
 import "./style.css";
 import { Ctx } from "../App";
 import CardCreator from "../CardCreator";
@@ -23,12 +24,15 @@ const Calendar = ({isAuth}) => {
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
 
+    const [linesByIdWithCards, setLinesByIdWithCards] = useState([]);
+
     useEffect(() => {
         if (socket) {
 
             // получает инфу о календаре: id, название, владелец каленадря, x, y
 
             socket.on("calendar:get", (data) => {
+                console.log(data);
                 // это временная фигня, которая нужна для ссылки на календарь. В будущем она будет получена при выборе календаря из списка.
                 browserHistory.push(data.data._id);
                 setAccess(data.access);
@@ -42,9 +46,21 @@ const Calendar = ({isAuth}) => {
             // получает массив с ивентами
 
             socket.on("events:get", (data) => {
-                setIsLoad(true);
                 console.log(data);
                 setData(data.data || []);
+
+                let linesWithCards = {};
+                data?.data?.forEach((card) => {
+                    if (linesWithCards[card.beginning.Y]) {
+                        linesWithCards[card.beginning.Y][card.beginning.X] = card;
+                    } else {
+                        linesWithCards[card.beginning.Y] = {};
+                        linesWithCards[card.beginning.Y][card.beginning.X] = card;
+                    }
+                })
+                setLinesByIdWithCards(linesWithCards);
+
+                setIsLoad(true);
             });
 
             // обновляет токены, если connect_error
@@ -76,7 +92,7 @@ const Calendar = ({isAuth}) => {
                 }
             });
         }
-    }, [api, refToken, setAccToken, setIsAuth, setRefToken, socket]);
+    }, [api, refToken, setAccToken, setIsAuth, setRefToken, socket, setAccess, setCalendarId, setCalendarName]);
 
     // добавил для корректной работы стейта
 
@@ -84,15 +100,13 @@ const Calendar = ({isAuth}) => {
         console.log(`state is `, clickedDate);
     }, [clickedDate]);
 
-
     return (
         <section className="calendar">
             <h2 className="visually-hidden">Calendar</h2>
             <div className="calendar__top-panel">
 
                 <span className="calendar__month-name">
-                    {/* пока статично */}
-                    December
+                    {moment().format("MMMM")}
                 </span> 
 
                 {
@@ -134,7 +148,7 @@ const Calendar = ({isAuth}) => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((date, i) => <CardHolder isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} cardMaxWidth={x.length} />)
+                            x.map((date, i) => <CardHolder linesByIdWithCards={linesByIdWithCards} isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} setColor={setColor} cardMaxWidth={x.length} />)
                         }
                     </div>
                 })
