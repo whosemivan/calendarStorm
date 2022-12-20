@@ -43,18 +43,12 @@ const Card = ({ linesByIdWithCards, setClickedId, setIsVisibleDel, title, color,
         setColor(color);
     }
 
-    const curLine = linesByIdWithCards[beginY];
-    const cardsKeys = Object.keys(curLine).sort();
-    const thisElemKey = cardsKeys.indexOf(String(beginX));
-    const nextElem = curLine[cardsKeys[thisElemKey+1]];
-    if (nextElem) cardMaxWidth = nextElem.beginning.X - 1;
-
-
     if (access) {
         return (
             // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
             <ResizableBox
                 className={isResize ? "card card-calendar card-resize" : "card card-calendar"}
+                style={isDragging && {zIndex: 0}}
                 width={endX !== beginX ? 60 * (endX - beginX + 1) : 60} height={60}
                 draggableOpts={{ grid: [60, 0] }}
                 onDrop={(e) => e.stopPropagation()}
@@ -93,9 +87,7 @@ const Card = ({ linesByIdWithCards, setClickedId, setIsVisibleDel, title, color,
             >
                 <div className="card" ref={drag} onDrop={(e) => e.stopPropagation()} onDrag={ cardHandler } onClick={ (e) => { cardHandler(e); setIsVisibleDel(true); } } style={{
                     backgroundColor: '#' + color,
-                    width: '100%',
-                    height: '100%',
-                    opacity: isDragging ? 0.7 : 1
+                    opacity: isDragging ? 0.5 : 1,
                 }}>
                     <h3 className="card__title">{title}</h3>
                 </div>
@@ -104,7 +96,7 @@ const Card = ({ linesByIdWithCards, setClickedId, setIsVisibleDel, title, color,
     } else {
         return (
             <ResizableBox className={isResize ? "card card-calendar card-resize" : "card card-calendar"} width={endX !== beginX ? 60 * (endX - beginX + 1) : 60} height={60}>
-                <div className="card" onClick={ cardHandler } style={{
+                <div className="card" onClick={ (e) => { cardHandler(e); setIsVisibleDel(true); } } style={{
                     backgroundColor: '#' + color,
                     width: '100%',
                     height: '100%'

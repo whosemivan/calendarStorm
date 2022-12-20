@@ -59,7 +59,15 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
 
         {/* рендерит ивенты в нужных ячейках */}
         {isLoad && data.map((card) => {
-            return i + 1 === card.beginning.X && index + 1 === card.beginning.Y ? <Card linesByIdWithCards={linesByIdWithCards} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} setColor={setColor} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={cardMaxWidth} setTitle={setTitle} /> : ""
+            if (i + 1 === card.beginning.X && index + 1 === card.beginning.Y) {
+                const curLine = linesByIdWithCards[card.beginning.Y];
+                const cardsKeys = Object.keys(curLine);
+                const thisElemKey = cardsKeys.indexOf(String(card.beginning.X));
+                const nextElem = curLine[cardsKeys[thisElemKey+1]];
+
+                return <Card linesByIdWithCards={linesByIdWithCards} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.text} color={card.color} setColor={setColor} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={nextElem ? nextElem.beginning.X - 1 : cardMaxWidth} setTitle={setTitle} />
+            }
+            return "";
         })}
 
         {/* создано для более нативного создания ивентов */}
