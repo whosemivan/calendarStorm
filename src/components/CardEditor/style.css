@@ -26,6 +26,8 @@
     padding: 10px 20px;
     background: #FDF8F8;
     outline: none;
+    width: 90%;
+    word-wrap: break-word;
 }
 
 .card-editor__color {
