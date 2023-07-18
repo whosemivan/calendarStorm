@@ -83,15 +83,9 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :
                     <div>
-                        <div className="card-editor__wrapper">
-                            <div className="card-editor__color" style={{
-                                backgroundColor: '#' + color,
-                                cursor: "default"
-                            }}></div>
-                            <p className="card-editor__input card-editor__input--title">
-                                {title}
-                            </p>
-                        </div>
+                        <p className="card-editor__input card-editor__input--title">
+                            {title}
+                        </p>
                         <pre className="card-editor__input card-editor__input--title">
                             {text}
                         </pre>
