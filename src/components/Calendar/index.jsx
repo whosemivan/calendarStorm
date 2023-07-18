@@ -149,7 +149,7 @@ const Calendar = ({isAuth}) => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((date, i) => <CardHolder linesByIdWithCards={linesByIdWithCards} isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} setColor={setColor} cardMaxWidth={x.length} />)
+                            x.map((date, i) => <CardHolder linesByIdWithCards={linesByIdWithCards} isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setText={setText} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} setColor={setColor} cardMaxWidth={x.length} />)
                         }
                     </div>
                 })
