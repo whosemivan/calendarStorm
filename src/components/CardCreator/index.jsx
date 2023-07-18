@@ -7,13 +7,15 @@ import { Ctx } from "../App";
 const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVisiblePopup, clickedDate }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
     const { socket } = useContext(Ctx);
 
     // запрос на создание ивента
     const handleSubmit = (evt) => {
         evt.preventDefault();
         socket.emit("events:post", {
-            text: title,
+            title: title,
+            text: text,
             color: color,
             beginning: {
                 X: +clickedDate[0],
@@ -48,6 +50,9 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                     <input onChange={(e) => {
                         setTitle(e.target.value);
                     }} type="text" className="card-creator__input card-creator__input--title" placeholder="Type task name..." />
+                    <textarea onChange={(e) => {
+                        setText(e.target.value);
+                    }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                 </div>
                 <button type="submit" className="card-creator__button">Add</button>
             </form>
