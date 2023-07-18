@@ -42,7 +42,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
     width: 100%;
 }
 
@@ -67,6 +66,10 @@
     line-height: 21px;
     margin-bottom: 20px;
     cursor: pointer;
+}
+
+.card-editor__button {
+    margin-bottom: 40px;
 }
 
 .card-editor__btn-del {
