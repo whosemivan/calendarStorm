@@ -10,7 +10,7 @@
     padding: 30px;
     height: 100%;
     max-height: calc(100vh - 220px);
-    overflow: auto;
+    overflow-x: auto;
     border-radius: 10px 0 0 0;
     transition: right 0.5s ease;
     min-width: 200px;
