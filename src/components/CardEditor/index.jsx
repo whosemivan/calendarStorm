@@ -15,10 +15,9 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
             input.value = title;
         }
 
-        const text = textInput.current;
-        if (text) {
-            console.log(text);
-            text.value = text;
+        const textArea = textInput.current;
+        if (textArea) {
+            textArea.value = text;
         }
     })
 
