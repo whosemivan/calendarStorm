@@ -20,6 +20,7 @@ const Calendar = ({isAuth}) => {
     const [clickedId, setClickedId] = useState();
     const [color, setColor] = useState('C8F9C5');
     const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
 
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
@@ -155,7 +156,7 @@ const Calendar = ({isAuth}) => {
             }
             {/* попапы для создания и изменения ивентов */}
             <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
-            <CardEditor title={title} setTitle={setTitle} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
+            <CardEditor title={title} setTitle={setTitle} text={text} setTitle={setText} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
         </section>
     );
 };
