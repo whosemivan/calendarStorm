@@ -13,11 +13,11 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
         const input = titleInput.current;
         if (input) {
             input.value = title;
-            input.focus();
         }
 
         const text = textInput.current;
         if (text) {
+            console.log(text);
             text.value = text;
         }
     })
@@ -83,14 +83,16 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :
-                    <div className="card-editor__wrapper">
-                        <div className="card-editor__color" style={{
-                            backgroundColor: '#' + color,
-                            cursor: "default"
-                        }}></div>
-                        <p className="card-editor__input card-editor__input--title">
-                            {title}
-                        </p>
+                    <div>
+                        <div className="card-editor__wrapper">
+                            <div className="card-editor__color" style={{
+                                backgroundColor: '#' + color,
+                                cursor: "default"
+                            }}></div>
+                            <p className="card-editor__input card-editor__input--title">
+                                {title}
+                            </p>
+                        </div>
                         <pre className="card-editor__input card-editor__input--title">
                             {text}
                         </pre>
