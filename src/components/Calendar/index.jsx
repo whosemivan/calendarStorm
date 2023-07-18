@@ -156,7 +156,7 @@ const Calendar = ({isAuth}) => {
             }
             {/* попапы для создания и изменения ивентов */}
             <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
-            <CardEditor title={title} setTitle={setTitle} text={text} setTitle={setText} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
+            <CardEditor title={title} setTitle={setTitle} text={text} setText={setText} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
         </section>
     );
 };
