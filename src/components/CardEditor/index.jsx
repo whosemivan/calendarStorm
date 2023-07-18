@@ -75,10 +75,10 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                                 <input ref={titleInput} onChange={(e) => {
                                     setTitle(e.target.value);
                                 }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></input>
-                                <textarea ref={textInput} onChange={(e) => {
-                                    setText(e.target.value);
-                                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                             </div>
+                            <textarea ref={textInput} onChange={(e) => {
+                                setText(e.target.value);
+                            }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                             <button type="submit" className="card-editor__button">Change</button>
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
