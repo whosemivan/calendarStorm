@@ -50,10 +50,10 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                     <input onChange={(e) => {
                         setTitle(e.target.value);
                     }} type="text" className="card-creator__input card-creator__input--title" placeholder="Type task name..." />
-                    <textarea onChange={(e) => {
-                        setText(e.target.value);
-                    }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                 </div>
+                <textarea onChange={(e) => {
+                    setText(e.target.value);
+                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                 <button type="submit" className="card-creator__button">Add</button>
             </form>
         </div>
