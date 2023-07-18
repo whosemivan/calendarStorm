@@ -3,7 +3,7 @@ import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
-function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, setColor, isAuth, cardMaxWidth, setTitle }) {
+function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, setColor, isAuth, cardMaxWidth, setTitle, setText }) {
     const { socket, access } = useContext(Ctx);
 
     // isOver - во время наведения перетаскиваемого элемента true
@@ -65,7 +65,7 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
                 const thisElemKey = cardsKeys.indexOf(String(card.beginning.X));
                 const nextElem = curLine[cardsKeys[thisElemKey+1]];
 
-                return <Card linesByIdWithCards={linesByIdWithCards} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.title} color={card.color} setColor={setColor} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={nextElem ? nextElem.beginning.X - 1 : cardMaxWidth} setTitle={setTitle} />
+                return <Card linesByIdWithCards={linesByIdWithCards} setClickedId={setClickedId} setIsVisibleDel={setIsVisibleDel} key={index} title={card.title} text={card.text} color={card.color} setColor={setColor} beginX={card.beginning.X} beginY={card.beginning.Y} endX={card.ending.X} endY={card.ending.Y} id={card._id} setIsVisiblePopup={setIsVisiblePopup} cardMaxWidth={nextElem ? nextElem.beginning.X - 1 : cardMaxWidth} setTitle={setTitle} setText={setText} />
             }
             return "";
         })}
