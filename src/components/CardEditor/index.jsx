@@ -3,16 +3,22 @@ import "./style.css";
 import { Ctx } from "../App";
 import ColorPicker from "../ColorPicker";
 
-const CardEditor = ({ title, setTitle, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
+const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
     const { socket, access } = useContext(Ctx);
     const [isVisible, setIsVisible] = useState(false);
     const titleInput = useRef();
+    const textInput = useRef();
 
     useEffect(() => {
         const input = titleInput.current;
         if (input) {
             input.value = title;
             input.focus();
+        }
+
+        const text = textInput.current;
+        if (text) {
+            text.value = text;
         }
     })
 
@@ -35,7 +41,8 @@ const CardEditor = ({ title, setTitle, setIsVisibleDel, clickedId, color, setCol
         evt.preventDefault();
         socket.emit("events:put", {
             id: clickedId,
-            text: title,
+            title: title,
+            text: text,
             color: color
         }, (data) => {
             console.log(data);
@@ -65,8 +72,11 @@ const CardEditor = ({ title, setTitle, setIsVisibleDel, clickedId, color, setCol
                                     backgroundColor: '#' + color
                                 }}></div>
                                 {isVisible && <ColorPicker setColor={setColor} setIsVisible={setIsVisible} />}
-                                <textarea ref={titleInput} onChange={(e) => {
+                                <input ref={titleInput} onChange={(e) => {
                                     setTitle(e.target.value);
+                                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></input>
+                                <textarea ref={textInput} onChange={(e) => {
+                                    setText(e.target.value);
                                 }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
                             </div>
                             <button type="submit" className="card-editor__button">Change</button>
@@ -81,6 +91,9 @@ const CardEditor = ({ title, setTitle, setIsVisibleDel, clickedId, color, setCol
                         <p className="card-editor__input card-editor__input--title">
                             {title}
                         </p>
+                        <pre className="card-editor__input card-editor__input--title">
+                            {text}
+                        </pre>
                     </div>
             }
         </div>
