@@ -65,7 +65,7 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                 // не даём неавторизованному юзеру создавать, редактировать ивенты
                 access ?
                     <>
-                        <form onSubmit={handleEdit}>
+                        <form className="card-editor__form" onSubmit={handleEdit}>
                             <div className="card-editor__wrapper">
                                 <div onClick={() => setIsVisible(true)} className="card-editor__color" style={{
                                     backgroundColor: '#' + color
@@ -77,12 +77,12 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                             </div>
                             <textarea ref={textInput} onChange={(e) => {
                                 setText(e.target.value);
-                            }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
+                            }} type="text" className="card-editor__input card-editor__input--text" placeholder="Change task name..." ></textarea>
                             <button type="submit" className="card-editor__button">Change</button>
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :
-                    <div>
+                    <div className="card-editor__scroll-box">
                         <p className="card-editor__input card-editor__input--title">
                             {title}
                         </p>
