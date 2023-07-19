@@ -25,11 +25,6 @@
     overflow-y: clip;
 }
 
-.card-editor__scroll-box {
-    overflow-y: scroll;
-    overflow-x: clip;
-}
-
 .card-editor__input {
     padding: 0;
     border: none;
@@ -44,7 +39,8 @@
 
 .card-editor__input--text {
     resize: vertical;
-    max-height: 85%;
+    max-height: 75%;
+    overflow-y: auto;
 }
 
 .card-editor__color {
@@ -85,7 +81,7 @@
 }
 
 .card-editor__button {
-    margin-top: 40px;
+    margin-top: auto;
 }
 
 .card-editor__btn-del {
