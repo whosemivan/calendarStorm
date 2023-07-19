@@ -25,6 +25,11 @@
     overflow-y: clip;
 }
 
+.card-editor__scroll-box {
+    overflow-y: scroll;
+    overflow-x: clip;
+}
+
 .card-editor__input {
     padding: 0;
     border: none;
