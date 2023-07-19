@@ -43,6 +43,7 @@
 }
 
 .card-editor__input--text-area {
+    height: 100%;
     resize: vertical;
 }
 
