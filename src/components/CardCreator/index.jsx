@@ -53,7 +53,7 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                 </div>
                 <textarea onChange={(e) => {
                     setText(e.target.value);
-                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task name..." ></textarea>
+                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task text..." ></textarea>
                 <button type="submit" className="card-creator__button">Add</button>
             </form>
         </div>
