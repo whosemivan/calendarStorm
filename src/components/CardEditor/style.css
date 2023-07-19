@@ -10,7 +10,6 @@
     padding: 30px;
     height: 100%;
     max-height: calc(100vh - 220px);
-    overflow-y: auto;
     border-radius: 10px 0 0 0;
     transition: right 0.5s ease;
     min-width: 200px;
@@ -19,6 +18,11 @@
 
 .card-editor--visible {
     right: 0;
+}
+
+.card-editor__form {
+    height: 100%;
+    overflow-y: clip;
 }
 
 .card-editor__input {
@@ -31,6 +35,11 @@
     width: 90%;
     word-wrap: break-word;
     white-space: pre-line;
+}
+
+.card-editor__input--text {
+    resize: vertical;
+    max-height: 85%;
 }
 
 .card-editor__color {
