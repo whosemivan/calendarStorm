@@ -82,11 +82,11 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :
-                    <div className="card-editor__scroll-box">
+                    <div>
                         <p className="card-editor__input card-editor__input--title">
                             {title}
                         </p>
-                        <pre className="card-editor__input card-editor__input--title">
+                        <pre className="card-editor__input card-editor__input--text">
                             {text}
                         </pre>
                     </div>
