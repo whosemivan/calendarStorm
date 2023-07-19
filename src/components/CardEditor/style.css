@@ -38,9 +38,12 @@
 }
 
 .card-editor__input--text {
-    resize: vertical;
     max-height: 75%;
     overflow-y: auto;
+}
+
+.card-editor__input--text-area {
+    resize: vertical;
 }
 
 .card-editor__color {
