@@ -3,11 +3,12 @@ import "./style.css";
 import { Ctx } from "../App";
 import ColorPicker from "../ColorPicker";
 
-const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
+const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
     const { socket, access } = useContext(Ctx);
     const [isVisible, setIsVisible] = useState(false);
     const titleInput = useRef();
     const textInput = useRef();
+    const linkInput = useRef();
 
     useEffect(() => {
         const input = titleInput.current;
@@ -16,8 +17,17 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
         }
 
         const textArea = textInput.current;
-        if (textArea) {
+        if (textArea && text) {
             textArea.value = text;
+        } else if (textArea && !text) {
+            textArea.value = "";
+        }
+        
+        const inputForLink = linkInput.current;
+        if (inputForLink && link) {
+            inputForLink.value = link;
+        } else if (inputForLink && !link) {
+            inputForLink.value = "";
         }
     })
 
@@ -42,6 +52,7 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
             id: clickedId,
             title: title,
             text: text,
+            link: link,
             color: color
         }, (data) => {
             console.log(data);
@@ -78,6 +89,9 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                             <textarea ref={textInput} onChange={(e) => {
                                 setText(e.target.value);
                             }} type="text" className="card-editor__input card-editor__input--text card-editor__input--text-area" placeholder="Change task text..." ></textarea>
+                            <input ref={linkInput} onChange={(e) => {
+                                setLink(e.target.value);
+                            }} type="url" className="card-editor__input" placeholder="Change task link..."></input>
                             <button type="submit" className="card-editor__button">Change</button>
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
@@ -89,6 +103,7 @@ const CardEditor = ({ title, setTitle, text, setText, setIsVisibleDel, clickedId
                         <pre className="card-editor__input card-editor__input--text">
                             {text}
                         </pre>
+                        {link && <a href={link} target="_blank" rel="noreferrer" className="card-editor__input">Ссылка</a>}
                     </>
             }
         </div>

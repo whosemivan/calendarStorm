@@ -8,6 +8,7 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
     const [isVisible, setIsVisible] = useState(false);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
+    const [link, setLink] = useState("");
     const { socket } = useContext(Ctx);
 
     // запрос на создание ивента
@@ -16,6 +17,7 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
         socket.emit("events:post", {
             title: title,
             text: text,
+            link: link,
             color: color,
             beginning: {
                 X: +clickedDate[0],
@@ -53,7 +55,10 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                 </div>
                 <textarea onChange={(e) => {
                     setText(e.target.value);
-                }} type="text" className="card-editor__input card-editor__input--title" placeholder="Change task text..." ></textarea>
+                }} type="text" className="card-editor__input card-editor__input--text card-editor__input--text-area" placeholder="Change task text..." ></textarea>
+                <input onChange={(e) => {
+                    setLink(e.target.value);
+                }} type="url" className="card-editor__input" placeholder="Change task link..."></input>
                 <button type="submit" className="card-creator__button">Add</button>
             </form>
         </div>

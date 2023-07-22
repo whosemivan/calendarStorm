@@ -21,6 +21,7 @@ const Calendar = ({isAuth}) => {
     const [color, setColor] = useState('C8F9C5');
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
+    const [link, setLink] = useState("");
 
     const [x, setX] = useState([]);
     const [y, setY] = useState([]);
@@ -149,14 +150,14 @@ const Calendar = ({isAuth}) => {
                         top: 60 * (+index + 1) + 100
                     }}>
                         {
-                            x.map((date, i) => <CardHolder linesByIdWithCards={linesByIdWithCards} isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setText={setText} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} setColor={setColor} cardMaxWidth={x.length} />)
+                            x.map((date, i) => <CardHolder linesByIdWithCards={linesByIdWithCards} isAuth={isAuth} key={i} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} setClickedDate={setClickedDate} setClickedId={setClickedId} setTitle={setTitle} setText={setText} setLink={setLink} setIsVisibleDel={setIsVisibleDel} clickedDate={clickedDate} index={index} i={i} isLoad={isLoad} data={data} color={color} setColor={setColor} cardMaxWidth={x.length} />)
                         }
                     </div>
                 })
             }
             {/* попапы для создания и изменения ивентов */}
             <CardCreator color={color} setColor={setColor} setClickedDate={setClickedDate} isVisiblePopup={isVisiblePopup} setIsVisiblePopup={setIsVisiblePopup} clickedDate={clickedDate} />
-            <CardEditor title={title} setTitle={setTitle} text={text} setText={setText} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
+            <CardEditor title={title} setTitle={setTitle} text={text} setText={setText} link={link} setLink={setLink} color={color} setColor={setColor} setIsVisibleDel={setIsVisibleDel} isVisibleDel={isVisibleDel} clickedId={clickedId} data={data} isLoad={isLoad} />
         </section>
     );
 };
