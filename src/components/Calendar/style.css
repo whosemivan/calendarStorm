@@ -36,13 +36,14 @@
 }
 
 .calendar__date-pick {
-    width: 59px;
-    height: 59px;
+    width: 60px;
+    height: 61px;
     border: 1px solid #DAD0D0;
     flex-shrink: 0;
     border-right: 0;
     cursor: pointer;
     position: relative;
+    box-sizing: border-box;
 }
 
 .calendar__date-pick:last-child {
