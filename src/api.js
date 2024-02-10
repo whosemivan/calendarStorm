@@ -5,7 +5,7 @@ class Api {
     constructor() {
         this.url = "http://141.8.194.179/api/";
         // this.referrerPolicy = "strict-origin-when-cross-origin";
-        this.referrerPolicy = "rigin";
+        this.referrerPolicy = "origin";
     }
 
     logIn(body) {
