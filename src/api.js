@@ -3,7 +3,7 @@ import browserHistory from './browser-history';
 
 class Api {
     constructor() {
-        this.url = "https://calendar-storm.onrender.com/api/"
+        this.url = "http://141.8.194.179/api/"
     }
 
     logIn(body) {
