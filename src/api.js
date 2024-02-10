@@ -3,7 +3,9 @@ import browserHistory from './browser-history';
 
 class Api {
     constructor() {
-        this.url = "http://141.8.194.179/api/"
+        this.url = "http://141.8.194.179/api/";
+        // this.referrerPolicy = "strict-origin-when-cross-origin";
+        this.referrerPolicy = "rigin";
     }
 
     logIn(body) {
@@ -13,6 +15,7 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
+            referrerPolicy: this.referrerPolicy,
             body: JSON.stringify(body)
         })
     }
@@ -23,6 +26,7 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
+            referrerPolicy: this.referrerPolicy,
             body: JSON.stringify(body)
         })
     }
@@ -34,6 +38,7 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
+            referrerPolicy: this.referrerPolicy,
             body: JSON.stringify(body)
         })
     }
