@@ -5,7 +5,9 @@ class Api {
     constructor() {
         this.url = "http://141.8.194.179/api/";
         // this.referrerPolicy = "strict-origin-when-cross-origin";
+        // this.mode = "cors";
         this.referrerPolicy = "origin";
+        this.mode = "no-cors";
     }
 
     logIn(body) {
@@ -16,6 +18,7 @@ class Api {
                 "Content-Type": "application/json"
             },
             referrerPolicy: this.referrerPolicy,
+            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
@@ -27,6 +30,7 @@ class Api {
                 "Content-Type": "application/json"
             },
             referrerPolicy: this.referrerPolicy,
+            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
@@ -39,6 +43,7 @@ class Api {
                 "Content-Type": "application/json"
             },
             referrerPolicy: this.referrerPolicy,
+            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
