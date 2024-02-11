@@ -3,11 +3,7 @@ import browserHistory from './browser-history';
 
 class Api {
     constructor() {
-        this.url = "http://141.8.194.179/api/";
-        // this.referrerPolicy = "strict-origin-when-cross-origin";
-        // this.mode = "cors";
-        this.referrerPolicy = "origin";
-        this.mode = "no-cors";
+        this.url = "https://calendar-storm.ru//api/";
     }
 
     logIn(body) {
@@ -17,8 +13,6 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            referrerPolicy: this.referrerPolicy,
-            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
@@ -29,8 +23,6 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            referrerPolicy: this.referrerPolicy,
-            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
@@ -42,8 +34,6 @@ class Api {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            referrerPolicy: this.referrerPolicy,
-            mode: this.mode,
             body: JSON.stringify(body)
         })
     }
