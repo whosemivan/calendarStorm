@@ -22,7 +22,7 @@ const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibl
         } else if (textArea && !text) {
             textArea.value = "";
         }
-        
+
         const inputForLink = linkInput.current;
         if (inputForLink && link) {
             inputForLink.value = link;
@@ -92,7 +92,7 @@ const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibl
                             <input ref={linkInput} onChange={(e) => {
                                 setLink(e.target.value);
                             }} type="url" className="card-editor__input" placeholder="Change task link..."></input>
-                            <button type="submit" className="card-editor__button">Change</button>
+                            <button type="submit" className="card-editor__button">Save</button>
                         </form>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :

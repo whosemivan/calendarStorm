@@ -19,7 +19,7 @@
 
 .card__title {
     padding: 0 10px;
-    
+
     font-weight: 700;
     font-size: 16px;
     line-height: 18px;
@@ -48,4 +48,24 @@
 }
 .card__handle-r {
     right: 5px;
+}
+
+
+.card__button-remind {
+    width: 18px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    margin-left: auto;
+    margin-right: 30px;
+    border: none;
+    background: transparent;
+    background-image: url("../../../public/icons/remind.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.card__button-remind--clicked {
+    background-image: url("../../../public/icons/remind-clicked.svg");
 }

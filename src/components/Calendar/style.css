@@ -37,13 +37,12 @@
 
 .calendar__date-pick {
     width: 60px;
-    height: 61px;
+    height: 59px;
     border: 1px solid #DAD0D0;
     flex-shrink: 0;
     border-right: 0;
     cursor: pointer;
     position: relative;
-    box-sizing: border-box;
 }
 
 .calendar__date-pick:last-child {
@@ -61,7 +60,7 @@
     left: 12px;
 }
 
-.calendar__date, 
+.calendar__date,
 .calendar__time {
     width: 60px;
     height: 60px;
@@ -96,10 +95,10 @@
 .calendar__time {
     height: 59px;
     width: 179px;
-    background-color: #EAE4E4;
+    background-color: #fffbfb;
     border-top: 1px solid #1E1E1E;
     border-right: 1px solid #1E1E1E;
-}  
+}
 
 .calendar__time:last-child {
     border-bottom: 1px solid #1E1E1E;
