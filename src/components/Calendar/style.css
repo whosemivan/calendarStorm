@@ -7,8 +7,7 @@
 .calendar__top-panel {
     display: flex;
     position: sticky;
-    padding-left: 180px;
-    top: 100px;
+    top: 105px;
     z-index: 17;
     width: max-content;
     background-color: #FFFBFB;
@@ -19,7 +18,7 @@
     left: 0;
     z-index: 16;
     width: 180px;
-    top: 160px;
+    top: 165px;
 }
 
 .calendar__dates {
@@ -36,9 +35,10 @@
 }
 
 .calendar__date-pick {
-    width: 60px;
+    width: 59px;
     height: 59px;
     border: 1px solid #DAD0D0;
+    border-bottom: none;
     flex-shrink: 0;
     border-right: 0;
     cursor: pointer;
@@ -76,6 +76,15 @@
 
 .calendar__date {
     position: relative;
+}
+
+.calendar__date-month {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 12px;
+    opacity: 0.7;
 }
 
 .calendar__date--current::after {
@@ -126,5 +135,6 @@
 }
 
 .calendar__dates--last .calendar__date-pick {
-    border-top: none;
+    height: 58px;
+    border-bottom: 1px solid #dad0d0;
 }

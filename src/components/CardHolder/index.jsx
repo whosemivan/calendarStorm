@@ -21,6 +21,7 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
 
             for (let key in curLine) {
                 if (item.id !== curLine[key]._id && curLine[key].beginning.Y === newBeginY) {
+                    console.log(curLine[key]);
                     const arr1 = Array(newEndX-newBeginX+1).fill().map((_, i) => newBeginX+i);
                     const arr2 = Array(curLine[key].ending.X-curLine[key].beginning.X+1).fill().map((_, i) => curLine[key].beginning.X+i);
                     if (arr1.some(item => arr2.includes(item))) return;

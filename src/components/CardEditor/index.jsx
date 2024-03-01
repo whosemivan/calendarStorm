@@ -4,7 +4,7 @@ import { Ctx } from "../App";
 import ColorPicker from "../ColorPicker";
 
 const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibleDel, clickedId, color, setColor, isVisibleDel, data, isLoad }) => {
-    const { socket, access } = useContext(Ctx);
+    const { socket, access, api, accToken } = useContext(Ctx);
     const [isVisible, setIsVisible] = useState(false);
     const titleInput = useRef();
     const textInput = useRef();
@@ -62,6 +62,20 @@ const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibl
         });
     }
 
+    // запрос на напоминалку в тг
+    const onRemindBtnClick = () => {
+        api
+          .remindMe({
+            accessToken: accToken,
+            eventId: clickedId,
+          })
+          .then((res) => {
+            if (res.data.link) {
+              window.location.href = res.data.link;
+            }
+          });
+      };
+
     return (
         <div className={isVisibleDel ? "card-editor card-editor--visible" : "card-editor"}>
             <button className="card-editor__close-btn" onClick={() => {
@@ -94,6 +108,7 @@ const CardEditor = ({ title, setTitle, text, setText, link, setLink, setIsVisibl
                             }} type="url" className="card-editor__input" placeholder="Change task link..."></input>
                             <button type="submit" className="card-editor__button">Save</button>
                         </form>
+                        <button className="card-editor__button-remind" onClick={onRemindBtnClick}>Remind me</button>
                         <button className="card-editor__btn-del" onClick={() => handleDelete(clickedId)}>Delete</button>
                     </> :
                     <>

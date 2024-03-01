@@ -67,8 +67,9 @@
     align-items: flex-start;
 }
 
-.card-editor__button, 
-.card-editor__btn-del {
+.card-editor__button,
+.card-editor__btn-del,
+.card-editor__button-remind {
     border: 1px solid #312E2E;
     border-radius: 10px;
     background: transparent;

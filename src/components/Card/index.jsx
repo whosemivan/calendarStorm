@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo, useEffect, useRef } from "react";
 import { useDrag } from "react-dnd";
 import "./style.css";
 import { Ctx } from "../App";
@@ -30,7 +30,7 @@ const Card = ({
   // размер одной ячейки
   const CALENDAR__CELL = 60;
 
-  const { socket, access } = useContext(Ctx);
+  const { socket, access, api, accToken } = useContext(Ctx);
 
   // isDragging - во время перетаскивания true
   // drag - отвечат за возможность таскания
@@ -65,6 +65,23 @@ const Card = ({
     setText(text);
     setLink(link);
     setColor(color);
+  };
+
+  // запрос на напоминалку в тг
+
+  const onRemindBtnClick = () => {
+    setIsRemind(!isRemind);
+
+    api
+      .remindMe({
+        accessToken: accToken,
+        eventId: id,
+      })
+      .then((res) => {
+        if (res.data.link) {
+          window.location.href = res.data.link;
+        }
+      });
   };
 
   if (access) {
@@ -138,16 +155,22 @@ const Card = ({
           }}
         >
           <h3 className="card__title">{title}</h3>
-          <button
-            className={isRemind ? "card__button-remind card__button-remind--clicked" : "card__button-remind"}
-            type="button"
-            onClick={(evt) => {
-              evt.stopPropagation();
-              setIsRemind(!isRemind);
-            }}
-          >
-            <span className="visually-hidden">Напомнить</span>
-          </button>
+          {endX !== beginX && (
+            <button
+              className={
+                isRemind
+                  ? "card__button-remind card__button-remind--clicked"
+                  : "card__button-remind"
+              }
+              type="button"
+              onClick={(evt) => {
+                evt.stopPropagation();
+                onRemindBtnClick();
+              }}
+            >
+              <span className="visually-hidden">Напомнить</span>
+            </button>
+          )}
         </div>
       </ResizableBox>
     );
@@ -173,16 +196,22 @@ const Card = ({
           }}
         >
           <h3 className="card__title">{title}</h3>
-          <button
-            className="card__button-remind"
-            type="button"
-            onClick={(evt) => {
-              evt.stopPropagation();
-              setIsRemind(!isRemind);
-            }}
-          >
-            <span className="visually-hidden">Напомнить</span>
-          </button>
+          {endX !== beginX && (
+            <button
+              className={
+                isRemind
+                  ? "card__button-remind card__button-remind--clicked"
+                  : "card__button-remind"
+              }
+              type="button"
+              onClick={(evt) => {
+                evt.stopPropagation();
+                onRemindBtnClick();
+              }}
+            >
+              <span className="visually-hidden">Напомнить</span>
+            </button>
+          )}
         </div>
       </ResizableBox>
     );

@@ -14,6 +14,8 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
     // запрос на создание ивента
     const handleSubmit = (evt) => {
         evt.preventDefault();
+
+
         socket.emit("events:post", {
             title: title,
             text: text,

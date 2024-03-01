@@ -38,6 +38,17 @@ class Api {
         })
     }
 
+    remindMe(body) {
+        return fetch(`${this.url}notifications`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+    }
+
     socket(accessToken) {
         const socketUrl = this.url + (accessToken ? "admin" : "user");
         const options = {
@@ -48,7 +59,10 @@ class Api {
         const calendarId = window.location.pathname.split("/")[2];
 
         if (accessToken || calendarId) {
-            options.auth = { accessToken, calendarId };
+            options.auth = {
+                accessToken,
+                calendarId
+            };
         } else {
             browserHistory.push("/notFound")
         }

@@ -18,6 +18,7 @@
 }
 
 .header__title {
+    height: 100%;
     border: none;
     background: transparent;
     color: #767272;
