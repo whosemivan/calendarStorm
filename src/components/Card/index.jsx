@@ -1,9 +1,10 @@
-import React, { useState, useContext, useMemo } from "react";
-import { useDrag } from "react-dnd";
-import "./style.css";
-import { Ctx } from "../App";
+import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
+import { useDrag } from 'react-dnd';
+import './style.css';
+import { Ctx } from '../App';
 // ресайз
-import { ResizableBox } from "react-resizable";
+import { ResizableBox } from 'react-resizable';
+import moment from 'moment';
 
 const Card = ({
   linesByIdWithCards,
@@ -23,14 +24,16 @@ const Card = ({
   setTitle,
   setText,
   setLink,
+  notification,
+  setIsNotificationEnable
 }) => {
   const [isResize, setIsResize] = useState(false);
-  const [isRemind, setIsRemind] = useState(false);
+  const [isRemind, setIsRemind] = useState(notification);
 
   // размер одной ячейки
   const CALENDAR__CELL = 60;
 
-  const { socket, access } = useContext(Ctx);
+  const { socket, access, api, accToken } = useContext(Ctx);
 
   // isDragging - во время перетаскивания true
   // drag - отвечат за возможность таскания
@@ -38,7 +41,7 @@ const Card = ({
     useMemo(() => {
       return {
         // тип перетаскиваемого элемента
-        type: "event",
+        type: 'event',
         // этот id получит ячейка в которую дропнули этот ивент
         item: {
           id,
@@ -65,17 +68,51 @@ const Card = ({
     setText(text);
     setLink(link);
     setColor(color);
+    setIsNotificationEnable(notification);
   };
+
+  // запрос на напоминалку в тг
+
+  const onRemindBtnClick = () => {
+    api
+      .remindMe({
+        accessToken: accToken,
+        eventId: id,
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        if (data.statusCode === 401) {
+          window.location.href = '/';
+          return;
+        }
+
+        if (data.message === 'Требуется авторизация по ссылке.') {
+          window.open(data.data.botUrl);
+        }
+        setIsRemind(!isRemind);
+      });
+  };
+
+  console.log(cardMaxWidth, title);
 
   if (access) {
     return (
       // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
       <ResizableBox
         className={
-          isResize ? "card card-calendar card-resize" : "card card-calendar"
+          isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
         style={isDragging && { zIndex: 0 }}
-        width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
+        width={
+          endX !== beginX
+            ? 60 *
+              (Math.abs(
+                moment(endX, 'DD.MM.YY').diff(moment(beginX, 'DD.MM.YY'), "days")
+              ) + 1)
+            : 60
+        }
         height={60}
         draggableOpts={{ grid: [60, 0] }}
         onDrop={(e) => e.stopPropagation()}
@@ -88,21 +125,25 @@ const Card = ({
           />
         )}
         minConstraints={[60, 60]}
-        maxConstraints={[Math.abs(beginX - cardMaxWidth - 1) * 60, 60]}
+        maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
         onResizeStart={() => setIsResize(true)}
         onResizeStop={(e) => {
           e.stopPropagation();
-          const resizeWidth = document.querySelector(".card-resize");
+          const resizeWidth = document.querySelector('.card-resize');
           const width = +resizeWidth.style.width.slice(0, -2);
           const cellCount = width / CALENDAR__CELL;
-          const newPos = beginX + cellCount - 1;
+          const newPos = moment(beginX, 'DD.MM.YY')
+            .add(cellCount - 1, 'days')
+            .format('DD.MM.YY');
 
-          resizeWidth.classList.remove("card-resize");
+          console.log(newPos);
+
+          resizeWidth.classList.remove('card-resize');
 
           if (newPos !== endX) {
             // запрос на изменение ending.Y, срабатывает сразу после ресайза
             socket.emit(
-              "events:put",
+              'events:put',
               {
                 id: id,
                 beginning: {
@@ -110,7 +151,7 @@ const Card = ({
                   Y: beginY,
                 },
                 ending: {
-                  X: beginX + cellCount - 1,
+                  X: newPos,
                   Y: endY,
                 },
               },
@@ -133,21 +174,27 @@ const Card = ({
             setIsVisibleDel(true);
           }}
           style={{
-            backgroundColor: "#" + color,
+            backgroundColor: '#' + color,
             opacity: isDragging ? 0.5 : 1,
           }}
         >
           <h3 className="card__title">{title}</h3>
-          <button
-            className={isRemind ? "card__button-remind card__button-remind--clicked" : "card__button-remind"}
-            type="button"
-            onClick={(evt) => {
-              evt.stopPropagation();
-              setIsRemind(!isRemind);
-            }}
-          >
-            <span className="visually-hidden">Напомнить</span>
-          </button>
+          {endX !== beginX && (
+            <button
+              className={
+                isRemind
+                  ? 'card__button-remind card__button-remind--clicked'
+                  : 'card__button-remind'
+              }
+              type="button"
+              onClick={(evt) => {
+                evt.stopPropagation();
+                onRemindBtnClick();
+              }}
+            >
+              <span className="visually-hidden">Напомнить</span>
+            </button>
+          )}
         </div>
       </ResizableBox>
     );
@@ -155,7 +202,7 @@ const Card = ({
     return (
       <ResizableBox
         className={
-          isResize ? "card card-calendar card-resize" : "card card-calendar"
+          isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
         width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
         height={60}
@@ -167,22 +214,28 @@ const Card = ({
             setIsVisibleDel(true);
           }}
           style={{
-            backgroundColor: "#" + color,
-            width: "100%",
-            height: "100%",
+            backgroundColor: '#' + color,
+            width: '100%',
+            height: '100%',
           }}
         >
           <h3 className="card__title">{title}</h3>
-          <button
-            className="card__button-remind"
-            type="button"
-            onClick={(evt) => {
-              evt.stopPropagation();
-              setIsRemind(!isRemind);
-            }}
-          >
-            <span className="visually-hidden">Напомнить</span>
-          </button>
+          {endX !== beginX && (
+            <button
+              className={
+                isRemind
+                  ? 'card__button-remind card__button-remind--clicked'
+                  : 'card__button-remind'
+              }
+              type="button"
+              onClick={(evt) => {
+                evt.stopPropagation();
+                onRemindBtnClick();
+              }}
+            >
+              <span className="visually-hidden">Напомнить</span>
+            </button>
+          )}
         </div>
       </ResizableBox>
     );

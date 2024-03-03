@@ -67,8 +67,9 @@
     align-items: flex-start;
 }
 
-.card-editor__button, 
-.card-editor__btn-del {
+.card-editor__button,
+.card-editor__btn-del,
+.card-editor__button-remind {
     border: 1px solid #312E2E;
     border-radius: 10px;
     background: transparent;
@@ -82,6 +83,27 @@
     line-height: 21px;
     margin-bottom: 20px;
     cursor: pointer;
+}
+
+.card-editor__button-remind {
+    position: relative;
+}
+
+.card-editor__button-remind::after {
+    content: "";
+    background-image: url("../../../public/icons/remind.svg");
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 24px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-size: contain;
+}
+
+.card-editor__button-remind--clicked::after {
+    background-image: url("../../../public/icons/remind-clicked.svg");
 }
 
 .card-editor__button {
