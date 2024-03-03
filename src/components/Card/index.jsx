@@ -4,6 +4,7 @@ import './style.css';
 import { Ctx } from '../App';
 // ресайз
 import { ResizableBox } from 'react-resizable';
+import moment from 'moment';
 
 const Card = ({
   linesByIdWithCards,
@@ -23,9 +24,11 @@ const Card = ({
   setTitle,
   setText,
   setLink,
+  notification,
+  setIsNotificationEnable
 }) => {
   const [isResize, setIsResize] = useState(false);
-  const [isRemind, setIsRemind] = useState(false);
+  const [isRemind, setIsRemind] = useState(notification);
 
   // размер одной ячейки
   const CALENDAR__CELL = 60;
@@ -65,6 +68,7 @@ const Card = ({
     setText(text);
     setLink(link);
     setColor(color);
+    setIsNotificationEnable(notification);
   };
 
   // запрос на напоминалку в тг
@@ -91,6 +95,8 @@ const Card = ({
       });
   };
 
+  console.log(cardMaxWidth, title);
+
   if (access) {
     return (
       // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
@@ -99,7 +105,14 @@ const Card = ({
           isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
         style={isDragging && { zIndex: 0 }}
-        width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
+        width={
+          endX !== beginX
+            ? 60 *
+              (Math.abs(
+                moment(endX, 'DD.MM.YY').diff(moment(beginX, 'DD.MM.YY'), "days")
+              ) + 1)
+            : 60
+        }
         height={60}
         draggableOpts={{ grid: [60, 0] }}
         onDrop={(e) => e.stopPropagation()}
@@ -112,14 +125,18 @@ const Card = ({
           />
         )}
         minConstraints={[60, 60]}
-        maxConstraints={[Math.abs(beginX - cardMaxWidth - 1) * 60, 60]}
+        maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
         onResizeStart={() => setIsResize(true)}
         onResizeStop={(e) => {
           e.stopPropagation();
           const resizeWidth = document.querySelector('.card-resize');
           const width = +resizeWidth.style.width.slice(0, -2);
           const cellCount = width / CALENDAR__CELL;
-          const newPos = beginX + cellCount - 1;
+          const newPos = moment(beginX, 'DD.MM.YY')
+            .add(cellCount - 1, 'days')
+            .format('DD.MM.YY');
+
+          console.log(newPos);
 
           resizeWidth.classList.remove('card-resize');
 
@@ -134,7 +151,7 @@ const Card = ({
                   Y: beginY,
                 },
                 ending: {
-                  X: beginX + cellCount - 1,
+                  X: newPos,
                   Y: endY,
                 },
               },

@@ -34,6 +34,7 @@ const Calendar = React.memo(({ isAuth }) => {
   const [clickedId, setClickedId] = useState();
   const [color, setColor] = useState('C8F9C5');
   const [title, setTitle] = useState('');
+  const [isNotificationEnable, setIsNotificationEnable] = useState(false);
   const [cardId, setCardId] = useState('');
   const [text, setText] = useState('');
   const [link, setLink] = useState('');
@@ -425,9 +426,10 @@ const Calendar = React.memo(({ isAuth }) => {
                   data={data}
                   color={color}
                   setColor={setColor}
-                  cardMaxWidth={x.length}
+                  cardMaxWidth={dates.length}
                   date={date}
                   dates={dates}
+                  setIsNotificationEnable={setIsNotificationEnable}
                 />
               ))}
             </div>
@@ -445,6 +447,8 @@ const Calendar = React.memo(({ isAuth }) => {
       />
       <CardEditor
         title={title}
+        notification={isNotificationEnable}
+        setIsNotificationEnable={setIsNotificationEnable}
         setTitle={setTitle}
         text={text}
         setText={setText}

@@ -17,13 +17,14 @@ const CardEditor = ({
   isVisibleDel,
   data,
   isLoad,
+  notification,
+  setIsNotificationEnable
 }) => {
   const { socket, access, api, accToken } = useContext(Ctx);
   const [isVisible, setIsVisible] = useState(false);
   const titleInput = useRef();
   const textInput = useRef();
   const linkInput = useRef();
-  const [isRemind, setIsRemind] = useState(false);
 
   useEffect(() => {
     const input = titleInput.current;
@@ -100,7 +101,7 @@ const CardEditor = ({
         if (data.message === 'Требуется авторизация по ссылке.') {
           window.open(data.data.botUrl);
         }
-        setIsRemind(!isRemind);
+        setIsNotificationEnable(!notification);
       });
   };
 
@@ -183,7 +184,7 @@ const CardEditor = ({
             </form>
             <button
               className={
-                isRemind
+                !notification
                   ? 'card-editor__button-remind'
                   : 'card-editor__button-remind card-editor__button-remind--clicked'
               }
@@ -219,7 +220,7 @@ const CardEditor = ({
 
             <button
               className={
-                isRemind
+                !notification
                   ? 'card-editor__button-remind'
                   : 'card-editor__button-remind card-editor__button-remind--clicked'
               }
