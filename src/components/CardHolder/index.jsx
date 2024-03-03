@@ -1,9 +1,9 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { Ctx } from "../App";
 import Card from "../Card";
 
-function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, setColor, isAuth, cardMaxWidth, setTitle, setText, setLink }) {
+function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, setClickedDate, setClickedId, setIsVisibleDel, clickedDate, index, i, isLoad, data, color, setColor, isAuth, cardMaxWidth, setTitle, setText, setLink, date, dates }) {
     const { socket, access } = useContext(Ctx);
 
     // isOver - во время наведения перетаскиваемого элемента true
@@ -21,7 +21,7 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
 
             for (let key in curLine) {
                 if (item.id !== curLine[key]._id && curLine[key].beginning.Y === newBeginY) {
-                    console.log(curLine[key]);
+
                     const arr1 = Array(newEndX-newBeginX+1).fill().map((_, i) => newBeginX+i);
                     const arr2 = Array(curLine[key].ending.X-curLine[key].beginning.X+1).fill().map((_, i) => curLine[key].beginning.X+i);
                     if (arr1.some(item => arr2.includes(item))) return;
@@ -31,8 +31,8 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
             socket.emit("events:put", {
                 id: item.id,
                 beginning: {
-                    X: newBeginX,
-                    Y: newBeginY
+                    X: dates[newBeginX],
+                    Y: dates[newBeginY]
                 },
                 ending: {
                     X: newEndX,
@@ -50,17 +50,19 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
         }),
     }), [i, index, setIsVisibleDel, socket, linesByIdWithCards]))
 
+    // console.log(linesByIdWithCards);
+
 
     return <div {...(access ? { ref: drop } : { style: { cursor: "default" } })} onClick={() => {
         if (isAuth && access) {
             setIsVisiblePopup(true); // open popup for creating cards
-            setClickedDate([i + 1, index + 1]); // [x, y]
+            setClickedDate([date, index + 1]); // [x, y]
         }
     }} className={"calendar__date-pick"}>
 
         {/* рендерит ивенты в нужных ячейках */}
         {isLoad && data.map((card) => {
-            if (i + 1 === card.beginning.X && index + 1 === card.beginning.Y) {
+            if (date === card.beginning.X && index + 1 === card.beginning.Y) {
                 const curLine = linesByIdWithCards[card.beginning.Y];
                 const cardsKeys = Object.keys(curLine);
                 const thisElemKey = cardsKeys.indexOf(String(card.beginning.X));
@@ -72,7 +74,7 @@ function CardHolder({ linesByIdWithCards, isVisiblePopup, setIsVisiblePopup, set
         })}
 
         {/* создано для более нативного создания ивентов */}
-        {clickedDate[0] === i + 1 && clickedDate[1] === index + 1 && isVisiblePopup ? (
+        {clickedDate[0] === date && clickedDate[1] === index + 1 && isVisiblePopup ? (
             <div className="card card__create" style={{
                 backgroundColor: '#' + color,
                 opacity: "0.5"

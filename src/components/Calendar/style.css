@@ -24,7 +24,6 @@
 .calendar__dates {
     display: flex;
     position: absolute;
-    padding-left: 180px;
     top: 60px;
     left: -1px;
 }

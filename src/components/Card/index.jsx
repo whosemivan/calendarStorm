@@ -1,9 +1,9 @@
-import React, { useState, useContext, useMemo, useEffect, useRef } from "react";
-import { useDrag } from "react-dnd";
-import "./style.css";
-import { Ctx } from "../App";
+import React, { useState, useContext, useMemo, useEffect, useRef } from 'react';
+import { useDrag } from 'react-dnd';
+import './style.css';
+import { Ctx } from '../App';
 // ресайз
-import { ResizableBox } from "react-resizable";
+import { ResizableBox } from 'react-resizable';
 
 const Card = ({
   linesByIdWithCards,
@@ -38,7 +38,7 @@ const Card = ({
     useMemo(() => {
       return {
         // тип перетаскиваемого элемента
-        type: "event",
+        type: 'event',
         // этот id получит ячейка в которую дропнули этот ивент
         item: {
           id,
@@ -70,17 +70,24 @@ const Card = ({
   // запрос на напоминалку в тг
 
   const onRemindBtnClick = () => {
-    setIsRemind(!isRemind);
-
     api
       .remindMe({
         accessToken: accToken,
         eventId: id,
       })
-      .then((res) => {
-        if (res.data.link) {
-          window.location.href = res.data.link;
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        if (data.statusCode === 401) {
+          window.location.href = '/';
+          return;
         }
+
+        if (data.message === 'Требуется авторизация по ссылке.') {
+          window.open(data.data.botUrl);
+        }
+        setIsRemind(!isRemind);
       });
   };
 
@@ -89,7 +96,7 @@ const Card = ({
       // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
       <ResizableBox
         className={
-          isResize ? "card card-calendar card-resize" : "card card-calendar"
+          isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
         style={isDragging && { zIndex: 0 }}
         width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
@@ -109,17 +116,17 @@ const Card = ({
         onResizeStart={() => setIsResize(true)}
         onResizeStop={(e) => {
           e.stopPropagation();
-          const resizeWidth = document.querySelector(".card-resize");
+          const resizeWidth = document.querySelector('.card-resize');
           const width = +resizeWidth.style.width.slice(0, -2);
           const cellCount = width / CALENDAR__CELL;
           const newPos = beginX + cellCount - 1;
 
-          resizeWidth.classList.remove("card-resize");
+          resizeWidth.classList.remove('card-resize');
 
           if (newPos !== endX) {
             // запрос на изменение ending.Y, срабатывает сразу после ресайза
             socket.emit(
-              "events:put",
+              'events:put',
               {
                 id: id,
                 beginning: {
@@ -150,7 +157,7 @@ const Card = ({
             setIsVisibleDel(true);
           }}
           style={{
-            backgroundColor: "#" + color,
+            backgroundColor: '#' + color,
             opacity: isDragging ? 0.5 : 1,
           }}
         >
@@ -159,8 +166,8 @@ const Card = ({
             <button
               className={
                 isRemind
-                  ? "card__button-remind card__button-remind--clicked"
-                  : "card__button-remind"
+                  ? 'card__button-remind card__button-remind--clicked'
+                  : 'card__button-remind'
               }
               type="button"
               onClick={(evt) => {
@@ -178,7 +185,7 @@ const Card = ({
     return (
       <ResizableBox
         className={
-          isResize ? "card card-calendar card-resize" : "card card-calendar"
+          isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
         width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
         height={60}
@@ -190,9 +197,9 @@ const Card = ({
             setIsVisibleDel(true);
           }}
           style={{
-            backgroundColor: "#" + color,
-            width: "100%",
-            height: "100%",
+            backgroundColor: '#' + color,
+            width: '100%',
+            height: '100%',
           }}
         >
           <h3 className="card__title">{title}</h3>
@@ -200,8 +207,8 @@ const Card = ({
             <button
               className={
                 isRemind
-                  ? "card__button-remind card__button-remind--clicked"
-                  : "card__button-remind"
+                  ? 'card__button-remind card__button-remind--clicked'
+                  : 'card__button-remind'
               }
               type="button"
               onClick={(evt) => {

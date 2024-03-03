@@ -15,18 +15,17 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
-
         socket.emit("events:post", {
             title: title,
             text: text,
             link: link,
             color: color,
             beginning: {
-                X: +clickedDate[0],
+                X: clickedDate[0],
                 Y: +clickedDate[1]
             },
             ending: {
-                X: +clickedDate[0],
+                X: clickedDate[0],
                 Y: +clickedDate[1]
             }
         }, (data) => {

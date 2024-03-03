@@ -7,6 +7,7 @@ import CardEditor from '../CardEditor';
 import CardHolder from '../CardHolder';
 import browserHistory from '../../browser-history';
 import Preloader from '../Preloader';
+import { Button, notification } from 'antd';
 
 const Calendar = React.memo(({ isAuth }) => {
   const {
@@ -245,7 +246,6 @@ const Calendar = React.memo(({ isAuth }) => {
     }
   }, [dates]);
 
-
   useEffect(() => {
     if (dates.length > 180 && isFullRight) {
       setIsPreloader(true);
@@ -266,7 +266,6 @@ const Calendar = React.memo(({ isAuth }) => {
           setFirstDateBeforeEvent(moment(daysInMonth[0], 'DD.MM.YY'));
           return daysInMonth;
         });
-
 
         setIsPreloader(false);
       }, 200);
@@ -296,6 +295,24 @@ const Calendar = React.memo(({ isAuth }) => {
       }, 200);
     }
   }, [dates]);
+
+  useEffect(() => {
+    console.log(clickedDate);
+  }, clickedDate);
+
+  const openNotification = () => {
+    notification.open({
+      message: 'Напоминания в нашем телеграм боте!',
+      description:
+        'Боишься забыть об интересующем тебя ивенте? Прости кликни на колокольчик на карточке ивента и наш Телеграм бот уведомит тебя за день до события!',
+      duration: 30,
+      placement: 'bottomRight'
+    });
+  };
+
+  useEffect(() => {
+    openNotification();
+  }, []);
 
   return (
     <section className="calendar" ref={containerRef}>
@@ -409,6 +426,8 @@ const Calendar = React.memo(({ isAuth }) => {
                   color={color}
                   setColor={setColor}
                   cardMaxWidth={x.length}
+                  date={date}
+                  dates={dates}
                 />
               ))}
             </div>

@@ -85,6 +85,27 @@
     cursor: pointer;
 }
 
+.card-editor__button-remind {
+    position: relative;
+}
+
+.card-editor__button-remind::after {
+    content: "";
+    background-image: url("../../../public/icons/remind.svg");
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 24px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-size: contain;
+}
+
+.card-editor__button-remind--clicked::after {
+    background-image: url("../../../public/icons/remind-clicked.svg");
+}
+
 .card-editor__button {
     margin-top: auto;
 }
