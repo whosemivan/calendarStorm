@@ -71,3 +71,13 @@
 .signin__link {
     color: #312E2E;
 }
+
+@media (max-width: 600px) {
+    .signin {
+        width: 90%;
+    }
+
+    .signin__form {
+        width: 100%;
+    }
+}
