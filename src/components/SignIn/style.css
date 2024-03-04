@@ -11,7 +11,8 @@
 .signin__form {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 100%;
+    max-width: 600px;
 }
 
 .signin__title {
@@ -75,9 +76,5 @@
 @media (max-width: 600px) {
     .signin {
         width: 90%;
-    }
-
-    .signin__form {
-        width: 100%;
     }
 }
