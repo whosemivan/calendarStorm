@@ -8,7 +8,7 @@ import { Ctx } from "../App";
 const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
     const { socket, access, calendarName, calendarId } = useContext(Ctx);
 
-    // функция выхода 
+    // функция выхода
     const logOut = (evt) => {
         evt.preventDefault();
         localStorage.setItem("isAuth", false);
@@ -31,13 +31,13 @@ const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
                         }, (data) => console.log(data));
                     }}>
                         <input type="text" name="calendarName" className="header__title" defaultValue={calendarName} placeholder="Calendar name" />
-                    </form> 
+                    </form>
                     : <p className="header__title">{calendarName}</p>
                 }
                 <div className="header__btn-block">
                     {/* parse чтобы когда беру данные из localstorage (isAuth: boolean), переводить их в нужный тип данных. localstorage строки возвращает. в зависимости авторизован пользователь или нет, отображаются разные кнопки */}
                     {parse(isAuth) ?
-                        <button className="header__link" onClick={logOut}>Log Out</button>
+                        <button className="header__link header__link--logout" onClick={logOut}>Log Out</button>
                         : <Link className="header__link" to="/" >Sign In</Link>
                     }
 
