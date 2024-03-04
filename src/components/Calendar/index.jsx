@@ -7,7 +7,7 @@ import CardEditor from '../CardEditor';
 import CardHolder from '../CardHolder';
 import browserHistory from '../../browser-history';
 import Preloader from '../Preloader';
-import { Button, notification } from 'antd';
+import { notification } from 'antd';
 
 const Calendar = React.memo(({ isAuth }) => {
   const {
@@ -305,7 +305,7 @@ const Calendar = React.memo(({ isAuth }) => {
     notification.open({
       message: 'Напоминания в нашем телеграм боте!',
       description:
-        'Боишься забыть об интересующем тебя ивенте? Прости кликни на колокольчик на карточке ивента и наш Телеграм бот уведомит тебя за день до события!',
+        'Боишься забыть об интересующем тебя ивенте? Просто кликни на колокольчик на карточке ивента и наш Телеграм бот уведомит тебя за день до события!',
       duration: 30,
       placement: 'bottomRight'
     });
