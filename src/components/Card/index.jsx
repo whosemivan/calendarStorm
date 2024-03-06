@@ -204,7 +204,14 @@ const Card = ({
         className={
           isResize ? 'card card-calendar card-resize' : 'card card-calendar'
         }
-        width={endX !== beginX ? 60 * (endX - beginX + 1) : 60}
+        width={
+          endX !== beginX
+          ? 60 *
+            (Math.abs(
+              moment(endX, 'DD.MM.YY').diff(moment(beginX, 'DD.MM.YY'), "days")
+            ) + 1)
+          : 60
+        }
         height={60}
       >
         <div
