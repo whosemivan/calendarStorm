@@ -7,7 +7,7 @@
 .calendar__top-panel {
     display: flex;
     position: sticky;
-    top: 105px;
+    top: 100px;
     z-index: 17;
     width: max-content;
     background-color: #FFFBFB;
@@ -75,6 +75,7 @@
 }
 
 .calendar__date {
+    height: 65px;
     position: relative;
 }
 

@@ -130,14 +130,19 @@ const Calendar = React.memo(({ isAuth }) => {
             .refresh({ refreshToken: refToken })
             .then((res) => res.json())
             .then((data) => {
-              console.log(data);
-              localStorage.setItem('accessToken', data.data.accessToken);
-              setAccToken(data.data.accessToken);
-              localStorage.setItem('refreshToken', data.data.refreshToken);
-              setRefToken(data.data.refreshToken);
+              if (data.message === 'Срок действия токена истек.') {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+              } else {
+                console.log(data);
+                localStorage.setItem('accessToken', data.data.accessToken);
+                setAccToken(data.data.accessToken);
+                localStorage.setItem('refreshToken', data.data.refreshToken);
+                setRefToken(data.data.refreshToken);
 
-              socket.auth = { accessToken: data.data.accessToken };
-              socket.connect();
+                socket.auth = { accessToken: data.data.accessToken };
+                socket.connect();
+              }
             });
         }
       });
@@ -307,7 +312,7 @@ const Calendar = React.memo(({ isAuth }) => {
       description:
         'Боишься забыть об интересующем тебя ивенте? Просто кликни на колокольчик на карточке ивента и наш Телеграм бот уведомит тебя за день до события!',
       duration: 5,
-      placement: 'bottomRight'
+      placement: 'bottomRight',
     });
   };
 
@@ -316,9 +321,9 @@ const Calendar = React.memo(({ isAuth }) => {
   }, []);
 
   return (
-    <section className="calendar" ref={containerRef}>
-      <h2 className="visually-hidden">Calendar</h2>
-      <div className="calendar__top-panel">
+    <section className='calendar' ref={containerRef}>
+      <h2 className='visually-hidden'>Calendar</h2>
+      <div className='calendar__top-panel'>
         {/* <span className="calendar__month-name">{moment().format("MMMM")}</span> */}
 
         {isPreloader && <Preloader />}
@@ -331,7 +336,7 @@ const Calendar = React.memo(({ isAuth }) => {
 
               return (
                 <div
-                  className="calendar__date"
+                  className='calendar__date'
                   key={moment(item, 'DD.MM.YY').format('YYYY-MM-DD')}
                   ref={
                     moment(firstDateBeforeEvent, 'DD.MM.YY').format(
@@ -342,7 +347,7 @@ const Calendar = React.memo(({ isAuth }) => {
                   }
                 >
                   {moment(item, 'DD.MM.YY').format('DD') === '01' && (
-                    <span className="calendar__date-month">
+                    <span className='calendar__date-month'>
                       {moment(item, 'DD.MM.YY').format('MMMM').slice(0, 3)}
                     </span>
                   )}
@@ -352,13 +357,13 @@ const Calendar = React.memo(({ isAuth }) => {
             })
         }
       </div>
-      <div className="calendar__left-panel">
+      <div className='calendar__left-panel'>
         {
           // рендерит строки
           isCalendarLoad &&
             y.map((item, index) => {
               return (
-                <div className="calendar__time" key={index}>
+                <div className='calendar__time' key={index}>
                   {access ? (
                     <form
                       onSubmit={(e) => {
@@ -376,15 +381,15 @@ const Calendar = React.memo(({ isAuth }) => {
                       }}
                     >
                       <input
-                        type="text"
-                        name="name"
-                        className="calendar__time-input"
+                        type='text'
+                        name='name'
+                        className='calendar__time-input'
                         required
                         defaultValue={item}
                       />
                     </form>
                   ) : (
-                    <p className="calendar__time-input">{item}</p>
+                    <p className='calendar__time-input'>{item}</p>
                   )}
                 </div>
               );
