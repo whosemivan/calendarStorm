@@ -51,14 +51,15 @@
     cursor: pointer;
 }
 
+.header__btn-block {
+    display: flex;
+    align-items: center;
+}
+
 
 @media (max-width: 600px) {
     .header {
         min-width: 320px;
-    }
-
-    .header__btn-block {
-        display: flex;
     }
 
     .header__link--logout {
@@ -85,7 +86,7 @@
         padding: 15px;
         border-radius: 10px;
         cursor: pointer;
-        /* background-image: url("../../../public/icons/logout.svg"); */
+        background-image: url("../../../public/icons/user-solid.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: 44%;
