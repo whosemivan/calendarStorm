@@ -38,7 +38,7 @@ const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
                     {/* parse чтобы когда беру данные из localstorage (isAuth: boolean), переводить их в нужный тип данных. localstorage строки возвращает. в зависимости авторизован пользователь или нет, отображаются разные кнопки */}
                     {parse(isAuth) ?
                         <button className="header__link header__link--logout" onClick={logOut}>Log Out</button>
-                        : <Link className="header__link" to="/" >Sign In</Link>
+                        : <Link className="header__link header__link--signin" to="/" >Sign In</Link>
                     }
 
                     <button className="header__btn" type="button" onClick={() => {

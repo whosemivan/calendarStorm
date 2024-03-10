@@ -22,6 +22,7 @@ const Calendar = React.memo(({ isAuth }) => {
     setCalendarId,
     access,
     setAccess,
+    setSocket
   } = useContext(Ctx);
   const [data, setData] = useState();
 
@@ -76,9 +77,7 @@ const Calendar = React.memo(({ isAuth }) => {
   useEffect(() => {
     if (socket) {
       // получает инфу о календаре: id, название, владелец каленадря, x, y
-
       socket.on('calendar:get', (data) => {
-        console.log(data);
         // это временная фигня, которая нужна для ссылки на календарь. В будущем она будет получена при выборе календаря из списка.
         browserHistory.push(data.data._id);
         setAccess(data.access);
@@ -117,22 +116,29 @@ const Calendar = React.memo(({ isAuth }) => {
         if (err.data.statusCode !== 200) {
           setAccToken('');
 
-          if (!refToken) {
-            localStorage.setItem('isAuth', false);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            setIsAuth(false);
-            setRefToken('');
-            return;
-          }
+          // if (!refToken) {
+          //   localStorage.setItem('isAuth', false);
+          //   localStorage.removeItem('accessToken');
+          //   localStorage.removeItem('refreshToken');
+          //   setIsAuth(false);
+          //   setRefToken('');
+          //   return;
+          // }
 
           api
             .refresh({ refreshToken: refToken })
             .then((res) => res.json())
             .then((data) => {
-              if (data.message === 'Срок действия токена истек.') {
+              console.log(data);
+              if (data.statusCode === 400) {
+                localStorage.setItem('isAuth', false);
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
+                setIsAuth(false);
+                setRefToken('');
+                setAccToken('');
+                console.log('ref');
+                setSocket(api.socket(null));
               } else {
                 console.log(data);
                 localStorage.setItem('accessToken', data.data.accessToken);
