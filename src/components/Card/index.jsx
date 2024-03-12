@@ -6,6 +6,7 @@ import { Ctx } from '../App';
 import { ResizableBox } from 'react-resizable';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { Tooltip } from 'antd';
 
 const Card = ({
   linesByIdWithCards,
@@ -129,10 +130,112 @@ const Card = ({
     }
   };
 
-
   if (access) {
-    return (
-      // css класс card-resize нужен для того, чтобы в onResizeStop найти элемент, который ресайзили и получить его ширину.
+    return endX === beginX ? (
+      <Tooltip placement='top' title={title}>
+        <ResizableBox
+          className={
+            isResize ? 'card card-calendar card-resize' : 'card card-calendar'
+          }
+          style={isDragging && { zIndex: 0 }}
+          width={
+            endX !== beginX
+              ? 60 *
+                (Math.abs(
+                  moment(endX, 'DD.MM.YY').diff(
+                    moment(beginX, 'DD.MM.YY'),
+                    'days'
+                  )
+                ) +
+                  1)
+              : 60
+          }
+          height={60}
+          draggableOpts={{ grid: [60, 0] }}
+          onDrop={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+          handle={(h, ref) => (
+            <span
+              style={isResize ? { opacity: 1 } : { opacity: 0.4 }}
+              className={`card__handle-r custom-handle custom-handle-${h}`}
+              ref={ref}
+            />
+          )}
+          minConstraints={[60, 60]}
+          maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
+          onResizeStart={() => setIsResize(true)}
+          onResizeStop={(e) => {
+            e.stopPropagation();
+            const resizeWidth = document.querySelector('.card-resize');
+            const width = +resizeWidth.style.width.slice(0, -2);
+            const cellCount = width / CALENDAR__CELL;
+            const newPos = moment(beginX, 'DD.MM.YY')
+              .add(cellCount - 1, 'days')
+              .format('DD.MM.YY');
+
+            console.log(newPos);
+
+            resizeWidth.classList.remove('card-resize');
+
+            if (newPos !== endX) {
+              // запрос на изменение ending.Y, срабатывает сразу после ресайза
+              socket.emit(
+                'events:put',
+                {
+                  id: id,
+                  beginning: {
+                    X: beginX,
+                    Y: beginY,
+                  },
+                  ending: {
+                    X: newPos,
+                    Y: endY,
+                  },
+                },
+                (data) => {
+                  console.log(data);
+                }
+              );
+            }
+
+            setIsResize(false);
+          }}
+        >
+          <div
+            className='card'
+            ref={drag}
+            onDrop={(e) => e.stopPropagation()}
+            onDrag={cardHandler}
+            onClick={(e) => {
+              cardHandler(e);
+              setIsVisibleDel(true);
+            }}
+            style={{
+              backgroundColor: '#' + color,
+              opacity: isDragging ? 0.5 : 1,
+            }}
+          >
+            <h3 className='card__title'>{title}</h3>
+            {endX !== beginX && (
+              <button
+                className={
+                  isRemind
+                    ? 'card__button-remind card__button-remind--clicked'
+                    : 'card__button-remind'
+                }
+                type='button'
+                onClick={(evt) => {
+                  evt.stopPropagation();
+                  onRemindBtnClick();
+                }}
+              >
+                <span className='visually-hidden'>Напомнить</span>
+              </button>
+            )}
+          </div>
+        </ResizableBox>
+      </Tooltip>
+    ) : (
       <ResizableBox
         className={
           isResize ? 'card card-calendar card-resize' : 'card card-calendar'
@@ -236,7 +339,59 @@ const Card = ({
       </ResizableBox>
     );
   } else {
-    return (
+    return endX === beginX ? (
+      <Tooltip placement='top' title={title}>
+        <ResizableBox
+          className={
+            isResize ? 'card card-calendar card-resize' : 'card card-calendar'
+          }
+          width={
+            endX !== beginX
+              ? 60 *
+                (Math.abs(
+                  moment(endX, 'DD.MM.YY').diff(
+                    moment(beginX, 'DD.MM.YY'),
+                    'days'
+                  )
+                ) +
+                  1)
+              : 60
+          }
+          height={60}
+        >
+          <div
+            className='card'
+            onClick={(e) => {
+              cardHandler(e);
+              setIsVisibleDel(true);
+            }}
+            style={{
+              backgroundColor: '#' + color,
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <h3 className='card__title'>{title}</h3>
+            {endX !== beginX && (
+              <button
+                className={
+                  isRemind
+                    ? 'card__button-remind card__button-remind--clicked'
+                    : 'card__button-remind'
+                }
+                type='button'
+                onClick={(evt) => {
+                  evt.stopPropagation();
+                  onRemindBtnClick();
+                }}
+              >
+                <span className='visually-hidden'>Напомнить</span>
+              </button>
+            )}
+          </div>
+        </ResizableBox>
+      </Tooltip>
+    ) : (
       <ResizableBox
         className={
           isResize ? 'card card-calendar card-resize' : 'card card-calendar'

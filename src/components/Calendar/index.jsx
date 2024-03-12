@@ -312,6 +312,10 @@ const Calendar = React.memo(({ isAuth }) => {
     console.log(clickedDate);
   }, clickedDate);
 
+  useEffect(() => {
+    console.log('notification on Calendar ' + isNotificationEnable);
+  }, [isNotificationEnable]);
+
   const openNotification = () => {
     notification.open({
       message: 'Напоминания в нашем телеграм боте!',

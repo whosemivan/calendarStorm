@@ -232,9 +232,9 @@ const CardEditor = ({
             </form>
             <button
               className={
-                !notification
-                  ? 'card-editor__button-remind'
-                  : 'card-editor__button-remind card-editor__button-remind--clicked'
+                  notification
+                  ? 'card-editor__button-remind card-editor__button-remind--clicked'
+                  : 'card-editor__button-remind'
               }
               onClick={onRemindBtnClick}
             >
@@ -268,9 +268,9 @@ const CardEditor = ({
 
             <button
               className={
-                !notification
-                  ? 'card-editor__button-remind'
-                  : 'card-editor__button-remind card-editor__button-remind--clicked'
+                notification
+                  ? 'card-editor__button-remind card-editor__button-remind--clicked'
+                  : 'card-editor__button-remind'
               }
               onClick={onRemindBtnClick}
             >
