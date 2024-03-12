@@ -92,6 +92,10 @@
         background-size: 44%;
         padding: 0;
     }
+
+    .header__title-input {
+        width: 130px;
+    }
 /*
     .header__link--signin {
 

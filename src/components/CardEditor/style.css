@@ -127,5 +127,6 @@
 @media (max-width: 600px) {
     .card-editor {
         z-index: 20;
+        overflow-y: scroll;
     }
 }

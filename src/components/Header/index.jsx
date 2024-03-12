@@ -30,7 +30,7 @@ const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
                             id: calendarId, title: input.value
                         }, (data) => console.log(data));
                     }}>
-                        <input type="text" name="calendarName" className="header__title" defaultValue={calendarName} placeholder="Calendar name" />
+                        <input type="text" name="calendarName" className="header__title header__title-input" defaultValue={calendarName} placeholder="Calendar name" />
                     </form>
                     : <p className="header__title">{calendarName}</p>
                 }

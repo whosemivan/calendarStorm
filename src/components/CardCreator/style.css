@@ -77,5 +77,6 @@
 @media (max-width: 600px) {
     .card-creator {
         z-index: 20;
+        overflow-y: scroll;
     }
 }
