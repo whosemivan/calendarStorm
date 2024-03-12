@@ -5,8 +5,7 @@ import { Ctx } from '../App';
 // ресайз
 import { ResizableBox } from 'react-resizable';
 import moment from 'moment';
-import { useHistory } from "react-router-dom";
-
+import { useHistory } from 'react-router-dom';
 
 const Card = ({
   linesByIdWithCards,
@@ -24,10 +23,10 @@ const Card = ({
   id,
   cardMaxWidth,
   setTitle,
+  setIsNotificationEnable,
   setText,
   setLink,
   notification,
-  setIsNotificationEnable
 }) => {
   const [isResize, setIsResize] = useState(false);
   const [isRemind, setIsRemind] = useState(notification);
@@ -35,7 +34,8 @@ const Card = ({
   // размер одной ячейки
   const CALENDAR__CELL = 60;
 
-  const { socket, access, api, accToken, setAuthRedirectPath } = useContext(Ctx);
+  const { socket, access, api, accToken, setAuthRedirectPath } =
+    useContext(Ctx);
 
   const history = useHistory();
 
@@ -75,32 +75,60 @@ const Card = ({
     setIsNotificationEnable(notification);
   };
 
+  useEffect(() => {
+    setIsNotificationEnable(isRemind);
+  }, [isRemind]);
+
   // запрос на напоминалку в тг
 
   const onRemindBtnClick = () => {
-    api
-      .remindMe({
-        accessToken: accToken,
-        eventId: id,
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+    if (isRemind) {
+      api
+        .closeRemindMe({
+          accessToken: accToken,
+          eventId: id,
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
 
-        if (data.statusCode === 401) {
-          history.push('/', { from: history.location });
-          setAuthRedirectPath(history.location.state.from.pathname);
-          return;
-        }
+          if (data.statusCode === 401) {
+            history.push('/', { from: history.location });
+            setAuthRedirectPath(history.location.state.from.pathname);
+            return;
+          }
 
-        if (data.message === 'Требуется авторизация по ссылке.') {
-          window.open(data.data.botUrl);
-        }
-        setIsRemind(!isRemind);
-      });
+          if (data.message === 'Требуется авторизация по ссылке.') {
+            window.open(data.data.botUrl);
+          }
+          setIsRemind(!isRemind);
+          setIsNotificationEnable(!isRemind);
+        });
+    } else {
+      api
+        .remindMe({
+          accessToken: accToken,
+          eventId: id,
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+
+          if (data.statusCode === 401) {
+            history.push('/', { from: history.location });
+            setAuthRedirectPath(history.location.state.from.pathname);
+            return;
+          }
+
+          if (data.message === 'Требуется авторизация по ссылке.') {
+            window.open(data.data.botUrl);
+          }
+          setIsRemind(!isRemind);
+          setIsNotificationEnable(!isRemind);
+        });
+    }
   };
 
-  console.log(cardMaxWidth, title);
 
   if (access) {
     return (
@@ -114,8 +142,12 @@ const Card = ({
           endX !== beginX
             ? 60 *
               (Math.abs(
-                moment(endX, 'DD.MM.YY').diff(moment(beginX, 'DD.MM.YY'), "days")
-              ) + 1)
+                moment(endX, 'DD.MM.YY').diff(
+                  moment(beginX, 'DD.MM.YY'),
+                  'days'
+                )
+              ) +
+                1)
             : 60
         }
         height={60}
@@ -170,7 +202,7 @@ const Card = ({
         }}
       >
         <div
-          className="card"
+          className='card'
           ref={drag}
           onDrop={(e) => e.stopPropagation()}
           onDrag={cardHandler}
@@ -183,7 +215,7 @@ const Card = ({
             opacity: isDragging ? 0.5 : 1,
           }}
         >
-          <h3 className="card__title">{title}</h3>
+          <h3 className='card__title'>{title}</h3>
           {endX !== beginX && (
             <button
               className={
@@ -191,13 +223,13 @@ const Card = ({
                   ? 'card__button-remind card__button-remind--clicked'
                   : 'card__button-remind'
               }
-              type="button"
+              type='button'
               onClick={(evt) => {
                 evt.stopPropagation();
                 onRemindBtnClick();
               }}
             >
-              <span className="visually-hidden">Напомнить</span>
+              <span className='visually-hidden'>Напомнить</span>
             </button>
           )}
         </div>
@@ -211,16 +243,20 @@ const Card = ({
         }
         width={
           endX !== beginX
-          ? 60 *
-            (Math.abs(
-              moment(endX, 'DD.MM.YY').diff(moment(beginX, 'DD.MM.YY'), "days")
-            ) + 1)
-          : 60
+            ? 60 *
+              (Math.abs(
+                moment(endX, 'DD.MM.YY').diff(
+                  moment(beginX, 'DD.MM.YY'),
+                  'days'
+                )
+              ) +
+                1)
+            : 60
         }
         height={60}
       >
         <div
-          className="card"
+          className='card'
           onClick={(e) => {
             cardHandler(e);
             setIsVisibleDel(true);
@@ -231,7 +267,7 @@ const Card = ({
             height: '100%',
           }}
         >
-          <h3 className="card__title">{title}</h3>
+          <h3 className='card__title'>{title}</h3>
           {endX !== beginX && (
             <button
               className={
@@ -239,13 +275,13 @@ const Card = ({
                   ? 'card__button-remind card__button-remind--clicked'
                   : 'card__button-remind'
               }
-              type="button"
+              type='button'
               onClick={(evt) => {
                 evt.stopPropagation();
                 onRemindBtnClick();
               }}
             >
-              <span className="visually-hidden">Напомнить</span>
+              <span className='visually-hidden'>Напомнить</span>
             </button>
           )}
         </div>

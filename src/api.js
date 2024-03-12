@@ -49,6 +49,17 @@ class Api {
         });
     }
 
+    closeRemindMe(body) {
+        return fetch(`${this.url}notifications`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+    }
+
     socket(accessToken) {
         const socketUrl = this.url + (accessToken ? "admin" : "user");
         const options = {
