@@ -48,6 +48,7 @@
 }
 
 .card-creator__button {
+    color: #000000;
     border: 1px solid #312E2E;
     border-radius: 10px;
     background: transparent;
