@@ -21,6 +21,7 @@ const App = () => {
   const [calendarId, setCalendarId] = useState();
   const api = new Api();
 
+  const [authRedirectPath, setAuthRedirectPath] = useState('');
 
   return (
     <Ctx.Provider value={{
@@ -36,15 +37,16 @@ const App = () => {
       setCalendarName: setCalendarName,
       calendarId: calendarId,
       setCalendarId: setCalendarId,
-      api: api
+      api: api,
+      setAuthRedirectPath: setAuthRedirectPath
     }}>
       <BrowserRouter history={browserHistory}>
         <Switch>
           <Route exact path='/'>
-            <SignIn setIsAuth={setIsAuth} isAuth={isAuth} />
+            <SignIn setIsAuth={setIsAuth} isAuth={isAuth} authRedirectPath={authRedirectPath} />
           </Route>
           <Route exact path='/signup'>
-            <SignUp setIsAuth={setIsAuth} isAuth={isAuth} />
+            <SignUp setIsAuth={setIsAuth} isAuth={isAuth} authRedirectPath={authRedirectPath} />
           </Route>
           <Route exact path='/calendar/*'>
             <Main isAuth={isAuth} setIsAuth={setIsAuth} setSocket={setSocket} />

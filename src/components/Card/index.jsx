@@ -5,6 +5,8 @@ import { Ctx } from '../App';
 // ресайз
 import { ResizableBox } from 'react-resizable';
 import moment from 'moment';
+import { useHistory } from "react-router-dom";
+
 
 const Card = ({
   linesByIdWithCards,
@@ -33,7 +35,9 @@ const Card = ({
   // размер одной ячейки
   const CALENDAR__CELL = 60;
 
-  const { socket, access, api, accToken } = useContext(Ctx);
+  const { socket, access, api, accToken, setAuthRedirectPath } = useContext(Ctx);
+
+  const history = useHistory();
 
   // isDragging - во время перетаскивания true
   // drag - отвечат за возможность таскания
@@ -84,7 +88,8 @@ const Card = ({
         console.log(data);
 
         if (data.statusCode === 401) {
-          window.location.href = '/';
+          history.push('/', { from: history.location });
+          setAuthRedirectPath(history.location.state.from.pathname);
           return;
         }
 
