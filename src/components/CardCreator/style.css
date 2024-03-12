@@ -78,5 +78,7 @@
     .card-creator {
         z-index: 20;
         overflow-y: scroll;
+        top: 100px;
+        max-height: calc(100vh - 160px);
     }
 }

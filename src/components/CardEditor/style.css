@@ -128,5 +128,8 @@
     .card-editor {
         z-index: 20;
         overflow-y: scroll;
+        border-radius: 10px;
+        top: 100px;
+        max-height: calc(100vh - 160px);
     }
 }
