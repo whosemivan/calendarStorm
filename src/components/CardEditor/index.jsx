@@ -274,7 +274,7 @@ const CardEditor = ({
               }
               onClick={onRemindBtnClick}
             >
-              Remind me
+              Напомнить
             </button>
           </>
         )
