@@ -131,7 +131,7 @@
 
 @media (max-width: 600px) {
     .card-editor {
-        min-width: 250px;
+        min-width: 260px;
         z-index: 20;
         border-radius: 10px;
         top: 100px;
