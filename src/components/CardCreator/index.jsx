@@ -52,15 +52,15 @@ const CardCreator = ({ color, setColor, setClickedDate, isVisiblePopup, setIsVis
                     {isVisible && <ColorPicker setColor={setColor} setIsVisible={setIsVisible} />}
                     <input onChange={(e) => {
                         setTitle(e.target.value);
-                    }} type="text" className="card-creator__input card-creator__input--title" placeholder="Type task name..." />
+                    }} type="text" className="card-creator__input card-creator__input--title" placeholder="Название..." />
                 </div>
                 <textarea onChange={(e) => {
                     setText(e.target.value);
-                }} type="text" className="card-editor__input card-editor__input--text card-editor__input--text-area" placeholder="Change task text..." ></textarea>
+                }} type="text" className="card-editor__input card-editor__input--text card-editor__input--text-area" placeholder="Описание..." ></textarea>
                 <input onChange={(e) => {
                     setLink(e.target.value);
-                }} type="url" className="card-editor__input" placeholder="Change task link..."></input>
-                <button type="submit" className="card-creator__button">Add</button>
+                }} type="url" className="card-editor__input card-editor__input--link" placeholder="Добавить ссылку..."></input>
+                <button type="submit" className="card-creator__button">Создать</button>
             </form>
         </div>
     );

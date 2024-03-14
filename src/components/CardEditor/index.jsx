@@ -205,7 +205,7 @@ const CardEditor = ({
                   }}
                   type='text'
                   className='card-editor__input card-editor__input--title'
-                  placeholder='Change task name...'
+                  placeholder='Название...'
                 ></input>
               </div>
               <textarea
@@ -215,7 +215,7 @@ const CardEditor = ({
                 }}
                 type='text'
                 className='card-editor__input card-editor__input--text card-editor__input--text-area'
-                placeholder='Change task text...'
+                placeholder='Описание...'
               ></textarea>
               <input
                 ref={linkInput}
@@ -223,11 +223,11 @@ const CardEditor = ({
                   setLink(e.target.value);
                 }}
                 type='url'
-                className='card-editor__input'
-                placeholder='Change task link...'
+                className='card-editor__input card-editor__input--link'
+                placeholder='Добавить ссылку...'
               ></input>
               <button type='submit' className='card-editor__button'>
-                Save
+                Сохранить
               </button>
             </form>
             <button
@@ -238,13 +238,13 @@ const CardEditor = ({
               }
               onClick={onRemindBtnClick}
             >
-              Remind me
+              Напомнить
             </button>
             <button
               className='card-editor__btn-del'
               onClick={() => handleDelete(clickedId)}
             >
-              Delete
+              Удалить
             </button>
           </>
         ) : (

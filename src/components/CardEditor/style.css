@@ -32,9 +32,13 @@
     padding: 10px 20px;
     background: #FDF8F8;
     outline: none;
-    width: 90%;
+    width: 75%;
     word-wrap: break-word;
     white-space: pre-line;
+}
+
+.card-editor__input--link {
+    padding-left: 0;
 }
 
 .card-editor__input--text {
@@ -45,6 +49,7 @@
 .card-editor__input--text-area {
     height: 100%;
     resize: vertical;
+    padding-left: 0;
 }
 
 .card-editor__color {
