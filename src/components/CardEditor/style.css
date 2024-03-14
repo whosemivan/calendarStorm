@@ -126,10 +126,15 @@
 
 @media (max-width: 600px) {
     .card-editor {
+        min-width: 250px;
         z-index: 20;
-        overflow-y: scroll;
         border-radius: 10px;
         top: 100px;
         max-height: calc(100vh - 160px);
+        border-radius: 10px 0 0 10px;
+    }
+
+    .card-editor__btn-del {
+        margin-bottom: 60px;
     }
 }

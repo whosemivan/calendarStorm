@@ -77,8 +77,12 @@
 @media (max-width: 600px) {
     .card-creator {
         z-index: 20;
-        overflow-y: scroll;
         top: 100px;
         max-height: calc(100vh - 160px);
+        border-radius: 10px 0 0 10px;
+    }
+
+    .card-creator__button {
+        margin-bottom: 60px;
     }
 }

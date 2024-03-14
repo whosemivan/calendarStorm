@@ -96,9 +96,10 @@
     .header__title-input {
         width: 130px;
     }
-/*
-    .header__link--signin {
 
-    } */
+    .header__title {
+        width: 130px;
+        overflow: hidden;
+    }
 
 }
