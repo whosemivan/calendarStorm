@@ -57,14 +57,14 @@ const SignUp = ({ setIsAuth, isAuth, authRedirectPath }) => {
 
   return (
     <section className='signin'>
-      <h1 className='signin__title'>Sign Up</h1>
+      <h1 className='signin__title'>Регистрация</h1>
       <form onSubmit={handler} className='signin__form'>
         <input
           className='signin__input'
           id='login'
           name='login'
           type='text'
-          placeholder='Login'
+          placeholder='Логин'
           onChange={(e) => {
             setLogin(e.target.value);
             setErr(false);
@@ -77,7 +77,7 @@ const SignUp = ({ setIsAuth, isAuth, authRedirectPath }) => {
           id='password'
           name='password'
           type='password'
-          placeholder='Your password'
+          placeholder='Пароль'
           onChange={(e) => {
             setPwd(e.target.value);
             setErr(false);
@@ -85,17 +85,17 @@ const SignUp = ({ setIsAuth, isAuth, authRedirectPath }) => {
           value={pwd}
         />
         <button className='signin__btn' type='submit'>
-          Submit
+          Отправить
         </button>
         {/* ошибки */}
         {err && (
           <p className='signin__info-err'>
-            Wrong login details, please try again
+            Что-то пошло не так!
           </p>
         )}
       </form>
       <Link className='signin__link' to='/'>
-        Sign In
+        У меня уже есть аккаунт
       </Link>
     </section>
   );
