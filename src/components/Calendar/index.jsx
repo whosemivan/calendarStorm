@@ -22,7 +22,7 @@ const Calendar = React.memo(({ isAuth }) => {
     setCalendarId,
     access,
     setAccess,
-    setSocket
+    setSocket,
   } = useContext(Ctx);
   const [data, setData] = useState();
 
@@ -330,8 +330,49 @@ const Calendar = React.memo(({ isAuth }) => {
     openNotification();
   }, []);
 
+
+  // const [isDragging, setIsDragging] = useState(false);
+  // const [startX, setStartX] = useState(0);
+  // const [scrollLeft, setScrollLeft] = useState(0);
+
+  // useEffect(() => {
+  //   if (!containerRef.current) return;
+
+  //   const handleMouseDown = (event) => {
+  //     event.stopPropagation();
+  //     setIsDragging(true);
+  //     setStartX(event.pageX - containerRef.current.offsetLeft);
+  //     setScrollLeft(containerRef.current.scrollLeft);
+  //   };
+
+  //   const handleMouseMove = (event) => {
+  //     event.stopPropagation();
+  //     if (!isDragging) return;
+  //     const x = event.pageX - containerRef.current.offsetLeft;
+  //     const distance = x - startX;
+  //     containerRef.current.scrollLeft = scrollLeft - distance;
+  //   };
+
+  //   const handleMouseUp = () => {
+  //     setIsDragging(false);
+  //   };
+
+  //   containerRef.current.addEventListener('mousedown', handleMouseDown);
+  //   containerRef.current.addEventListener('mousemove', handleMouseMove);
+  //   containerRef.current.addEventListener('mouseup', handleMouseUp);
+
+  //   return () => {
+  //     containerRef.current.removeEventListener('mousedown', handleMouseDown);
+  //     containerRef.current.removeEventListener('mousemove', handleMouseMove);
+  //     containerRef.current.removeEventListener('mouseup', handleMouseUp);
+  //   };
+  // }, [isDragging, startX, scrollLeft]);
+
   return (
-    <section className='calendar' ref={containerRef}>
+    <section
+      className='calendar'
+      ref={containerRef}
+    >
       <h2 className='visually-hidden'>Calendar</h2>
       <div className='calendar__top-panel'>
         {/* <span className="calendar__month-name">{moment().format("MMMM")}</span> */}
