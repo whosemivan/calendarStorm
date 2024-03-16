@@ -101,7 +101,9 @@ function CardHolder({
   return (
     <div
       {...(access ? { ref: drop } : { style: { cursor: 'default' } })}
-      onClick={() => {
+      onClick={(evt) => {
+        console.log('block clicked');
+        evt.stopPropagation();
         if (isAuth && access) {
           setIsVisiblePopup(true); // open popup for creating cards
           setClickedDate([date, index + 1]); // [x, y]

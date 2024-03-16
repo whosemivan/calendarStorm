@@ -353,7 +353,8 @@ const Calendar = React.memo(({ isAuth }) => {
   //     containerRef.current.scrollLeft = scrollLeft - distance;
   //   };
 
-  //   const handleMouseUp = () => {
+  //   const handleMouseUp = (event) => {
+  //     event.stopPropagation();
   //     setIsDragging(false);
   //   };
 

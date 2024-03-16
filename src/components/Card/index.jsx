@@ -166,7 +166,10 @@ const Card = ({
           )}
           minConstraints={[60, 60]}
           maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
-          onResizeStart={(e) => setIsResize(true)}
+          onResizeStart={(e) => {
+            e.stopPropagation();
+            setIsResize(true);
+          }}
           onResizeStop={(e) => {
             e.stopPropagation();
             const resizeWidth = document.querySelector('.card-resize');
@@ -246,14 +249,7 @@ const Card = ({
         style={isDragging && { zIndex: 0 }}
         width={
           endX !== beginX
-            ? 60 *
-              (Math.abs(
-                moment(endX, 'DD.MM.YY').diff(
-                  moment(beginX, 'DD.MM.YY'),
-                  'days'
-                )
-              ) +
-                1)
+            ? cardWidth
             : 60
         }
         height={60}
@@ -269,7 +265,10 @@ const Card = ({
         )}
         minConstraints={[60, 60]}
         maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
-        onResizeStart={() => setIsResize(true)}
+        onResizeStart={(e) => {
+          e.stopPropagation();
+          setIsResize(true);
+        }}
         onResizeStop={(e) => {
           e.stopPropagation();
           const resizeWidth = document.querySelector('.card-resize');
@@ -350,14 +349,7 @@ const Card = ({
           }
           width={
             endX !== beginX
-              ? 60 *
-                (Math.abs(
-                  moment(endX, 'DD.MM.YY').diff(
-                    moment(beginX, 'DD.MM.YY'),
-                    'days'
-                  )
-                ) +
-                  1)
+              ? cardWidth
               : 60
           }
           height={60}
@@ -401,14 +393,7 @@ const Card = ({
         }
         width={
           endX !== beginX
-            ? 60 *
-              (Math.abs(
-                moment(endX, 'DD.MM.YY').diff(
-                  moment(beginX, 'DD.MM.YY'),
-                  'days'
-                )
-              ) +
-                1)
+            ? cardWidth
             : 60
         }
         height={60}
