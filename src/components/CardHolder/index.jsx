@@ -97,7 +97,6 @@ function CardHolder({
     )
   );
 
-  // console.log(linesByIdWithCards);
 
   return (
     <div

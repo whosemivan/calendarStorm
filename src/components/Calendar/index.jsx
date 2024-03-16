@@ -310,7 +310,7 @@ const Calendar = React.memo(({ isAuth }) => {
 
   useEffect(() => {
     console.log(clickedDate);
-  }, clickedDate);
+  }, [clickedDate]);
 
   useEffect(() => {
     console.log('notification on Calendar ' + isNotificationEnable);

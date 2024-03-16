@@ -130,8 +130,18 @@ const Card = ({
     }
   };
 
+
+  const cardWidth = 60 * (Math.abs(
+    moment(endX, 'DD.MM.YY').diff(
+      moment(beginX, 'DD.MM.YY'),
+      'days'
+    )
+  ) +
+    1);
+
+
   if (access) {
-    return endX === beginX ? (
+    return endX === beginX || cardWidth === 120 ? (
       <Tooltip placement='top' title={title}>
         <ResizableBox
           className={
@@ -140,14 +150,7 @@ const Card = ({
           style={isDragging && { zIndex: 0 }}
           width={
             endX !== beginX
-              ? 60 *
-                (Math.abs(
-                  moment(endX, 'DD.MM.YY').diff(
-                    moment(beginX, 'DD.MM.YY'),
-                    'days'
-                  )
-                ) +
-                  1)
+              ? cardWidth
               : 60
           }
           height={60}
@@ -163,7 +166,7 @@ const Card = ({
           )}
           minConstraints={[60, 60]}
           maxConstraints={[Math.abs(cardMaxWidth) * 60, 60]}
-          onResizeStart={() => setIsResize(true)}
+          onResizeStart={(e) => setIsResize(true)}
           onResizeStop={(e) => {
             e.stopPropagation();
             const resizeWidth = document.querySelector('.card-resize');
@@ -339,7 +342,7 @@ const Card = ({
       </ResizableBox>
     );
   } else {
-    return endX === beginX ? (
+    return endX === beginX || cardWidth === 120 ? (
       <Tooltip placement='top' title={title}>
         <ResizableBox
           className={
