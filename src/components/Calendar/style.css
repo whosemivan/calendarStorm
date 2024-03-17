@@ -3,7 +3,7 @@
     position: relative;
     height: 100vh;
     width: 100%;
-    overflow-y: hidden;
+    /* overflow-y: auto; */
     overflow-x: auto;
     white-space: nowrap;
 }
