@@ -9,7 +9,7 @@ import browserHistory from '../../browser-history';
 import Preloader from '../Preloader';
 import { notification } from 'antd';
 
-const Calendar = React.memo(({ isAuth }) => {
+const Calendar = React.memo(({ isAuth, setIsNotificationsInstruction, }) => {
   const {
     api,
     socket,
@@ -487,6 +487,7 @@ const Calendar = React.memo(({ isAuth }) => {
                   date={date}
                   dates={dates}
                   setIsNotificationEnable={setIsNotificationEnable}
+                  setIsNotificationsInstruction={setIsNotificationsInstruction}
                 />
               ))}
             </div>

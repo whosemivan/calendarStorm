@@ -26,6 +26,7 @@ function CardHolder({
   date,
   dates,
   setIsNotificationEnable,
+  setIsNotificationsInstruction,
 }) {
   const { socket, access } = useContext(Ctx);
 
@@ -152,6 +153,7 @@ function CardHolder({
                 setText={setText}
                 setLink={setLink}
                 notification={card.notifications}
+                setIsNotificationsInstruction={setIsNotificationsInstruction}
               />
             );
           }

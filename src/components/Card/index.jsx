@@ -28,6 +28,7 @@ const Card = ({
   setText,
   setLink,
   notification,
+  setIsNotificationsInstruction,
 }) => {
   const [isResize, setIsResize] = useState(false);
   const [isRemind, setIsRemind] = useState(notification);
@@ -83,6 +84,10 @@ const Card = ({
   // запрос на напоминалку в тг
 
   const onRemindBtnClick = () => {
+    if (!accToken) {
+      setIsNotificationsInstruction(true);
+      return;
+    }
     if (isRemind) {
       api
         .closeRemindMe({

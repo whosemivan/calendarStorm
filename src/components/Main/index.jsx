@@ -10,6 +10,7 @@ import { Modal } from 'antd';
 const Main = ({ isAuth, setIsAuth, setSocket }) => {
   const { api, accToken } = useContext(Ctx);
   const [isCopy, setIsCopy] = useState(false);
+  const [isNotificationsInstruction, setIsNotificationsInstruction] = useState(false);
 
   useEffect(() => {
     setSocket(api.socket(accToken));
@@ -20,7 +21,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
       <Header isAuth={isAuth} setIsAuth={setIsAuth} setIsCopy={setIsCopy} />
       {/* DndProvider - для драгндропа */}
       <DndProvider backend={HTML5Backend}>
-        <Calendar isAuth={isAuth} />
+        <Calendar isAuth={isAuth} setIsNotificationsInstruction={setIsNotificationsInstruction} />
       </DndProvider>
       {
         // при клике на кнопку share  в хэдере, ссылка на календарь копируется в буфер обмена и вылезает соответствующий попап
@@ -51,6 +52,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
         //   ''
         // )
 
+        <>
         <Modal
           title='Ссылка скопирована'
           open={isCopy}
@@ -61,6 +63,27 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
         >
             <p>Этот календарь будет доступен для всех пользователей по ссылке в буфере обмена</p>
         </Modal>
+        <Modal
+          title='Информация о функционале уведомлений'
+          open={isNotificationsInstruction}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'block', width: '100%', margin: '0' } }}
+          onCancel={() => setIsNotificationsInstruction(false)}
+          onOk={() => setIsNotificationsInstruction(false)}
+        >
+            <h3>Привет! Удели нам минутку, пожалуйста.</h3>
+            <p>Мы заметили, что тебя заинтересовал функционал уведомлений и поэтому хотим рассказать тебе как им воспользоваться 😍.</p>
+            <p>Для этого тебе достаточно сделать всего 3 действий. Мы пониманием, что это много 😥, но мы обязательно упростим этот процесс 😘</p>
+            <h3>Шаги для получения уведомлений:</h3>
+            <ol>
+                <li>Пройди простую регистрацию на нашем сайте <a href="https://calendar-storm.vercel.app/" target='blank'>(ссылка на форму регистрации).</a></li>
+                <li>Нажать на колокольчик у уведомления. <img src="/images/notifications_instruction/img1.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
+                <li>После тебя перебросит в телеграм, где тебе нужно просто нажать на кнопку "ЗАПУСТИТЬ" (<a href="https://t.me/calendarstorm_bot" target='blank'>@calendarstorm_bot</a> - это наш бот). <img src="/images/notifications_instruction/img2.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
+            </ol>
+            <p>После выполнения данных действий тебе будет достаточно нажать на колокольчик у событий и ты сразу сможешь получать уведомления о событии от нашего бота 🤟</p>
+            <p>Спасибо, что уделил время 🙃</p>
+        </Modal>
+        </>
       }
     </>
   );
