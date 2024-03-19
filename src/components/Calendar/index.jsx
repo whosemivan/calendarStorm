@@ -64,7 +64,24 @@ const Calendar = React.memo(({ isAuth, setIsNotificationsInstruction, }) => {
       daysInMonth.push(newDay.format('DD.MM.YY'));
     }
 
-    return daysInMonth;
+    const startOfNextMonth = today.add(1, 'months');
+    const daysInNextMonth = [];
+
+    for (let i = 0; i < startOfNextMonth.daysInMonth(); i++) {
+      let newDay = startOfNextMonth.clone().add(i, 'days');
+      daysInNextMonth.push(newDay.format('DD.MM.YY'));
+    }
+
+    const startOfNextNextMonth = startOfNextMonth.add(1, 'months');
+    console.log(startOfNextNextMonth);
+    const daysInNextNextMonth = [];
+
+    for (let i = 0; i < startOfNextNextMonth.daysInMonth(); i++) {
+      let newDay = startOfNextNextMonth.clone().add(i, 'days');
+      daysInNextNextMonth.push(newDay.format('DD.MM.YY'));
+    }
+    // test
+    return [...daysInMonth, ...daysInNextMonth, ...daysInNextNextMonth];
   });
 
   const [firstDateBeforeEvent, setFirstDateBeforeEvent] = useState(
