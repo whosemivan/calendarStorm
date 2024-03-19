@@ -170,9 +170,9 @@
 }
 
 @media (max-width: 600px) {
-    .calendar__left-panel {
+    /* .calendar__left-panel {
         width: 120px;
-    }
+    } */
 
     .calendar__time {
         width: 100%;
