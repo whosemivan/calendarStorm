@@ -60,6 +60,17 @@ class Api {
         });
     }
 
+    sendFeedback(body) {
+        return fetch(`${this.url}feedback`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+    }
+
     socket(accessToken) {
         const socketUrl = this.url + (accessToken ? "admin" : "user");
         const options = {

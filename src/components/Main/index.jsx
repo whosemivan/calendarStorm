@@ -5,12 +5,13 @@ import './style.css';
 import Header from '../Header';
 import Calendar from '../Calendar';
 import { Ctx } from '../App';
-import { Modal } from 'antd';
+import { Modal, Button, Form, Input } from 'antd';
 
 const Main = ({ isAuth, setIsAuth, setSocket }) => {
   const { api, accToken } = useContext(Ctx);
   const [isCopy, setIsCopy] = useState(false);
   const [isNotificationsInstruction, setIsNotificationsInstruction] = useState(false);
+  const [isFeedbackForm, setIsFeedbackForm] = useState(false);
 
   useEffect(() => {
     setSocket(api.socket(accToken));
@@ -18,7 +19,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
 
   return (
     <>
-      <Header isAuth={isAuth} setIsAuth={setIsAuth} setIsCopy={setIsCopy} />
+      <Header isAuth={isAuth} setIsAuth={setIsAuth} setIsCopy={setIsCopy} setIsFeedbackForm={setIsFeedbackForm} />
       {/* DndProvider - для драгндропа */}
       <DndProvider backend={HTML5Backend}>
         <Calendar isAuth={isAuth} setIsNotificationsInstruction={setIsNotificationsInstruction} />
@@ -73,15 +74,82 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
         >
             <h3>Привет! Удели нам минутку, пожалуйста.</h3>
             <p>Мы заметили, что тебя заинтересовал функционал уведомлений и поэтому хотим рассказать тебе как им воспользоваться 😍.</p>
-            <p>Для этого тебе достаточно сделать всего 3 действий. Мы пониманием, что это много 😥, но мы обязательно упростим этот процесс 😘</p>
+            <p>Для этого тебе достаточно сделать всего 3 действия. Мы пониманием, что это много 😥, но мы обязательно упростим этот процесс 😘</p>
             <h3>Шаги для получения уведомлений:</h3>
             <ol>
                 <li>Пройди простую регистрацию на нашем сайте <a href="https://calendar-storm.vercel.app/" target='blank'>(ссылка на форму регистрации).</a></li>
-                <li>Нажать на колокольчик у уведомления. <img src="/images/notifications_instruction/img1.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
-                <li>После тебя перебросит в телеграм, где тебе нужно просто нажать на кнопку "ЗАПУСТИТЬ" (<a href="https://t.me/calendarstorm_bot" target='blank'>@calendarstorm_bot</a> - это наш бот). <img src="/images/notifications_instruction/img2.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
+                <li>Нажать на колокольчик на событии. <img src="/images/notifications_instruction/img1.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
+                <li>После, тебя перебросит в телеграм, где тебе нужно просто нажать на кнопку "ЗАПУСТИТЬ" (<a href="https://t.me/calendarstorm_bot" target='blank'>@calendarstorm_bot</a> - это наш бот). <img src="/images/notifications_instruction/img2.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
             </ol>
-            <p>После выполнения данных действий тебе будет достаточно нажать на колокольчик у событий и ты сразу сможешь получать уведомления о событии от нашего бота 🤟</p>
+            <p>После выполнения данных действий, тебе будет достаточно нажать на колокольчик на событии, и ты сразу сможешь получать уведомления об этом событии от нашего бота 🤟</p>
             <p>Спасибо, что уделил время 🙃</p>
+        </Modal>
+        <Modal
+          title='Форма обратной связи'
+          open={isFeedbackForm}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'none' } }}
+          onCancel={() => setIsFeedbackForm(false)}
+        >
+            <Form
+                name="basic"
+                layout="vertical"
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={(data) => {
+                    api.sendFeedback(data);
+                    setIsFeedbackForm(false);
+                }}
+                autoComplete="on"
+            >
+                <Form.Item
+                    label="Твое имя"
+                    name="name"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Укажи свое имя, пожалуйста!',
+                        },
+                    ]}
+                >
+                    <Input placeholder="Гриша" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Твоя почта"
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Укажи свою почту, пожалуйста!',
+                        },
+                        {
+                            type: "email",
+                            message: 'Укажи правильную почту, пожалуйста!',
+                        }
+                    ]}
+                >
+                    <Input placeholder="my-calendar@calendar-storm.com" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Сообщение"
+                    name="text"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Укажи текст сообщения, пожалуйста!',
+                        },
+                    ]}
+                >
+                    <Input.TextArea placeholder="Здравствуйте! Прошу решить проблему..." />
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" style={{width: "100%"}}>Отправить</Button>
+                </Form.Item>
+            </Form>
         </Modal>
         </>
       }
