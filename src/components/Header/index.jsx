@@ -42,7 +42,7 @@ const Header = ({ isAuth, setIsAuth, setIsCopy }) => {
                     }
 
                     <button className="header__btn" type="button" onClick={() => {
-                        const url = window.location.href;
+                        const url = window.location.origin + browserHistory.location.pathname;
                         navigator.clipboard.writeText(url);
                         setIsCopy(true);
                     }}>
