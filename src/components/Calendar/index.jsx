@@ -96,7 +96,7 @@ const Calendar = React.memo(({ isAuth, setIsNotificationsInstruction, }) => {
       // получает инфу о календаре: id, название, владелец каленадря, x, y
       socket.on('calendar:get', (data) => {
         // это временная фигня, которая нужна для ссылки на календарь. В будущем она будет получена при выборе календаря из списка.
-        browserHistory.push(data.data._id);
+        browserHistory.push(data.data._id+browserHistory.location.search);
         setAccess(data.access);
         setCalendarName(data.data.title);
         setCalendarId(data.data._id);
