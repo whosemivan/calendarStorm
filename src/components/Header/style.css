@@ -68,6 +68,10 @@
     align-items: center;
 }
 
+.header__btn--feedback {
+    white-space: nowrap;
+}
+
 
 @media (max-width: 600px) {
     .header {
@@ -113,5 +117,15 @@
         width: 130px;
         overflow: hidden;
     } */
+
+    .header__btn--feedback {
+        width: 51px;
+        height: 50px;
+        font-size: 0;
+        background-image: url("../../../public/icons/comment.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 44%;
+    }
 
 }
