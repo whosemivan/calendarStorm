@@ -536,6 +536,7 @@ const Calendar = React.memo(({ isAuth, setIsNotificationsInstruction, }) => {
         clickedId={clickedId}
         data={data}
         isLoad={isLoad}
+        setIsNotificationsInstruction={setIsNotificationsInstruction}
       />
     </section>
   );

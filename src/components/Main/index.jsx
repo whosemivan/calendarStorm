@@ -78,7 +78,7 @@ const Main = ({ isAuth, setIsAuth, setSocket }) => {
             <h3>Шаги для получения уведомлений:</h3>
             <ol>
                 <li>Пройди простую регистрацию на нашем сайте <a href="https://calendar-storm.vercel.app/" target='blank'>(ссылка на форму регистрации).</a></li>
-                <li>Нажать на колокольчик на событии. <img src="/images/notifications_instruction/img1.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
+                <li>Нажми на колокольчик на событии. <img src="/images/notifications_instruction/img1.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
                 <li>После, тебя перебросит в телеграм, где тебе нужно просто нажать на кнопку "ЗАПУСТИТЬ" (<a href="https://t.me/calendarstorm_bot" target='blank'>@calendarstorm_bot</a> - это наш бот). <img src="/images/notifications_instruction/img2.gif" alt="картинка к инструкции" style={{width: '100%'}} /></li>
             </ol>
             <p>После выполнения данных действий, тебе будет достаточно нажать на колокольчик на событии, и ты сразу сможешь получать уведомления об этом событии от нашего бота 🤟</p>

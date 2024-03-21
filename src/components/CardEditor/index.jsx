@@ -20,6 +20,7 @@ const CardEditor = ({
   isLoad,
   notification,
   setIsNotificationEnable,
+  setIsNotificationsInstruction,
 }) => {
   const { socket, access, api, accToken, setAuthRedirectPath } = useContext(Ctx);
   const [isVisible, setIsVisible] = useState(false);
@@ -108,6 +109,10 @@ const CardEditor = ({
   // };
 
   const onRemindBtnClick = () => {
+    if (!accToken) {
+      setIsNotificationsInstruction(true);
+      return;
+    }
     if (notification) {
       api
         .closeRemindMe({
