@@ -3,7 +3,7 @@ import browserHistory from './browser-history';
 
 class Api {
     constructor() {
-        this.url = "https://calendar-storm.ru/api/";
+        this.url = "https://old-api.calendar-storm.online/api/";
     }
 
     logIn(body) {

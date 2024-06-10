@@ -22,7 +22,7 @@
     width: 100%;
 }
 
-.header__title-input {
+.header__title_input {
     width: 100%;
 }
 
@@ -63,12 +63,12 @@
     cursor: pointer;
 }
 
-.header__btn-block {
+.header__btn_block {
     display: flex;
     align-items: center;
 }
 
-.header__btn--feedback {
+.header__btnFeedback {
     white-space: nowrap;
 }
 
@@ -78,7 +78,7 @@
         min-width: 320px;
     }
 
-    .header__link--logout {
+    .header__linkLogout {
         width: 51px;
         height: 50px;
         font-size: 0;
@@ -93,7 +93,7 @@
         background-size: 44%;
     }
 
-    .header__link--signin {
+    .header__linkSignin {
         width: 51px;
         height: 50px;
         font-size: 0;
@@ -109,7 +109,7 @@
         padding: 0;
     }
 
-    /* .header__title-input {
+    /* .header__title_input {
         width: 130px;
     }
 
@@ -118,7 +118,7 @@
         overflow: hidden;
     } */
 
-    .header__btn--feedback {
+    .header__btnFeedback {
         width: 51px;
         height: 50px;
         font-size: 0;

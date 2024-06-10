@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './style.css';
+import styles from './style.module.scss';
 import { parse } from '../../utils.js';
 import { Link } from 'react-router-dom';
 import browserHistory from '../../browser-history.js';
@@ -19,8 +19,8 @@ const Header = ({ isAuth, setIsAuth, setIsCopy, setIsFeedbackForm }) => {
   };
 
   return (
-    <header className='header'>
-      <div className='header__wrapper'>
+    <header className={styles.header}>
+      <div className={styles.header__wrapper}>
         {access ? (
           <form
             onSubmit={(e) => {
@@ -39,31 +39,31 @@ const Header = ({ isAuth, setIsAuth, setIsCopy, setIsFeedbackForm }) => {
             <input
               type='text'
               name='calendarName'
-              className='header__title header__title-input'
+              className={[styles.header__title, styles.header__title_input].join(' ')}
               defaultValue={calendarName}
               placeholder='Calendar name'
             />
           </form>
         ) : (
-          <p className='header__title'>{calendarName}</p>
+          <p className={styles.header__title}>{calendarName}</p>
         )}
-        <div className='header__btn-block'>
+        <div className={styles.header__btn_block}>
           {/* parse чтобы когда беру данные из localstorage (isAuth: boolean), переводить их в нужный тип данных. localstorage строки возвращает. в зависимости авторизован пользователь или нет, отображаются разные кнопки */}
           {parse(isAuth) ? (
             <button
-              className='header__link header__link--logout'
+              className={[styles.header__link, styles.header__linkLogout].join(' ')}
               onClick={logOut}
             >
               Выйти
             </button>
           ) : (
-            <Link className='header__link header__link--signin' to='/'>
+            <Link className={[styles.header__link, styles.header__linkSignin].join(' ')} to='/'>
               Войти
             </Link>
           )}
 
           <button
-            className='header__btn header__link header__btn--feedback'
+            className={[styles.header__btn, styles.header__link, styles.header__btnFeedback].join(' ')}
             type='button'
             onClick={() => {
               setIsFeedbackForm(true);
@@ -72,7 +72,7 @@ const Header = ({ isAuth, setIsAuth, setIsCopy, setIsFeedbackForm }) => {
             Обратная связь
           </button>
           <button
-            className='header__btn'
+            className={styles.header__btn}
             type='button'
             onClick={() => {
               const url = window.location.href;
@@ -82,7 +82,7 @@ const Header = ({ isAuth, setIsAuth, setIsCopy, setIsFeedbackForm }) => {
           >
             <span className='visually-hidden'>Share</span>
             <svg
-              className='header__btn-icon'
+              className={styles.header__btnIcon}
               width='21'
               height='17'
               viewBox='0 0 21 17'
